@@ -1,2 +1,25 @@
 .HomeHero {
+  .hero-content {
+    text-align: center;
+    padding: 2rem;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.25rem;
+      color: #666;
+    }
+  }
+
+  .hero-image {
+    margin-top: 2rem;
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  }
 }
