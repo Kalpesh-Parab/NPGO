@@ -2,7 +2,7 @@
    Global Font Imports
    =========================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Display:wght@400;500;600&display=swap');
 
 @font-face {
   font-family: 'Griffiths';
@@ -57,4 +57,8 @@ body {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

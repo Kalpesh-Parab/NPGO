@@ -1,0 +1,106 @@
+.HomeAbout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 90vh;
+  gap: 0;
+
+  .left {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    padding: 8vw .5vw 7.15vw 4.1666666vw;
+    h5 {
+      margin: 0;
+      color: #000;
+      font-family: Inter, sans-serif;
+      font-size: 1.05vw;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    h2 {
+      margin: 2.4vw 0 0 0;
+      color: #000;
+      font-size: 2.5vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%; /* 57.6px */
+    }
+
+    h3 {
+      margin: 3vw 0 0 0;
+      color: #000;
+      font-size: 1.14vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 140%; /* 30.8px */
+    }
+    .button {
+        margin: 4.3vw 0 0 0;
+      position: relative;
+      gap: 1vw;
+      padding: 0.7vw 1vw;
+      display: flex;
+      align-items: center;
+      width: max-content;
+      background-color: #111;
+      color: #fff;
+      font-family: Aileron;
+      font-size: 0.729166vw;
+      font-weight: 400;
+      overflow: hidden;
+      cursor: pointer;
+      transition: color 0.4s ease;
+
+      // liquid background layer
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #fff;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s ease;
+        z-index: 0;
+      }
+
+      // text + icon stay above liquid
+      & > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+      }
+
+      &:hover {
+        color: #111;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        img {
+          transform: rotate(45deg);
+          filter: invert(1);
+        }
+      }
+    }
+  }
+  .right{
+    width: 41.8%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: bottom;
+    }
+  }
+
+}

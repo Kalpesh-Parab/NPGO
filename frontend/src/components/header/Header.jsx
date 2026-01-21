@@ -35,15 +35,25 @@ const Header = () => {
 
       {/* Nav Links */}
       <div className='links'>
-        <NavLink to='/' end className='link'>Home</NavLink>
-        <NavLink to='/destination' className='link'>Destination</NavLink>
-        <NavLink to='/about' className='link'>About us</NavLink>
-        <NavLink to='/customise' className='link'>Customize pack</NavLink>
-        <NavLink to='/corporate-events' className='link'>Corporate events</NavLink>
-        <NavLink to='/merchandise' className='link'>Merchandise</NavLink>
+        <NavLink to='/' end className='link'>
+          Home
+        </NavLink>
+        <NavLink to='/destination' className='link'>
+          Destination
+        </NavLink>
+        <NavLink to='/about' className='link'>
+          About us
+        </NavLink>
+        <NavLink to='/customise' className='link'>
+          Customize pack
+        </NavLink>
+        <NavLink to='/corporate-events' className='link'>
+          Corporate events
+        </NavLink>
+        <NavLink to='/merchandise' className='link'>
+          Merchandise
+        </NavLink>
       </div>
-
-      {/* CTA */}
       <div className='button' onClick={() => navigate('/contact')}>
         <span>Contact Us</span>
         <img src={arrow} alt='' />
