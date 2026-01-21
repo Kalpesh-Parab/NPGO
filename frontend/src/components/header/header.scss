@@ -1,0 +1,126 @@
+.Header {
+  width: 100%;
+  height: 9.5vh;
+  background-color: #fff;
+  display: flex;
+  overflow: hidden;
+  padding: 1vh 4.166vw;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transition: transform 0.4s ease;
+
+  .logo {
+    img {
+      width: 3.5416vw;
+      aspect-ratio: 1;
+      object-fit: cover;
+      cursor: pointer;
+    }
+  }
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+
+    .link {
+      position: relative;
+      cursor: pointer;
+      text-decoration: none;
+
+      color: #111;
+      font-family: Aileron;
+      font-size: 0.729166vw;
+      font-weight: 400;
+
+      /* underline */
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -0.3vw;
+        width: 100%;
+        height: 1px;
+        background-color: #111;
+
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
+    }
+
+    /* ACTIVE LINK */
+    .active {
+      font-weight: 500;
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  .button {
+    position: relative;
+    gap: 1vw;
+    padding: 0.7vw 1vw;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    background-color: #111;
+    color: #fff;
+    font-family: Aileron;
+    font-size: 0.729166vw;
+    font-weight: 400;
+    overflow: hidden;
+    cursor: pointer;
+    transition: color 0.4s ease;
+
+    // liquid background layer
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: #fff;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s ease;
+      z-index: 0;
+    }
+
+    // text + icon stay above liquid
+    & > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    img {
+      transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+    }
+
+    &:hover {
+      color: #111;
+
+      &::before {
+        transform: scaleX(1);
+      }
+
+      img {
+        transform: rotate(45deg);
+        filter: invert(1);
+      }
+    }
+  }
+}
+
+.Header.hide {
+  transform: translateY(-110%);
+}

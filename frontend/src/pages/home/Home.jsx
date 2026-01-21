@@ -1,9 +1,12 @@
-import HomeHero from './components/homeHero/HomeHero';
+import HomeHero from './sections/homeHero/HomeHero';
 import './home.scss';
 
 const Home = () => {
   return (
-    <HomeHero/>
+    <>
+      <HomeHero />
+      <HomeHero />
+    </>
   );
 };
 
