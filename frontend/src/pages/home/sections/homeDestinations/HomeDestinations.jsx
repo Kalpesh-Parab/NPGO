@@ -7,8 +7,8 @@ import pb from '../../../../assets/Punjab.svg';
 import mp from '../../../../assets/MP.svg';
 import up from '../../../../assets/UP.svg';
 import mhHover from '../../../../assets/MaharashtraHover.svg';
-import v1 from '../../../../assets/v1.mp4';
-import v2 from '../../../../assets/v2.mp4';
+import v1 from '../../../../assets/v1.MP4';
+import v2 from '../../../../assets/v2.MP4';
 
 const HomeDestinations = () => {
   const navigate = useNavigate();
