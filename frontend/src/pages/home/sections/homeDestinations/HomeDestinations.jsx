@@ -32,8 +32,8 @@ const HomeDestinations = () => {
       image: gj,
       title: 'Gujrat',
       desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-        packages: 10,
-        hoverVideo: v2,
+      packages: 10,
+      hoverVideo: v2,
     },
     {
       image: pb,
