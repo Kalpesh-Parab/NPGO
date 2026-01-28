@@ -1,0 +1,227 @@
+.HomeDestinations {
+  background-color: #000;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 5.15vw 4.166666vw;
+  gap: 2vw;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h4 {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      font-size: 1.05vw;
+      font-weight: 400;
+      color: #fff;
+    }
+
+    .button {
+      position: relative;
+      gap: 1vw;
+      padding: 0.7vw 1vw;
+      display: flex;
+      align-items: center;
+      width: max-content;
+      background-color: #fff;
+      color: #111;
+      font-family: Aileron;
+      font-size: 0.8vw;
+      font-weight: 400;
+      overflow: hidden;
+      cursor: pointer;
+      transition: color 0.4s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #222;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s ease;
+        z-index: 0;
+      }
+
+      & > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+      }
+
+      &:hover {
+        color: #fff;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        img {
+          transform: rotate(45deg);
+          filter: invert(1);
+        }
+      }
+    }
+  }
+
+  .title {
+    margin-top: 0.5vw;
+    width: 40%;
+    font-size: 2.5vw;
+    font-family: Inter, sans-serif;
+    color: #fff;
+  }
+
+  .titleDesc {
+    margin-top: 0.5vw;
+    width: 63%;
+    font-size: 1.145833vw;
+    font-family: Inter, sans-serif;
+    color: #fff;
+  }
+
+  .destinationCards {
+    gap: 1vw;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+
+    .destinationCard {
+      position: relative;
+      gap: 1vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      padding: 0.5vw;
+      height: 65vh;
+      border-radius: 0.3vw;
+      background-color: #111;
+      width: 32.5%;
+      overflow: hidden;
+
+      /* ================= BASE SVG ================= */
+      .mainImage {
+        width: 100%;
+        aspect-ratio: 1.75;
+        object-fit: contain;
+        border-radius: 0.3vw;
+        transition: opacity 0.4s ease;
+        z-index: 2;
+      }
+
+      /* ================= MASKED HOVER MEDIA ================= */
+      .hoverMedia {
+        position: absolute;
+        top: 0.5vw;
+        left: 0.5vw;
+        width: calc(100% - 1vw);
+        aspect-ratio: 1.75;
+
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease;
+
+        z-index: 1;
+        pointer-events: none;
+
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-size: contain;
+        -webkit-mask-position: top center;
+
+        mask-repeat: no-repeat;
+        mask-size: contain;
+        mask-position: top center;
+
+        img,
+        video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+
+      /* ================= TEXT ================= */
+      .info,
+      .hoverInfo {
+        display: flex;
+        flex-direction: column;
+        padding: 0 1vw;
+        gap: 1.5vw;
+      }
+
+      .info {
+        transition: opacity 0.35s ease;
+        z-index: 3;
+      }
+
+      .hoverInfo {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        width: 100%;
+        z-index: 4;
+      }
+
+      .destTitle,
+      .packages {
+        color: #fff;
+        font-family: Inter, sans-serif;
+        font-size: 1.6666vw;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: -0.64px;
+      }
+
+      .destDesc,
+      .viewAll {
+        color: #818284;
+        font-family: Inter, sans-serif;
+        font-size: 1.04166vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+
+      .viewAll {
+        cursor: pointer;
+        padding: 0.5vw 0;
+        text-decoration: none;
+      }
+
+      /* ================= HOVER STATE ================= */
+      &:hover {
+        .mainImage {
+          opacity: 0;
+        }
+
+        .hoverMedia {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .info {
+            display: none;
+          opacity: 0;
+        }
+
+        .hoverInfo {
+          display: flex;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
