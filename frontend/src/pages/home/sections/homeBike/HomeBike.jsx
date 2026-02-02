@@ -1,4 +1,5 @@
 import './homeBike.scss';
+import arrowW from '../../../../assets/arrowWhite.svg';
 import arrow from '../../../../assets/arrow.svg';
 import { useNavigate } from 'react-router-dom';
 import Bike1 from '../../../../assets/b1.png';
@@ -41,20 +42,39 @@ const HomeBike = () => {
           or private group tours.
         </div>
         <div className='button' onClick={() => navigate('/destination')}>
-          <span>View More Packages</span>
+          <span>Know More</span>
           <img src={arrow} alt='' />
         </div>
       </div>
+
       <div className='right'>
         {cards.map((card, index) => (
           <div className='card' key={index}>
-            <div className='card'>
-              <img src={card.image} alt='' />
-              <div className='cardTitle'>{card.title}</div>
-              <div className='cardDesc'>{card.desc}</div>
+            <img src={card.image} alt='' className='cImg' />
+            <div className='bot'>
+              <div className='cleft'>
+                <div className='cardTitle'>{card.title}</div>
+                <div className='cardDesc'>{card.desc}</div>
+              </div>
+              <div className='cright'>
+                <div
+                  className='button'
+                  onClick={() => navigate('/destination')}
+                >
+                  <span>View More Packages</span>
+                  <img src={arrowW} alt='' />
+                </div>
+              </div>
             </div>
           </div>
         ))}
+        <div className='card2'>
+          <h2>Hold On! there’s more to Experience!</h2>
+          <div className='button' onClick={() => navigate('/destination')}>
+            <span>Know More</span>
+            <img src={arrowW} alt='' />
+          </div>
+        </div>
       </div>
     </section>
   );
