@@ -25,19 +25,21 @@
       padding: 0.7vw 1vw;
       display: flex;
       align-items: center;
+      width: max-content;
       background-color: #111;
       color: #fff;
       font-family: Aileron;
       font-size: 0.729166vw;
-      cursor: pointer;
+      font-weight: 400;
       overflow: hidden;
-      transition: color 0.3s ease;
+      cursor: pointer;
+      transition: color 0.4s ease;
 
       &::before {
         content: '';
         position: absolute;
         inset: 0;
-        background-color: #fff;
+        background-color: #ececec;
         transform: scaleX(0);
         transform-origin: left;
         transition: transform 0.45s ease;
@@ -49,11 +51,22 @@
         z-index: 1;
       }
 
+      img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+      }
+
       &:hover {
         color: #111;
 
         &::before {
           transform: scaleX(1);
+        }
+
+        img {
+          transform: rotate(45deg);
+          filter: invert(1);
         }
       }
     }

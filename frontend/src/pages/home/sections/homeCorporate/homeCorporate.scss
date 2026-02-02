@@ -1,0 +1,182 @@
+.HomeCorporate {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 5.15vw 4.166666vw;
+  gap: 2vw;
+
+  h4 {
+    margin: 0;
+    font-family: Inter, sans-serif;
+    font-size: 1.05vw;
+    font-weight: 400;
+    color: #000;
+  }
+
+  .gallery {
+    display: flex;
+    gap: 0.85vw;
+    flex-wrap: wrap;
+
+    .imgContainer {
+      position: relative;
+      width: 9.4152vw;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 0.6vw;
+      cursor: pointer;
+
+      /* smoothness */
+      transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.45s ease;
+      }
+
+      /* overlay */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        pointer-events: none;
+      }
+
+      &:hover {
+        transform: translateY(-0.35vw);
+        box-shadow: 0 1.2vw 2.4vw rgba(0, 0, 0, 0.12);
+
+        img {
+          transform: scale(1.08);
+        }
+
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+
+    /* ===== Text Card Overrides ===== */
+    .textContainer {
+      padding: 1vw;
+      background: transparent;
+      cursor: default;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        // transform: translateY(-0.25vw);
+        box-shadow: #000;
+      }
+
+      p {
+        width: 100%;
+        color: #000;
+        font-family: 'Inter Display', sans-serif;
+        font-size: 1.05vw;
+        font-weight: 400;
+        line-height: 120%;
+        margin: 0;
+        transition:
+          color 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      &:hover p {
+        color: #000;
+        transform: translateY(-0.1vw);
+      }
+    }
+  }
+  .bot {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-weight: 400;
+      width: 75%;
+      font-size: 2.5vw;
+      font-family: Inter, sans-serif;
+      color: #000;
+    }
+
+    .desc1 {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+
+      h3 {
+        width: 60%;
+        color: #000;
+        font-family: Inter, sans-serif;
+        font-size: 1.145833vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 140%; /* 30.8px */
+      }
+
+      .button {
+        position: relative;
+        gap: 1vw;
+        padding: 0.7vw 1vw;
+        display: flex;
+        align-items: center;
+        width: max-content;
+        background-color: #111;
+        color: #fff;
+        font-family: Aileron;
+        font-size: 0.729166vw;
+        font-weight: 400;
+        overflow: hidden;
+        cursor: pointer;
+        transition: color 0.4s ease;
+
+        // liquid background layer
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-color: #fff;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.45s ease;
+          z-index: 0;
+        }
+
+        // text + icon stay above liquid
+        & > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        img {
+          transition:
+            transform 0.4s ease,
+            filter 0.4s ease;
+        }
+
+        &:hover {
+          color: #111;
+
+          &::before {
+            transform: scaleX(1);
+          }
+
+          img {
+            transform: rotate(45deg);
+            filter: invert(1);
+          }
+        }
+      }
+    }
+  }
+}
