@@ -1,8 +1,10 @@
 import './homeHero.scss';
 import bg from '../../../../assets/homeHero.mp4';
 import arrow from '../../../../assets/arrow.svg';
+import { useNavigate } from 'react-router-dom';
 
 const HomeHero = () => {
+  const navigate = useNavigate();
   return (
     <section className='HomeHero'>
       <video
@@ -26,7 +28,7 @@ const HomeHero = () => {
           travel dreams a reality!
         </div>
 
-        <div className='button'>
+        <div className='button' onClick={() => navigate('/destination')}>
           <span>Explore Destinations</span>
           <img src={arrow} alt='' />
         </div>

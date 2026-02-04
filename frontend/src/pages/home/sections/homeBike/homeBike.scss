@@ -3,10 +3,9 @@
   background-image: url('../../../../assets/bg.png');
   display: flex;
   justify-content: space-between;
-  position: sticky;
+  position: static;
   top: 0;
-  /* ✅ REQUIRED */
-//   min-height: 220vh;
+  height: max-content;
   align-items: flex-start;
 
   h4 {

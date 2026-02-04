@@ -7,6 +7,7 @@ import HomeExperience from './sections/homeExperience/HomeExperience';
 import HomeMemories from './sections/homeMemories/HomeMemories';
 import HomeCorporate from './sections/homeCorporate/HomeCorporate';
 import HomeBike from './sections/homeBike/HomeBike';
+import HomeGallery from './sections/homeGallery/HomeGallery';
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <HomeMemories />
       <HomeCorporate />
       <HomeBike />
+      <HomeGallery />
     </>
   );
 };
