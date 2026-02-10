@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import './homeExperience.scss';
-
+import arrow from '../../../../assets/arrowWhite.svg';
+import { useNavigate } from 'react-router-dom';
 import img1 from '../../../../assets/exp.png';
 import img2 from '../../../../assets/p1.png';
 import img3 from '../../../../assets/p2.png';
@@ -12,6 +13,7 @@ const images = [
 ];
 
 const HomeExperience = () => {
+  const navigate = useNavigate();
   const [stack, setStack] = useState(images);
   const [flipping, setFlipping] = useState(false);
   const timerRef = useRef(null);
@@ -27,11 +29,11 @@ const HomeExperience = () => {
         return [...rest, top];
       });
       setFlipping(false);
-    }, 800); // MUST match CSS animation
+    }, 100); // MUST match CSS animation
   };
 
   useEffect(() => {
-    const interval = setInterval(nextCard, 7000);
+    const interval = setInterval(nextCard, 5000);
     return () => {
       clearInterval(interval);
       clearTimeout(timerRef.current);
@@ -65,6 +67,10 @@ const HomeExperience = () => {
           beginning to end as you embark on a tailor-made journey of
           distinction, enjoying truly exclusive and authentic cultural
           experiences.
+        </div>
+        <div className='button' onClick={() => navigate('/destination')}>
+          <span>Craft Your Journey !</span>
+          <img src={arrow} alt='' />
         </div>
       </div>
     </section>

@@ -1,0 +1,205 @@
+.HomeBlogs {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 5.15vw 4.166666vw;
+  gap: 2.5vw;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h4 {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      font-size: 1.05vw;
+      font-weight: 400;
+      color: #000;
+    }
+
+    .button {
+      position: relative;
+      gap: 1vw;
+      padding: 0.7vw 2vw;
+      display: flex;
+      align-items: center;
+      width: max-content;
+      background-color: #111;
+      color: #fff;
+      font-family: Aileron;
+      font-size: 0.729166vw;
+      font-weight: 400;
+      overflow: hidden;
+      cursor: pointer;
+      transition: color 0.4s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #ececec;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s ease;
+        z-index: 0;
+      }
+
+      & > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+      }
+
+      &:hover {
+        color: #111;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        img {
+          transform: rotate(45deg);
+          filter: invert(1);
+        }
+      }
+    }
+  }
+
+  h3 {
+    width: 75%;
+    margin: 0;
+    font-family: Inter, sans-serif;
+    font-size: 2.5vw;
+    font-weight: 400;
+    color: #000;
+  }
+
+  .desc {
+    width: 60%;
+    margin: 0;
+    font-family: Inter, sans-serif;
+    font-size: 1.15vw;
+    font-weight: 400;
+    color: #000;
+  }
+
+  .blogCards {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+    padding: 3vw 0vw;
+
+    .blogCard {
+      border-radius: 0.4vw;
+      width: 32%;
+      height: 76.3158vh;
+      padding: 1.145666vw;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 1vw;
+      background-color: #000;
+      color: #fff;
+      cursor: pointer;
+
+      /* 🔥 Hover transition base */
+      transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+
+      &:hover {
+        transform: translateY(-0.6vw);
+        box-shadow: 0 1.5vw 3vw rgba(0, 0, 0, 0.35);
+      }
+
+      .image {
+        width: 100%;
+        height: 37.2vh;
+        overflow: hidden;
+        border-radius: 0.3vw;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+      }
+
+      &:hover .image img {
+        transform: scale(1.06);
+      }
+
+      .details {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5vw;
+        padding: 0.5vw;
+
+        .domain {
+          color: #fff;
+          font-family: Inter, sans-serif;
+          font-size: 1.01vw;
+          font-weight: 500;
+          background-color: #222;
+          width: max-content;
+          padding: 0.3vw 0.8vw;
+          border-radius: 0.5vw;
+        }
+
+        .title {
+          color: #fff;
+          font-family: Inter, sans-serif;
+          font-size: 1.666vw;
+          font-weight: 600;
+          line-height: 124%;
+          transition: color 0.35s ease;
+        }
+
+        /* 🔥 Title hover color */
+        .blogCard:hover & .title {
+          color: #f2f2f2;
+        }
+
+        .author {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .left {
+            display: flex;
+            gap: 1vw;
+            align-items: center;
+
+            .name {
+              color: #97989f;
+              font-family: Inter, sans-serif;
+              font-size: 1.145333vw;
+              font-weight: 500;
+            }
+
+            .profile {
+              width: 3vw;
+              aspect-ratio: 1;
+              object-fit: cover;
+              border-radius: 50%;
+            }
+          }
+
+          .date {
+            color: #97989f;
+            font-family: Inter, sans-serif;
+            font-size: 1.145333vw;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}

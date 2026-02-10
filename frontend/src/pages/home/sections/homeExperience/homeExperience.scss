@@ -25,13 +25,15 @@
   .photo-card {
     position: absolute;
     inset: 0;
-    background: #f9f9f9;
     padding: 1.2vw;
     border-radius: 0.5vw;
     transform-style: preserve-3d;
     transition:
       transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 0.8s ease;
+    border-radius: 4.514px;
+    background: url('../../../../assets/expPhoto.png') lightgray 50% / cover
+      no-repeat;
 
     img {
       width: 28.02vw;
@@ -68,16 +70,16 @@
 
   .photo-stack:not(.flipping):hover {
     .position-0 {
-      transform: translate(0, -0.6vh) rotate(-6.2deg);
+      transform: translate(0, -0.6vh) rotate(-3.2deg);
       box-shadow: 0 2vw 4vw rgba(0, 0, 0, 0.42);
     }
 
     .position-1 {
-      transform: translate(-0.4vw, 0.3vh) rotate(-7.6deg);
+      transform: translate(-0.4vw, 0.3vh) rotate(-4.6deg);
     }
 
     .position-2 {
-      transform: translate(0.6vw, -0.2vh) rotate(-10.8deg);
+      transform: translate(0.6vw, -0.2vh) rotate(-6.8deg);
     }
   }
 
@@ -85,7 +87,6 @@
 
   .photo-stack.flipping {
     .position-0 {
-      animation: pageFlip 0.8s forwards;
       transform-origin: top center;
     }
 
@@ -95,24 +96,6 @@
 
     .position-2 {
       transform: translate(0.7vw, 0.9vh) rotate(-3deg);
-    }
-  }
-
-  @keyframes pageFlip {
-    0% {
-      transform: translate(0, 0) rotateX(0deg) rotate(-1.2deg);
-    }
-
-    40% {
-      transform: translate(0, -3vh) rotateX(90deg);
-    }
-
-    70% {
-      transform: translate(0, -10vh) rotateX(120deg);
-    }
-
-    100% {
-      transform: translate(1.4vw, 1vh) rotate(180deg);
     }
   }
 
@@ -154,6 +137,58 @@
       font-size: 1.1vw;
       line-height: 1.6;
       width: 90%;
+    }
+
+    .button {
+      position: relative;
+      gap: 1vw;
+      padding: 0.7vw 2vw;
+      display: flex;
+      align-items: center;
+      width: max-content;
+      background-color: #111;
+      color: #fff;
+      font-family: Aileron;
+      font-size: 0.729166vw;
+      font-weight: 400;
+      overflow: hidden;
+      cursor: pointer;
+      transition: color 0.4s ease;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #ececec;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s ease;
+        z-index: 0;
+      }
+
+      & > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+      }
+
+      &:hover {
+        color: #111;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        img {
+          transform: rotate(45deg);
+          filter: invert(1);
+        }
+      }
     }
   }
 }

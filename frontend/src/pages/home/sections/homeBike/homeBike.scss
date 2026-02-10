@@ -47,7 +47,7 @@
     .button {
       position: relative;
       gap: 1vw;
-      padding: 0.7vw 1vw;
+      padding: 0.7vw 2vw;
       display: flex;
       align-items: center;
       width: max-content;
@@ -126,7 +126,7 @@
       }
 
       .bot {
-        padding: 0 0.5vw ;
+        padding: 0 0.5vw;
         display: flex;
 
         .cleft {
@@ -231,7 +231,7 @@
         border-radius: 5px;
         position: relative;
         gap: 1vw;
-        padding: .9vw 3vw;
+        padding: 0.9vw 3vw;
         display: flex;
         align-items: center;
         width: max-content;

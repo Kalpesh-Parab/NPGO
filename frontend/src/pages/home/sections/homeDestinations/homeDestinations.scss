@@ -22,7 +22,7 @@
     .button {
       position: relative;
       gap: 1vw;
-      padding: 0.7vw 1vw;
+      padding: 0.7vw 2vw;
       display: flex;
       align-items: center;
       width: max-content;
@@ -213,7 +213,7 @@
         }
 
         .info {
-            display: none;
+          display: none;
           opacity: 0;
         }
 

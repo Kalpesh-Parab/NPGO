@@ -8,6 +8,9 @@ import HomeMemories from './sections/homeMemories/HomeMemories';
 import HomeCorporate from './sections/homeCorporate/HomeCorporate';
 import HomeBike from './sections/homeBike/HomeBike';
 import HomeGallery from './sections/homeGallery/HomeGallery';
+import HomeTesti from './sections/homeTesti/HomeTesti';
+import HomeBlogs from './sections/homeBlogs/HomeBlogs';
+import HomeMerch from './sections/homeMerch/HomeMerch';
 
 const Home = () => {
   return (
@@ -21,6 +24,9 @@ const Home = () => {
       <HomeCorporate />
       <HomeBike />
       <HomeGallery />
+      <HomeTesti />
+      <HomeBlogs />
+      <HomeMerch />
     </>
   );
 };

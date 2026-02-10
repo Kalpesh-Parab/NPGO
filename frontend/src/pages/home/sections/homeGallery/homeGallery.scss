@@ -1,7 +1,7 @@
 .HomeGallery {
   display: flex;
   flex-direction: column;
-  background: #3b5629;
+  background: #fff;
   width: 100%;
 
   .top {
@@ -14,13 +14,13 @@
       margin: 0;
       font-size: 1.05vw;
       font-weight: 400;
-      color: #fff;
+      color: #000;
     }
 
     .title {
       width: 98%;
       font-size: 2.5vw;
-      color: #fff;
+      color: #000;
     }
   }
 
@@ -87,13 +87,13 @@
       width: 68%;
       font-size: 1.145833vw;
       font-family: Inter, sans-serif;
-      color: #fff;
+      color: #000;
     }
 
     .button {
       position: relative;
       gap: 1vw;
-      padding: 0.7vw 1vw;
+      padding: 0.7vw 2vw;
       display: flex;
       align-items: center;
       width: max-content;
@@ -106,19 +106,17 @@
       cursor: pointer;
       transition: color 0.4s ease;
 
-      // liquid background layer
       &::before {
         content: '';
         position: absolute;
         inset: 0;
-        background-color: #000;
+        background-color: #222;
         transform: scaleX(0);
         transform-origin: left;
         transition: transform 0.45s ease;
         z-index: 0;
       }
 
-      // text + icon stay above liquid
       & > * {
         position: relative;
         z-index: 1;
