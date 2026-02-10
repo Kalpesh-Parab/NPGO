@@ -97,10 +97,10 @@
       display: flex;
       align-items: center;
       width: max-content;
-      background-color: #fff;
-      color: #111;
+      background-color: #111;
+      color: #fff;
       font-family: Aileron;
-      font-size: 0.8vw;
+      font-size: 0.729166vw;
       font-weight: 400;
       overflow: hidden;
       cursor: pointer;
@@ -110,7 +110,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background-color: #222;
+        background-color: #ececec;
         transform: scaleX(0);
         transform-origin: left;
         transition: transform 0.45s ease;
@@ -129,7 +129,7 @@
       }
 
       &:hover {
-        color: #fff;
+        color: #111;
 
         &::before {
           transform: scaleX(1);

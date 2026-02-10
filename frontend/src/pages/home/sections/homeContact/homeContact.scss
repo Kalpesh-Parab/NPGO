@@ -1,0 +1,82 @@
+.HomeContact {
+  display: flex;
+  width: 100%;
+  padding: 6.927vw 4.166666vw 4.7396vw;
+  gap: 2vw;
+  background-color: #cdffab;
+
+  .left {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+
+    h4 {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      font-size: 1.041666vw;
+      font-weight: 400;
+      color: #000;
+    }
+
+    h2 {
+        padding-top: 2.1vw;
+        margin: 0;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 2.5vw;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 120%; /* 57.6px */
+    }
+    
+    .cta {
+        display: flex;
+        padding-top: 1.1vw;
+        gap: 1.3vw;
+
+      .chat {
+        display: flex;
+        align-items: center;
+        gap: 1vw;
+
+        .image {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.6vw;
+          border-radius: 12.718px;
+          background: #688c4f;
+        }
+
+        .details {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          color: #111;
+          font-family: Inter, sans-serif;
+          font-style: normal;
+
+          .title {
+            font-size: 1.1776vw;
+            font-weight: 600;
+            line-height: 120%; /* 27.132px */
+          }
+
+          .disc {
+            font-size: 0.735989vw;
+            font-weight: 400;
+            line-height: 120%; /* 16.957px */
+          }
+
+          .mail {
+            font-size: 0.883177vw;
+            font-weight: 500;
+            line-height: 120%; /* 20.349px */
+          }
+        }
+      }
+    }
+  }
+}

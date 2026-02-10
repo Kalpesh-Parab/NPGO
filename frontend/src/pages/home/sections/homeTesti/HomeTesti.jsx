@@ -1,11 +1,10 @@
 import './homeTesti.scss';
 import { useEffect, useState } from 'react';
-
 import quote from '../../../../assets/quote.svg';
 import right from '../../../../assets/right.png';
 import left from '../../../../assets/left.png';
-
 import t1 from '../../../../assets/t1.png';
+import t2 from '../../../../assets/b1.png';
 import t1q from '../../../../assets/t1q.png';
 
 const HomeTesti = () => {
@@ -19,7 +18,7 @@ const HomeTesti = () => {
       profile: t1q,
     },
     {
-      photo: t1,
+      photo: t2,
       title: `Amazing coordination and smooth execution.`,
       review: `Everything from stay to travel was seamless. Highly recommended.`,
       rating: 3.7,

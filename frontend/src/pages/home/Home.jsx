@@ -11,6 +11,8 @@ import HomeGallery from './sections/homeGallery/HomeGallery';
 import HomeTesti from './sections/homeTesti/HomeTesti';
 import HomeBlogs from './sections/homeBlogs/HomeBlogs';
 import HomeMerch from './sections/homeMerch/HomeMerch';
+import HomeFAQ from './sections/homeFAQ/HomeFAQ';
+import HomeContact from './sections/homeContact/HomeContact';
 
 const Home = () => {
   return (
@@ -27,6 +29,8 @@ const Home = () => {
       <HomeTesti />
       <HomeBlogs />
       <HomeMerch />
+      <HomeFAQ />
+      <HomeContact />
     </>
   );
 };

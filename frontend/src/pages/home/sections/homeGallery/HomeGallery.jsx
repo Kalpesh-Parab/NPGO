@@ -1,5 +1,5 @@
 import './homeGallery.scss';
-import arrow from '../../../../assets/arrow.svg';
+import arrow from '../../../../assets/arrowWhite.svg';
 import g1 from '../../../../assets/g1.png';
 import g2 from '../../../../assets/g2.png';
 import g3 from '../../../../assets/g3.png';
