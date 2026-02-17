@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import DestHero from './sections/destHero/DestHero';
 
 const Destination = () => {
   return (
-    <div>Destination</div>
-  )
-}
+    <>
+      <DestHero />
+    </>
+  );
+};
 
-export default Destination
+export default Destination;

@@ -1,0 +1,238 @@
+.DestHero {
+  width: 100%;
+  padding: 5.15vw 1.9270833vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 110vh;
+  position: relative;
+
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.354166vw;
+
+    .heading {
+      margin-top: -6vw;
+      color: #000;
+      text-align: center;
+      font-family: Griffiths;
+      font-size: 5vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 94.56%; /* 71.578px */
+    }
+
+    .subHeading {
+      width: 58%;
+      color: #000;
+      text-align: center;
+      font-family: Inter, sans-serif;
+      font-size: 1.1vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%; /* 24px */
+    }
+    .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1vw;
+      margin-top: 1.354166vw;
+      .button {
+        border: 0.1vw solid #000;
+        position: relative;
+        gap: 0.5vw;
+        padding: 0.8vw 0.5vw;
+        display: flex;
+        align-items: center;
+        width: 14vw;
+        justify-content: center;
+        background-color: #fff;
+        color: #111;
+        font-family: Aileron;
+        font-size: 0.729166vw;
+        font-weight: 400;
+        overflow: hidden;
+        cursor: pointer;
+        transition: color 0.4s ease;
+
+        // liquid background layer
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-color: #000;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.45s ease;
+          z-index: 0;
+        }
+
+        // text + icon stay above liquid
+        & > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        img {
+          transition:
+            transform 0.4s ease,
+            filter 0.4s ease;
+        }
+
+        &:hover {
+          color: #fff;
+
+          &::before {
+            transform: scaleX(1);
+          }
+
+          img {
+            transform: rotate(45deg);
+            filter: invert(1);
+          }
+        }
+      }
+
+      .buttonWhite {
+        position: relative;
+        gap: 0.5vw;
+        padding: 0.8vw 0.5vw;
+        display: flex;
+        align-items: center;
+        width: 14vw;
+        justify-content: center;
+        background-color: #111;
+        color: #fff;
+        font-family: Aileron;
+        font-size: 0.729166vw;
+        font-weight: 400;
+        overflow: hidden;
+        cursor: pointer;
+        transition: color 0.4s ease;
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-color: #ececec;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.45s ease;
+          z-index: 0;
+        }
+
+        & > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        img {
+          transition:
+            transform 0.4s ease,
+            filter 0.4s ease;
+        }
+
+        &:hover {
+          color: #111;
+
+          &::before {
+            transform: scaleX(1);
+          }
+
+          img {
+            transform: rotate(45deg);
+            filter: invert(1);
+          }
+        }
+      }
+    }
+  }
+
+  .bottom {
+    top: 8vw;
+    padding: 0 1.9270833vw;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+
+    img {
+      width: 15.104166vw;
+      aspect-ratio: 1.132;
+      transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.06);
+        filter: brightness(1.05);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .first {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+
+      .imgWrapper {
+        img {
+          object-fit: cover;
+          border-radius: 25px 25px 0 0;
+        }
+      }
+    }
+
+    .second {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+
+      .three,
+      .four {
+        display: flex;
+        gap: 1vw;
+        width: max-content;
+        img {
+          object-fit: cover;
+        }
+
+        .h4 {
+          border-radius: 0 25px 0 0;
+        }
+
+        .h5 {
+          border-radius: 25px 0 0 0;
+        }
+      }
+    }
+    .third {
+      display: flex;
+      gap: 1vw;
+      justify-content: space-between;
+
+      .h7 {
+        img {
+          border-radius: 0 0 0 25px;
+        }
+      }
+      .h12 {
+        img {
+          border-radius: 0 0 25px 0;
+        }
+      }
+    }
+    .imgWrapper,
+    .second .three,
+    .second .four,
+    .third > div {
+      overflow: hidden;
+    }
+  }
+}

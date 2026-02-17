@@ -8,6 +8,7 @@ import Merch from './pages/merch/Merch';
 import About from './pages/about/About';
 import Contact from './pages/contact/Contact';
 import Corporate from './pages/corporate/Corporate';
+import Footer from './components/footer/Footer';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/corporate-events' element={<Corporate />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

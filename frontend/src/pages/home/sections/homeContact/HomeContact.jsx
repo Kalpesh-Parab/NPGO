@@ -59,6 +59,12 @@ const HomeContact = () => {
             </div>
           </div>
         </div>
+        <div className="blocks">
+          <div className="block"></div>
+          <div className="block"></div>
+          <div className="block"></div>
+          <div className="block"></div>
+        </div>
       </div>
       <div className='right'>
         <form ref={form} onSubmit={sendEmail}>

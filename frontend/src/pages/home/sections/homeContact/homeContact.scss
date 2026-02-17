@@ -79,6 +79,18 @@
         }
       }
     }
+
+    .blocks {
+      display: flex;
+      margin-top: auto;
+      gap: 1vw;
+      .block {
+        width: 2.8125vw;
+        aspect-ratio: 1;
+        background-color: #688c4f;
+        border-radius: 0.25vw;
+      }
+    }
   }
   .right {
     width: 50%;
@@ -88,9 +100,11 @@
       background-color: #fff;
       display: flex;
       flex-direction: column;
-      gap: 1.2vw;
+      gap: 0.5vw;
+      border-radius: 0.25vw;
 
       label {
+        margin-top: 0.7vw;
         color: #111;
         font-family: Inter, sans-serif;
         font-size: 1.041666vw;
@@ -108,6 +122,10 @@
         font-family: Inter, sans-serif;
         outline: none;
         transition: all 0.3s ease;
+      }
+
+      textarea {
+        height: 9vw;
       }
 
       input::placeholder,
@@ -130,16 +148,20 @@
         padding: 0.9vw;
         border: none;
         background: #111;
-        color: white;
-        font-size: 1vw;
-        font-weight: 500;
-        border-radius: 8px;
+        color: #fff;
+        text-align: center;
+        font-family: Aileron;
+        font-size: 1.04185vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
         cursor: pointer;
         transition: 0.3s ease;
       }
 
       button:hover {
-        background: #688c4f;
+        background: #58c425cc;
+        color: #292626;
       }
     }
   }
