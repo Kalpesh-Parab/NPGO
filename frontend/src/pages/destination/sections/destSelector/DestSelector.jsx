@@ -69,14 +69,16 @@ const DestSelector = () => {
       media: gj,
       type: 'video',
     },
-  };
+    };
+    
   const countryMedia = {
     IN: {
       name: 'India',
       media: gj,
       type: 'video',
     },
-  };
+    };
+    
   return (
     <section className='DestSelector'>
       <div className='top'>

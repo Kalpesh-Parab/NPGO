@@ -1,34 +1,58 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const WorldMap = ({ countryMedia, setTooltip }) => {
   const svgRef = useRef(null);
   const [activeCountry, setActiveCountry] = useState(null);
   const [bbox, setBbox] = useState(null);
 
+  useEffect(() => {
+    if (!svgRef.current) return;
+
+    const paths = svgRef.current.querySelectorAll('path');
+
+    console.log('======= WORLD SVG DEBUG =======');
+    console.log('Total paths found:', paths.length);
+
+    paths.forEach((path, index) => {
+      const id = path.getAttribute('id');
+      const titleAttr = path.getAttribute('title');
+      const titleElement = path.querySelector('title')?.textContent;
+
+      console.log({
+        index,
+        id,
+        titleAttribute: titleAttr,
+        titleElement,
+      });
+    });
+
+    console.log('======= END WORLD DEBUG =======');
+  }, []);
+
   const handleHover = (id, e) => {
-  if (!svgRef.current) return;
+    if (!svgRef.current) return;
 
-  const el = svgRef.current.getElementById(id);
-  if (!el) return;
+    const el = svgRef.current.querySelector(`#${id}`);
 
-  const box = el.getBBox();
-  const title = el.getAttribute('title');
+    if (!el) return;
 
-  console.log('Hovered Country:', id);
-  console.log('Title from attribute:', title);
-  console.log('From countryMedia:', countryMedia?.[id]?.name);
+    const box = el.getBBox();
+    const title = el.getAttribute('title');
 
-  setActiveCountry(id);
-  setBbox(box);
+    console.log('Hovered Country:', id);
+    console.log('Title from attribute:', title);
+    console.log('From countryMedia:', countryMedia?.[id]?.name);
 
-  setTooltip({
-    visible: true,
-    x: e.clientX,
-    y: e.clientY,
-    text: countryMedia?.[id]?.name || title || '',
-  });
-};
+    setActiveCountry(id);
+    setBbox(box);
 
+    setTooltip({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY,
+      text: countryMedia?.[id]?.name || title || '',
+    });
+  };
 
   const handleLeave = () => {
     setActiveCountry(null);
@@ -42,19 +66,18 @@ const WorldMap = ({ countryMedia, setTooltip }) => {
       xmlns='http://www.w3.org/2000/svg'
       className='world-map'
       onMouseMove={(e) => {
-    const path = e.target.closest('path');
-    if (!path) return;
+        const path = e.target.closest('path');
+        if (!path) return;
 
-    const id = path.getAttribute('id');
-    if (!id) return;
+        const id = path.getAttribute('id');
+        if (!id) return;
 
-    handleHover(id, e);
-  }}
-  onMouseLeave={() => {
-    handleLeave();
-    setTooltip((prev) => ({ ...prev, visible: false }));
-  }}
-
+        handleHover(id, e);
+      }}
+      onMouseLeave={() => {
+        handleLeave();
+        setTooltip((prev) => ({ ...prev, visible: false }));
+      }}
     >
       <defs>
         <clipPath id='countryClip' clipPathUnits='userSpaceOnUse'>
