@@ -4,7 +4,7 @@ import i2 from '../../../../assets/destination/globesearch.svg';
 import i3 from '../../../../assets/destination/likeperson.svg';
 // import mh from '../../../../assets/v1.MP4';
 import mh from '../../../../assets/b1.png';
-import gj from '../../../../assets/v2.MP4';
+import gj from '../../../../assets/v2.mp4';
 import { useEffect, useRef, useState } from 'react';
 import IndiaMap from './IndiaMap';
 import WorldMap from './WorldMap';
