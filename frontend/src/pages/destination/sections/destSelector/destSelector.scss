@@ -1,0 +1,178 @@
+.DestSelector {
+  display: flex;
+  flex-direction: column;
+  padding: 5.15vw 4.16vw;
+  gap: 2.6041666vw;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    h4 {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      font-size: 1.05vw;
+      font-weight: 400;
+      color: #000;
+    }
+
+    .buttons {
+      display: flex;
+
+      .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 8vw;
+        border: 0.1vw solid #000;
+        background-color: #fff;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 0.8vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 19.475px */
+        cursor: pointer;
+        transition: color 0.4s ease;
+        padding: 0.5vw 1.5vw;
+      }
+
+      .button.active {
+        background: #000;
+        color: #fff;
+      }
+    }
+  }
+
+  .bottom {
+    display: flex;
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 2.1875vw;
+      width: 35%;
+
+      h2 {
+        margin: 0;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 1.94151vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 44.733px */
+      }
+
+      h4 {
+        margin: 0;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 0.94151vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 21.6px */
+        width: 89%;
+      }
+
+      .tabs {
+        display: flex;
+        flex-direction: column;
+        padding-top: 2.5vw;
+        gap: 1.3020833vw;
+
+        .tab {
+          display: flex;
+          justify-content: left;
+          align-items: center;
+          padding: 0.7292vw 1.5625vw;
+          background: #f3f3f3;
+          width: 60%;
+          gap: 0.5vw;
+
+          .name {
+            color: #111;
+            text-align: center;
+            font-family: Aileron;
+            font-size: 1.04166vw;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+      }
+    }
+
+    .right {
+      cursor:
+        url('../../../../assets/pin.svg') 14 34,
+        auto;
+      width: 65%;
+      display: flex;
+
+      height: 100%;
+    }
+    .right {
+      position: relative;
+      overflow: hidden;
+
+      .india-map {
+        width: 100%;
+        height: auto;
+
+        path {
+          fill: #000;
+          stroke: #fff;
+          stroke-width: 0.5;
+          //   cursor: pointer;
+          transition:
+            fill 0.3s ease,
+            opacity 0.3s ease;
+        }
+
+        path:hover {
+          opacity: 0.1;
+        }
+      }
+
+      .world-map {
+        width: 100%;
+        height: auto;
+
+        path {
+          fill: #000;
+          stroke: #fff;
+          stroke-width: 0.5;
+          //   cursor: pointer;
+          transition: opacity 0.3s ease;
+        }
+
+        path:hover {
+          // opacity: 0.1;
+          fill: #e8e8e8;
+          stroke: #000;
+          stroke-width: 0.5px;
+        }
+      }
+
+      .india-map,
+      .world-map {
+        transition: opacity 10s ease;
+      }
+      .map-tooltip {
+        position: fixed;
+        transform: translate(-50%, -150%);
+        background: #000;
+        color: #fff;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-family: Inter, sans-serif;
+        pointer-events: none;
+        border-radius: 6px;
+        white-space: nowrap;
+        z-index: 1000;
+      }
+    }
+  }
+}
