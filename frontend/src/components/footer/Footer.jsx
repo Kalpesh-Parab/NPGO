@@ -48,31 +48,30 @@ const Footer = () => {
           <div className='tRightList'>
             <div className='listHeading'>Social Links</div>
             <div className='listLogos'>
-  <a
-    href='https://www.facebook.com/share/1AiCmXtcjz/?mibextid=wwXIfr'
-    target='_blank'
-    rel='noopener noreferrer'
-  >
-    <img src={facebook} alt='Facebook' />
-  </a>
+              <a
+                href='https://www.facebook.com/share/1AiCmXtcjz/?mibextid=wwXIfr'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img src={facebook} alt='Facebook' />
+              </a>
 
-  <a
-    href='https://www.instagram.com/letsnpgo/'
-    target='_blank'
-    rel='noopener noreferrer'
-  >
-    <img src={instagram} alt='Instagram' />
-  </a>
+              <a
+                href='https://www.instagram.com/letsnpgo/'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img src={instagram} alt='Instagram' />
+              </a>
 
-  <a
-    href='https://youtube.com/@letsnpgo?si=wAZfEqPUSSevnW6d'
-    target='_blank'
-    rel='noopener noreferrer'
-  >
-    <img src={youtube} alt='YouTube' />
-  </a>
-</div>
-
+              <a
+                href='https://youtube.com/@letsnpgo?si=wAZfEqPUSSevnW6d'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img src={youtube} alt='YouTube' />
+              </a>
+            </div>
           </div>
           <div className='tRightList'>
             <div className='listHeading'>Conatct</div>
