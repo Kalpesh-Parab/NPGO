@@ -1,12 +1,122 @@
-.DestIntExplore{
-    width: 100%;
-    height: 100vh;
-    background-color: #ececec;
-    padding: 4.84375vw 4.375vw;
+.DestIntExplore {
+  width: 100%;
+  display: flex;
+  background-color: #ececec;
+  padding: 4.84375vw 4.375vw;
 
-    .cont{
-        width: 100%;
-        height: 100%;
-        background-color: #4f39f5;
+  .left {
+    display: flex;
+    width: 35%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .texts {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vw;
+      h3 {
+        margin: 0;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 1.35vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 28.8px */
+      }
+
+      h2 {
+        margin-top: 4vw;
+
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 2.5vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 57.6px */
+      }
+
+      h4 {
+        margin: 0;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 1.041666vw;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 24px */
+      }
     }
+
+    .button {
+      border: 0.1vw solid #000;
+      position: relative;
+      gap: 0.5vw;
+      padding: 0.8vw 0.5vw;
+      display: flex;
+      align-items: center;
+      width: 14vw;
+      justify-content: center;
+      background-color: #fff;
+      color: #111;
+      font-family: Aileron;
+      font-size: 0.729166vw;
+      font-weight: 400;
+      overflow: hidden;
+      cursor: pointer;
+      transition: color 0.4s ease;
+
+      // liquid background layer
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #000;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s ease;
+        z-index: 0;
+      }
+
+      // text + icon stay above liquid
+      & > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+      }
+
+      &:hover {
+        color: #fff;
+
+        &::before {
+          transform: scaleX(1);
+        }
+
+        img {
+          transform: rotate(45deg);
+          filter: invert(1);
+        }
+      }
+    }
+  }
+  .right {
+    display: flex;
+    width: 65%;
+    gap: 1vw;
+
+    .card {
+      padding: 0;
+      width: 50%;
+      height: 37vw;
+
+      img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+    }
+  }
 }
