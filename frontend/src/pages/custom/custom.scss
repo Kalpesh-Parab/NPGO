@@ -1,0 +1,272 @@
+.Custom {
+  .bottom {
+    width: 100%;
+    padding: 5.41666vw 4.16666vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2.8125vw;
+
+    .title {
+      color: #111;
+      font-family: Inter, sans-serif;
+      font-size: 2.5vw;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 150%; /* 72px */
+    }
+
+    .desc {
+      width: 80%;
+      color: #111;
+      font-family: Inter, sans-serif;
+      font-size: 1.25vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 36px */
+    }
+
+    .customForm {
+      width: 100%;
+      padding: 4.9479166vw 6.041666vw;
+      background: #cdffab;
+      display: flex;
+      flex-direction: column;
+      gap: 2.9166vw;
+      border-radius: 0.25vw;
+
+      /* SAME LABEL STYLE AS HomeContact */
+      label {
+        //   margin-top: 0.7vw;
+        color: #111;
+        font-family: Inter, sans-serif;
+        font-size: 1.041666vw;
+        font-weight: 500;
+        line-height: 140%;
+      }
+
+      /* SAME INPUT + TEXTAREA STYLE */
+      input,
+      textarea,
+      select {
+        margin-top: -1.8vw;
+        background-color: #fff;
+        border: none;
+        padding: 1.5625vw 1vw;
+        font-size: 0.9vw;
+        font-family: Inter, sans-serif;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      textarea {
+        height: 9vw;
+        resize: none;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        box-shadow: 0 0 0 2px rgba(104, 140, 79, 0.2);
+      }
+
+      /* GRID LAYOUTS */
+      .grid4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.8vw;
+      }
+
+      .grid2 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8vw;
+      }
+
+      /* TOGGLE BUTTONS */
+      .toggleRow {
+        display: flex;
+        gap: 0.8vw;
+
+        button {
+          flex: 1;
+          margin-top: -1.8vw;
+          padding: 1.5625vw;
+          border: none;
+          font-family: Inter, sans-serif;
+          font-size: 0.9vw;
+          cursor: pointer;
+          background: #fff;
+          transition: 0.3s ease;
+        }
+
+        button.active {
+          background: #102303;
+          color: #fff;
+        }
+
+        button:hover {
+          background: #688c4f;
+          color: #fff;
+        }
+      }
+
+      .budgetSlider {
+        display: flex;
+        align-items: center;
+        gap: 1.5vw;
+        width: 100%;
+        user-select: none;
+
+        .min,
+        .max {
+          font-family: Inter, sans-serif;
+          font-size: 0.9vw;
+          font-weight: 500;
+          color: #111;
+          white-space: nowrap;
+        }
+
+        .sliderTrack {
+          position: relative;
+          flex: 1;
+          height: 4px;
+          background: #9bcf6f; // darker than background
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .sliderProgress {
+          position: absolute;
+          height: 100%;
+          background: #688c4f;
+          border-radius: 4px;
+          top: 0;
+          left: 0;
+        }
+
+        .sliderThumb {
+          position: absolute;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 1.6vw;
+          height: 1.6vw;
+          background: #688c4f;
+          border-radius: 50%;
+          cursor: grab;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .sliderBubble {
+          position: absolute;
+          top: -3vw;
+          background: #fff;
+          padding: 0.4vw 0.8vw;
+          font-size: 0.85vw;
+          font-weight: 600;
+          font-family: Inter, sans-serif;
+          border-radius: 0.4vw;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          white-space: nowrap;
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+          }
+        }
+      }
+
+      /* TERMS */
+      .terms {
+        margin-top: 3vw;
+        display: flex;
+        align-items: center;
+        gap: 0.6vw;
+        font-family: Inter, sans-serif;
+        font-size: 0.9vw;
+
+        input {
+          margin-top: 0;
+          width: 1vw;
+          height: 1vw;
+        }
+
+        u {
+          font-style: bold;
+          cursor: pointer;
+
+          &:hover {
+            font-style: italic;
+          }
+        }
+      }
+
+      /* SUBMIT BUTTON — SAME STYLE */
+      .submitBtn {
+        border: none;
+        margin-top: -2vw;
+        position: relative;
+        gap: 1vw;
+        padding: 0.7vw 2vw;
+        display: flex;
+        align-items: center;
+        width: max-content;
+        background-color: #111;
+        color: #fff;
+        font-family: Aileron;
+        font-size: 0.729166vw;
+        font-weight: 400;
+        overflow: hidden;
+        cursor: pointer;
+        transition: color 0.4s ease;
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-color: #ececec;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.45s ease;
+          z-index: 0;
+        }
+
+        & > * {
+          position: relative;
+          z-index: 1;
+        }
+
+        img {
+          transition:
+            transform 0.4s ease,
+            filter 0.4s ease;
+        }
+
+        &:hover {
+          color: #111;
+
+          &::before {
+            transform: scaleX(1);
+          }
+
+          img {
+            transform: rotate(45deg);
+            filter: invert(1);
+          }
+        }
+      }
+    }
+  }
+}

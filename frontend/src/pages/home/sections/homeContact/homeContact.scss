@@ -84,11 +84,33 @@
       display: flex;
       margin-top: auto;
       gap: 1vw;
+
       .block {
         width: 2.8125vw;
         aspect-ratio: 1;
         background-color: #688c4f;
-        border-radius: 0.25vw;
+        border-radius: 0.4vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.35s ease;
+        cursor: pointer;
+
+        img {
+          width: 1.2vw;
+          transition: all 0.35s ease;
+          filter: brightness(0) invert(1);
+        }
+
+        &:hover {
+          transform: translateY(-6px) scale(1.08);
+          background-color: #111;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+          img {
+            transform: rotate(8deg) scale(1.1);
+          }
+        }
       }
     }
   }

@@ -1,6 +1,9 @@
 import './homeContact.scss';
 import call from '../../../../assets/call.svg';
 import msg from '../../../../assets/msg.svg';
+import insta from '../../../../assets/instagram.svg';
+import fb from '../../../../assets/facebook.svg';
+import yt from '../../../../assets/youtube.svg';
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 
@@ -59,11 +62,33 @@ const HomeContact = () => {
             </div>
           </div>
         </div>
-        <div className="blocks">
-          <div className="block"></div>
-          <div className="block"></div>
-          <div className="block"></div>
-          <div className="block"></div>
+        <div className='blocks'>
+          <a
+            href='https://www.facebook.com/share/1AiCmXtcjz/?mibextid=wwXIfr'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='block'
+          >
+            <img src={fb} alt='Facebook' />
+          </a>
+
+          <a
+            href='https://www.instagram.com/letsnpgo/'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='block'
+          >
+            <img src={insta} alt='Instagram' />
+          </a>
+
+          <a
+            href='https://youtube.com/@letsnpgo?si=wAZfEqPUSSevnW6d'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='block'
+          >
+            <img src={yt} alt='YouTube' />
+          </a>
         </div>
       </div>
       <div className='right'>
