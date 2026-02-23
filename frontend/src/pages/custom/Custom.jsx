@@ -3,6 +3,7 @@ import CommonHero from '../../components/commonHero/CommonHero';
 import comm from '../../assets/common/comm.mp4';
 import arrow from '../../assets/arrowWhite.svg';
 import emailjs from '@emailjs/browser';
+import { toast } from 'sonner';
 
 import { useState } from 'react';
 
@@ -18,7 +19,7 @@ const Custom = () => {
     mustDo: '',
     specialOccasion: '',
     flights: '',
-    budget: 14000,
+    budget: 4000,
     firstName: '',
     lastName: '',
     email: '',
@@ -68,10 +69,12 @@ const Custom = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.terms) {
-      alert('Please accept Terms & Conditions');
-      return;
-    }
+     if (!formData.terms) {
+    toast.error(
+      "Please accept the Terms and Conditions before submitting your enquiry."
+    );
+    return;
+  }
 
     emailjs
       .send(
@@ -97,12 +100,12 @@ const Custom = () => {
         'RwUFNw4qZD1J5tcrA',
       )
       .then(() => {
-        alert('Enquiry Submitted Successfully 🚀');
-      })
+      toast.success('Your enquiry has been submitted successfully ');
+    })
       .catch((error) => {
-        console.error(error);
-        alert('Something went wrong ❌');
-      });
+      console.error(error);
+      toast.error('Something went wrong. Please try again.');
+    });
   };
 
   return (

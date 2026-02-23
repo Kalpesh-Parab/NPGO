@@ -9,10 +9,12 @@ import About from './pages/about/About';
 import Contact from './pages/contact/Contact';
 import Corporate from './pages/corporate/Corporate';
 import Footer from './components/footer/Footer';
+import { Toaster } from 'sonner';
 
 function App() {
   return (
     <BrowserRouter>
+    <Toaster position="top-right" richColors />
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
