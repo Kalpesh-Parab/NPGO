@@ -10,6 +10,7 @@ import Contact from './pages/contact/Contact';
 import Corporate from './pages/corporate/Corporate';
 import Footer from './components/footer/Footer';
 import { Toaster } from 'sonner';
+import Package from './pages/package/Package';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/corporate-events' element={<Corporate />} />
+        <Route path='/package' element={<Package />} />
       </Routes>
       <Footer />
     </BrowserRouter>
