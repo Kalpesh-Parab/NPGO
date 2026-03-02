@@ -5,22 +5,45 @@ import g3 from '../../../../assets/package/g3.png';
 import { useEffect, useState } from 'react';
 
 const PackGallery = () => {
-  const gallery = [g1, g2, g3, g2, g1, g3];
+  const gallery = [
+    { img: g1, desc: 'Manhattan Bridge, New York, United States' },
+    { img: g2, desc: 'Times Square lights up the night skyline' },
+    { img: g3, desc: 'Statue of Liberty standing tall in the harbor' },
+    { img: g2, desc: 'Central Park in the heart of the city' },
+    { img: g1, desc: 'Broadway’s iconic theatre district' },
+    { img: g3, desc: 'NYC skyline touching the clouds' },
+  ];
 
   const [currentIndex, setCurrentIndex] = useState(1);
-  const [isPaused, setIsPaused] = useState(false);
+  const [typedText, setTypedText] = useState('');
 
+  // Auto slide (no pause now)
   useEffect(() => {
-    if (isPaused) return;
-
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev === gallery.length - 2 ? 1 : prev + 1));
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
-  }, [isPaused, gallery.length]);
+  }, [gallery.length]);
 
-  const getImage = (index) => {
+  // Typing effect
+  useEffect(() => {
+    const fullText = gallery[currentIndex].desc;
+    setTypedText('');
+
+    let i = 0;
+    const typingInterval = setInterval(() => {
+      setTypedText(fullText.slice(0, i + 1));
+      i++;
+      if (i === fullText.length) {
+        clearInterval(typingInterval);
+      }
+    }, 40);
+
+    return () => clearInterval(typingInterval);
+  }, [currentIndex]);
+
+  const getItem = (index) => {
     return gallery[(index + gallery.length) % gallery.length];
   };
 
@@ -29,26 +52,30 @@ const PackGallery = () => {
       <div className='packDesc'>
         New York City comprises 5 boroughs sitting where the Hudson River meets
         the Atlantic Ocean. At its core is Manhattan, a densely populated
-        borough that's among the world's major commercial, financial and
+        borough that’s among the world’s major commercial, financial and
         cultural centers. Its iconic sites include skyscrapers such as the
         Empire State Building and sprawling Central Park. Broadway theater is
         staged in neon-lit Times Square.
       </div>
-      <div
-        className='packGallery'
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
+
+      <div className='packGallery'>
+        {/* Left */}
         <div className='photo side'>
-          <img src={getImage(currentIndex - 1)} alt='' />
+          <img src={getItem(currentIndex - 1).img} alt='' />
         </div>
 
+        {/* Center */}
         <div className='photo center'>
-          <img src={getImage(currentIndex)} alt='' />
+          <img src={getItem(currentIndex).img} alt='' />
+
+          <div className='overlay'>
+            <p>{typedText}</p>
+          </div>
         </div>
 
+        {/* Right */}
         <div className='photo side'>
-          <img src={getImage(currentIndex + 1)} alt='' />
+          <img src={getItem(currentIndex + 1).img} alt='' />
         </div>
       </div>
     </section>

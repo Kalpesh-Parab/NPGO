@@ -1,0 +1,49 @@
+.PackInclusions {
+  width: 100%;
+  padding: 4.427083333333333vw 5.885416666666667vw;
+  background-color: #c5eeff;
+  display: flex;
+  flex-direction: column;
+  gap: 3.59vw;
+
+  .title {
+    color: #111;
+    font-family: Inter, sans-serif;
+    font-size: 1.875vw;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%; /* 43.2px */
+  }
+
+  .bottom {
+    display: flex;
+    gap: 1vw;
+    height: auto;
+
+    .included,
+    .nincluded {
+      width: 50%;
+      background-color: #0a74a1;
+      border-radius: 0.25vw;
+      padding: 3.6979vw;
+
+      h3 {
+        color: #fff;
+        font-family: Inter, sans-serif;
+        font-size: 1.875vw;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%; /* 43.2px */
+      }
+
+      ul {
+        color: #fff;
+        font-family: Inter, sans-serif;
+        font-size: 1.6666vw;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 164%; /* 52.48px */
+      }
+    }
+  }
+}
