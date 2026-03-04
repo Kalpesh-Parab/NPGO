@@ -12,6 +12,7 @@ import Footer from './components/footer/Footer';
 import { Toaster } from 'sonner';
 import Package from './pages/package/Package';
 import DestinationListing from './pages/destinationListing/DestinationListing';
+import Blogs from './pages/blogs/Blogs';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path='/corporate-events' element={<Corporate />} />
         <Route path='/package' element={<Package />} />
         <Route path='/destination/list' element={<DestinationListing />} />
+        <Route path='/blogs' element={<Blogs />} />
       </Routes>
       <Footer />
     </BrowserRouter>

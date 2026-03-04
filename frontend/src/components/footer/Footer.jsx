@@ -43,6 +43,9 @@ const Footer = () => {
               <NavLink to='/merchandise' className='footerLink'>
                 Merchandise
               </NavLink>
+              <NavLink to='/blogs' className='footerLink'>
+                Blogs
+              </NavLink>
             </div>
           </div>
           <div className='tRightList'>

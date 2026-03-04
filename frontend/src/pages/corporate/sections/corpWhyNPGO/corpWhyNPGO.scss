@@ -1,0 +1,56 @@
+.CorpWhyNPGO {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 4.1666vw;
+  padding: 1.625vw 4.1666vw 3.166vw;
+
+  .left {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.30208vw;
+
+    .heading {
+      color: #111;
+      font-family: Inter, sans-serif;
+      font-size: 2.5vw;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 150%; /* 72px */
+      text-align: left;
+    }
+
+    .desc {
+      width: 60%;
+      color: #111;
+      font-family: Inter, sans-serif;
+      font-size: 1.25vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 150%; /* 36px */
+      text-align: left;
+    }
+  }
+
+  .right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.50208vw;
+
+    ul {
+      padding: 0;
+      margin: 0;
+      color: #8c8c8c;
+      font-family: Inter, sans-serif;
+      font-size: 1.6666vw;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 164%; /* 52.48px */
+
+    }
+  }
+}
