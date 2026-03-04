@@ -1,0 +1,28 @@
+.AboutInfo {
+  padding: 3.8542vw 15.46875vw 8.8542vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2.135vw;
+  justify-content: center;
+  align-items: center;
+
+  .heading {
+    color: #000;
+    text-align: center;
+    font-family: Inter, sans-serif;
+    font-size: 2.5vw;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 57.6px */
+  }
+
+  .sub{
+    color: #000;
+text-align: center;
+font-family: Inter, sans-serif;
+font-size: 1.25vw;
+font-style: normal;
+font-weight: 400;
+line-height: 140%; /* 30.8px */
+  }
+}

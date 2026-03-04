@@ -11,6 +11,7 @@ import Corporate from './pages/corporate/Corporate';
 import Footer from './components/footer/Footer';
 import { Toaster } from 'sonner';
 import Package from './pages/package/Package';
+import DestinationListing from './pages/destinationListing/DestinationListing';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/corporate-events' element={<Corporate />} />
         <Route path='/package' element={<Package />} />
+        <Route path='/destination/list' element={<DestinationListing />} />
       </Routes>
       <Footer />
     </BrowserRouter>

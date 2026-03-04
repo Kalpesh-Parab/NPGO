@@ -21,7 +21,7 @@ const PackGallery = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev === gallery.length - 2 ? 1 : prev + 1));
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [gallery.length]);
