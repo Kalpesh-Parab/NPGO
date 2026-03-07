@@ -17,7 +17,7 @@ const HomeHero = () => {
       >
         <source src={bg} type='video/mp4' />
       </video>
-      <div className='overlay'>
+      <div className='mainOverlay'>
         <div className='heading'>
           Transforming Dreams into Realities <br />
           One Happy Traveler at a Time!

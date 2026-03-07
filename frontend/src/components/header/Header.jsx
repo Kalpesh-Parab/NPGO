@@ -53,6 +53,9 @@ const Header = () => {
         <NavLink to='/merchandise' className='link'>
           Merchandise
         </NavLink>
+        <NavLink to='/events' className='link'>
+          NPGO events
+        </NavLink>
       </div>
       <div className='button' onClick={() => navigate('/contact')}>
         <span>Contact Us</span>
