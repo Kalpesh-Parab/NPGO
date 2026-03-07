@@ -1,0 +1,27 @@
+.first {
+  width: 100%;
+  padding: 4.1666vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .left {
+    color: #111;
+    font-family: Inter, sans-serif;
+    font-size: 2.5vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 72px */
+    width: 40%;
+  }
+
+  .right {
+    width: 44%;
+    color: #111;
+    font-family: Inter, sans-serif;
+    font-size: 1.25vw;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 36px */
+  }
+}

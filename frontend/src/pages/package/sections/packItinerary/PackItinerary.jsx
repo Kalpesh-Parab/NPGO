@@ -266,6 +266,7 @@ const PackItinerary = () => {
               data-id={day.id}
             >
               <div className='dayDesc'>
+                <h2>{day.day} : {day.title}</h2>
                 {day.description.map((item, i) => (
                   <div key={i} className='descBlock'>
                     <h4>{item.heading}</h4>

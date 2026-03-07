@@ -2,6 +2,7 @@ import './commonHero.scss';
 
 const CommonHero = ({
   title,
+  subtitle, 
   backgroundType = 'image', // 'image' | 'video'
   backgroundSrc,
 }) => {
@@ -26,6 +27,9 @@ const CommonHero = ({
 
       <div className='text'>
         <h1>{title}</h1>
+
+        {/* Only render if subtitle exists */}
+        {subtitle && <p className="subtitle">{subtitle}</p>}
       </div>
     </section>
   );

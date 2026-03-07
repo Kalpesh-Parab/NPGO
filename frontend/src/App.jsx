@@ -13,6 +13,7 @@ import { Toaster } from 'sonner';
 import Package from './pages/package/Package';
 import DestinationListing from './pages/destinationListing/DestinationListing';
 import Blogs from './pages/blogs/Blogs';
+import Events from './pages/events/Events';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
         <Route path='/package' element={<Package />} />
         <Route path='/destination/list' element={<DestinationListing />} />
         <Route path='/blogs' element={<Blogs />} />
+        <Route path='/events' element={<Events />} />
+
       </Routes>
       <Footer />
     </BrowserRouter>
