@@ -79,6 +79,8 @@
           display: none;
         }
         .dayDesc {
+        margin-top: 2vw;
+
           line-height: 1.6;
           color: #000;
           font-family: Inter, sans-serif;
@@ -107,9 +109,13 @@
         .images {
           display: flex;
           gap: 1vw;
-          margin-top: 2vw;
+          overflow: scroll;
+          // margin-top: 2vw;
+          scroll-behavior: smooth;
 
           .image {
+            display: flex;
+            flex: 0 0 35%;
             position: relative;
             width: 17.9167vw;
             aspect-ratio: 1.2;

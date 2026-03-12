@@ -61,6 +61,18 @@ const PackItinerary = () => {
           src: g2,
           caption: 'Times Square illuminated at night',
         },
+        {
+          src: g1,
+          caption: 'Scenic skyline of New York City',
+        },
+        {
+          src: g2,
+          caption: 'Times Square illuminated at night',
+        },
+        {
+          src: g2,
+          caption: 'Times Square illuminated at night',
+        },
       ],
     },
     {
@@ -265,16 +277,6 @@ const PackItinerary = () => {
               ref={(el) => (sectionsRef.current[index] = el)}
               data-id={day.id}
             >
-              <div className='dayDesc'>
-                <h2>{day.day} : {day.title}</h2>
-                {day.description.map((item, i) => (
-                  <div key={i} className='descBlock'>
-                    <h4>{item.heading}</h4>
-                    <p>{item.content}</p>
-                  </div>
-                ))}
-              </div>
-
               {day.images.length > 0 && (
                 <div className='images'>
                   {day.images.map((image, i) => (
@@ -286,6 +288,17 @@ const PackItinerary = () => {
                   ))}
                 </div>
               )}
+              <div className='dayDesc'>
+                <h2>
+                  {day.day} : {day.title}
+                </h2>
+                {day.description.map((item, i) => (
+                  <div key={i} className='descBlock'>
+                    <h4>{item.heading}</h4>
+                    <p>{item.content}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>

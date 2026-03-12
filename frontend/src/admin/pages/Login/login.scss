@@ -1,0 +1,76 @@
+.Login {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+//   background: url('../../../assets/aboutHero.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.leaf-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.leaf {
+  position: absolute;
+  transition:
+    transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 1.3s;
+    scale: 4.5;
+}
+
+.leaf.explode {
+  opacity: 0;
+}
+
+.form {
+  position: relative;
+  z-index: 10;
+
+  background-color: rgba(0, 0, 0, 0.55);
+  padding: 4vw;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  align-items: center;
+
+  input {
+    font-family: Inter, sans-serif;
+    font-size: 0.8vw;
+    border-radius: 5px;
+    padding: 1vw 1.5vw;
+    outline: none;
+    border: none;
+    background-color: rgb(196, 209, 182);
+    width: 20vw;
+    color: black;
+  }
+
+  button {
+    margin-top: 1vw;
+    font-family: Inter, sans-serif;
+    outline: none;
+    background-color: black;
+    color: white;
+    padding: 1vw;
+    width: 10vw;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}

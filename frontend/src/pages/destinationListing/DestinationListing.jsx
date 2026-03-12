@@ -22,7 +22,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 4.5,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p2,
@@ -30,7 +30,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 5,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p3,
@@ -38,7 +38,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 3.7,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p4,
@@ -46,7 +46,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 4,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p2,
@@ -54,7 +54,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 5,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p4,
@@ -62,7 +62,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 4,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p2,
@@ -70,7 +70,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 5,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
     {
       image: p3,
@@ -78,7 +78,7 @@ const DestinationListing = () => {
       desc: 'Mardi Himal Base Camp, Lumle, Nepal',
       ratings: 3.7,
       price: 4000,
-      link: '/destination',
+      link: '/package',
     },
   ];
   return (

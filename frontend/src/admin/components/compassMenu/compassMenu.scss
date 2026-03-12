@@ -1,0 +1,223 @@
+.compass-overlay {
+  position: absolute;
+  top: 70px;
+  right: 3vw;
+  z-index: 2000;
+}
+
+.compass-wrapper {
+  position: relative;
+  padding-top: 18px;
+}
+
+/* top metal cap */
+
+.compass-cap {
+  width: 2.5vw;
+  height: 1.5vw;
+
+  margin: auto;
+
+  border-radius: 12px 12px 0 0;
+
+  background: linear-gradient(to bottom, #e6d3a3, #c7a86c);
+
+  border: 2px solid #8b6a3e;
+  border-bottom: none;
+
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.4),
+    0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* compass body */
+
+.compass-box {
+  width: 23vw;
+  height: 23vw;
+  border-radius: 50%;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* antique compass background */
+
+  background: radial-gradient(circle at 50% 40%, #eeb64c, #e2bf80 60%, #6a7aca);
+
+  /* outer metal rim */
+
+  border: 4px solid #7a5b2f;
+
+  /* second circular ring */
+
+  box-shadow:
+    inset 0 0 0 6px #e8c98e,
+    inset 0 0 0 10px #7a5b2f,
+    0 12px 25px rgba(0, 0, 0, 0.35);
+
+  animation: compassPop 0.35s ease;
+}
+
+/* glass overlay */
+
+.compass-box::after {
+  content: '';
+
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.15) 35%,
+    rgba(255, 255, 255, 0) 55%
+  );
+
+  pointer-events: none;
+}
+
+/* subtle depth */
+
+.compass-box::before {
+  content: '';
+
+  position: absolute;
+
+  inset: 8px;
+
+  border-radius: 50%;
+
+  box-shadow:
+    inset 0 4px 8px rgba(0, 0, 0, 0.25),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.25);
+}
+
+/* opening animation */
+
+@keyframes compassPop {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* diamond needle */
+
+.compass-needle {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform-origin: center;
+
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+}
+
+/* north triangle */
+
+.needle-north {
+  position: absolute;
+
+  left: -0.7vw;
+  bottom: 0;
+
+  border-left: 0.7vw solid transparent;
+  border-right: 0.7vw solid transparent;
+  border-bottom: 7vw solid #c21b1b;
+}
+
+/* south triangle */
+
+.needle-south {
+  position: absolute;
+
+  left: -0.7vw;
+  top: 0;
+
+  border-left: 0.7vw solid transparent;
+  border-right: 0.7vw solid transparent;
+  border-top: 7vw solid #1e2a38;
+}
+
+/* center pivot */
+
+.compass-pin {
+  width: 1vw;
+  height: 1vw;
+
+  background: radial-gradient(circle, #fff, #c9a96d);
+
+  border-radius: 50%;
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border: 2px solid #6a4d25;
+
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+
+  z-index: 10;
+}
+
+/* menu items */
+
+.compass-item {
+  position: absolute;
+
+  font-size: 1vw;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  color: #1e9107;
+
+  text-transform: capitalize;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* keep text readable */
+
+.compass-text {
+  transform: rotate(-180deg);
+  white-space: nowrap;
+}
+
+/* hover underline */
+
+.compass-text::after {
+  content: '';
+
+  display: block;
+
+  width: 0%;
+  height: 2px;
+
+  background: #7a5b2f;
+
+  transition: width 0.25s ease;
+}
+
+.compass-text:hover::after {
+  width: 100%;
+}

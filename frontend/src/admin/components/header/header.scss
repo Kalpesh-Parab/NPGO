@@ -1,0 +1,100 @@
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 24px;
+
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+
+  backdrop-filter: blur(10px);
+}
+
+/* LEFT SECTION */
+
+.admin-header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.admin-logo img{
+  width: 4vw;
+  height: 4vw;
+  object-fit: cover;
+}
+
+.admin-welcome {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.admin-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* RIGHT SECTION */
+
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ICON BUTTONS */
+
+.admin-icon-btn {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+  border: none;
+
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+
+  font-size: 18px;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+}
+
+.admin-icon-btn:hover {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* Compass Button Highlight */
+
+.compass-btn {
+  font-size: 20px;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .admin-header-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-welcome {
+    font-size: 13px;
+  }
+}

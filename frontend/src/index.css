@@ -1,7 +1,7 @@
 /* ===========================
    Global Font Imports
    =========================== */
-
+@import './admin/styles/adminTheme.scss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Display:wght@400;500;600&display=swap');
 
 @font-face {

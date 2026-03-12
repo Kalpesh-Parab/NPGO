@@ -1,0 +1,13 @@
+.dashboard {
+  padding: 30px;
+}
+
+.admin-theme.dark .dashboard {
+  background: #0f172a;
+  color: white;
+}
+
+.admin-theme.light .dashboard {
+  background: white;
+  color: black;
+}
