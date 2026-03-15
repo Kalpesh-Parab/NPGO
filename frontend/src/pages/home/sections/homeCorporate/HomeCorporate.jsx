@@ -126,7 +126,7 @@ const HomeCorporate = () => {
             we handle every detail to ensure a smooth, professional, and
             memorable corporate journey.
           </h3>
-          <div className='button' onClick={() => navigate('/destination')}>
+          <div className='button' onClick={() => navigate('/corporate-events')}>
             <span>View More Packages</span>
             <img src={arrow} alt='' />
           </div>

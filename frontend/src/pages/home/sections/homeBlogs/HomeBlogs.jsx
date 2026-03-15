@@ -49,7 +49,7 @@ const HomeBlogs = () => {
     <section className='HomeBlogs'>
       <div className='top'>
         <h4>Blogs</h4>
-        <div className='button' onClick={() => navigate('/destination')}>
+        <div className='button' onClick={() => navigate('/blogs')}>
           <span>View All Blogs</span>
           <img src={arrow} alt='' />
         </div>

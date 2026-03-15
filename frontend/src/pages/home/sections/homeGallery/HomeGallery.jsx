@@ -25,7 +25,7 @@ const HomeGallery = () => {
   return (
     <section className='HomeGallery'>
       <div className='top'>
-        <h4>Destination Packages</h4>
+        <h4>Gallery</h4>
         <div className='title'>
           Our gallery showcases the beauty, culture, landscapes, and experiences
           our travelers have discovered across the world with NPGO.

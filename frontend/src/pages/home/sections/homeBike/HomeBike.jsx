@@ -41,7 +41,7 @@ const HomeBike = () => {
           vision. Perfect for honeymoon trips, family vacations, solo journeys,
           or private group tours.
         </div>
-        <div className='button' onClick={() => navigate('/destination')}>
+        <div className='button' onClick={() => navigate('/customise')}>
           <span>Know More</span>
           <img src={arrow} alt='' />
         </div>
@@ -59,7 +59,7 @@ const HomeBike = () => {
               <div className='cright'>
                 <div
                   className='button'
-                  onClick={() => navigate('/destination')}
+                  onClick={() => navigate('/destination/list')}
                 >
                   <span>View More Packages</span>
                   <img src={arrowW} alt='' />
@@ -70,7 +70,7 @@ const HomeBike = () => {
         ))}
         <div className='card2'>
           <h2>Hold On! there’s more to Experience!</h2>
-          <div className='button' onClick={() => navigate('/destination')}>
+          <div className='button' onClick={() => navigate('/events')}>
             <span>Know More</span>
             <img src={arrowW} alt='' />
           </div>

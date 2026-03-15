@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from "./routes/authRoutes.js";
+import upLoadRoutes from "./routes/uploadRoutes.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use("/api/upload", upLoadRoutes);
 app.use("/api/auth", authRoutes);
 
 app.get('/', (req, res) => {
