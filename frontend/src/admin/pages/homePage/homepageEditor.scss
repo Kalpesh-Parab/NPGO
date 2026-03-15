@@ -1,0 +1,56 @@
+.HomepageEditor {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+  font-family: Inter, sans-serif;
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  .section {
+    border: 1px solid #ddd;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    background: #fafafa;
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .preview {
+      margin-top: 10px;
+
+      img,
+      video {
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .saveBtn {
+    padding: 12px 20px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+}

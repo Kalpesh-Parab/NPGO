@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from "./routes/authRoutes.js";
 import upLoadRoutes from "./routes/uploadRoutes.js";
+import homepageRoutes from "./routes/homepageRoutes.js";
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use("/api/upload", upLoadRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/homepage", homepageRoutes);
 
 app.get('/', (req, res) => {
   res.send('NPGO Backend Running 🚀');

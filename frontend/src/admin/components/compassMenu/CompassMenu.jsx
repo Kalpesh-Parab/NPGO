@@ -11,7 +11,7 @@ const CompassMenu = ({ isOpen }) => {
 
   const menuItems = [
     'dashboard',
-    'packages',
+    'homepageEditor',
     'destinations',
     'blogs',
     'leads',

@@ -22,6 +22,7 @@ import { Toaster } from 'sonner';
 import ScrollToTop from './components/ScrollToTop';
 import Dashboard from './admin/pages/Dashboard/Dashboard';
 import ProtectedRoute from './admin/components/ProtectedRoute';
+import HomepageEditor from './admin/pages/homePage/HomepageEditor';
 
 function App() {
   return (
@@ -47,16 +48,15 @@ function App() {
 
         {/* ADMIN ROUTES */}
         <Route path='/admin' element={<AdminLayout />}>
+          {/* login */}
           <Route index element={<Login />} />
 
-          <Route
-            path='dashboard'
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
+          {/* protected routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path='dashboard' element={<Dashboard />} />
+
+            <Route path='homepageEditor' element={<HomepageEditor />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
