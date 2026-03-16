@@ -1,37 +1,55 @@
-import './homeHero.scss';
-import bg from '../../../../assets/homeHero.mp4';
-import arrow from '../../../../assets/arrow.svg';
-import { useNavigate } from 'react-router-dom';
+import "./homeHero.scss";
+import arrow from "../../../../assets/arrow.svg";
+import { useNavigate } from "react-router-dom";
 
-const HomeHero = () => {
+const HomeHero = ({ data }) => {
   const navigate = useNavigate();
+
+  if (!data) return null;
+
+  const handleClick = () => {
+    if (data.buttonLink) {
+      navigate(data.buttonLink);
+    }
+  };
+
   return (
-    <section className='HomeHero'>
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className='bg-video'
-        preload='none' // lazy load hint
-      >
-        <source src={bg} type='video/mp4' />
-      </video>
-      <div className='mainOverlay'>
-        <div className='heading'>
-          Transforming Dreams into Realities <br />
-          One Happy Traveler at a Time!
-        </div>
-        <div className='subHeading'>
-          Our passion for exploration fuels us to craft personalized experiences
-          that dive deep into the heart of each destination. Let’s make your
-          travel dreams a reality!
+    <section className="HomeHero">
+
+      {data.media?.type === "video" ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="bg-video"
+          preload="none"
+        >
+          <source src={data.media.url} type="video/mp4" />
+        </video>
+      ) : (
+        <img
+          className="bg-video"
+          src={data.media?.url}
+          alt={data.media?.alt || "Hero background"}
+        />
+      )}
+
+      <div className="mainOverlay">
+        <div className="heading">
+          {data.heading}
         </div>
 
-        <div className='button' onClick={() => navigate('/destination')}>
-          <span>Explore Destinations</span>
-          <img src={arrow} alt='' />
+        <div className="subHeading">
+          {data.subHeading}
         </div>
+
+        {data.buttonText && (
+          <div className="button" onClick={handleClick}>
+            <span>{data.buttonText}</span>
+            <img src={arrow} alt="arrow" />
+          </div>
+        )}
       </div>
     </section>
   );

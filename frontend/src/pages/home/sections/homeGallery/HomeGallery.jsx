@@ -1,16 +1,14 @@
 import './homeGallery.scss';
 import arrow from '../../../../assets/arrowWhite.svg';
-import g1 from '../../../../assets/g1.png';
-import g2 from '../../../../assets/g2.png';
-import g3 from '../../../../assets/g3.png';
-import g4 from '../../../../assets/g4.png';
-import g5 from '../../../../assets/g5.png';
-import g6 from '../../../../assets/g6.png';
-import g7 from '../../../../assets/g7.png';
 import { useNavigate } from 'react-router-dom';
 
-const HomeGallery = () => {
-  const gallery = [g1, g2, g3, g4, g5, g6, g7];
+const HomeGallery = ({ data }) => {
+  const navigate = useNavigate();
+
+  if (!data) return null;
+
+  const gallery = data.images || [];
+
   const chunkArray = (arr, size) => {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -18,18 +16,15 @@ const HomeGallery = () => {
     }
     return result;
   };
-  const blocks = chunkArray(gallery, 4);
 
-  const navigate = useNavigate();
+  const blocks = chunkArray(gallery, 4);
 
   return (
     <section className='HomeGallery'>
       <div className='top'>
-        <h4>Gallery</h4>
-        <div className='title'>
-          Our gallery showcases the beauty, culture, landscapes, and experiences
-          our travelers have discovered across the world with NPGO.
-        </div>
+        <h4>{data.title}</h4>
+
+        <div className='title'>{data.description}</div>
       </div>
 
       <div className='gallery'>
@@ -37,26 +32,27 @@ const HomeGallery = () => {
           <div className='galleryBlock' key={i}>
             {block[0] && (
               <div className='img img-1'>
-                <img src={block[0]} alt='' />
+                <img src={block[0].url} alt={block[0].alt || ''} />
               </div>
             )}
 
             <div className='right'>
               {block[1] && (
                 <div className='img img-2'>
-                  <img src={block[1]} alt='' />
+                  <img src={block[1].url} alt={block[1].alt || ''} />
                 </div>
               )}
 
               <div className='bottom'>
                 {block[2] && (
                   <div className='img img-3'>
-                    <img src={block[2]} alt='' />
+                    <img src={block[2].url} alt={block[2].alt || ''} />
                   </div>
                 )}
+
                 {block[3] && (
                   <div className='img img-4'>
-                    <img src={block[3]} alt='' />
+                    <img src={block[3].url} alt={block[3].alt || ''} />
                   </div>
                 )}
               </div>
@@ -66,17 +62,14 @@ const HomeGallery = () => {
       </div>
 
       <div className='bot'>
-        <div className='titleDesc'>
-          From serene beaches and majestic mountains to vibrant cities and
-          cultural wonders, these moments reflect the essence of travel —
-          authentic, inspiring, and unforgettable. Let these visuals spark your
-          wanderlust and inspire your next adventure.
-        </div>
+        <div className='titleDesc'>{data.bottomDescription}</div>
 
-        <div className='button' onClick={() => navigate('/destination')}>
-          <span>Explore Destinations</span>
-          <img src={arrow} alt='' />
-        </div>
+        {data.buttonText && (
+          <div className='button' onClick={() => navigate(data.buttonLink)}>
+            <span>{data.buttonText}</span>
+            <img src={arrow} alt='' />
+          </div>
+        )}
       </div>
     </section>
   );

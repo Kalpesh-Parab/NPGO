@@ -1,31 +1,39 @@
 import './homeAbout.scss';
 import arrow from '../../../../assets/arrowWhite.svg';
 import { useNavigate } from 'react-router-dom';
-import about from '../../../../assets/homeAbout.png';
 
-const HomeAbout = () => {
+const HomeAbout = ({ data }) => {
   const navigate = useNavigate();
+
+  if (!data) return null;
+
+  const handleClick = () => {
+    if (data.buttonLink) {
+      navigate(data.buttonLink);
+    }
+  };
+
   return (
     <div className='HomeAbout'>
       <div className='left'>
-        <h5>About Us</h5>
-        <h2>
-          Explore unforgettable destinations, curated travel experiences, and
-          custom journeys designed around you.
-        </h2>
-        <h3>
-          NPGO is a modern travel company built to make exploring the world
-          simple, seamless, and unforgettable. We believe travel should be more
-          than just visiting places — it should be about experiencing cultures,
-          discovering hidden gems, and creating memories that last a lifetime.
-        </h3>
-        <div className='button' onClick={() => navigate('/about')}>
-          <span>More About Us</span>
-          <img src={arrow} alt='' />
-        </div>
+        {data.sectionTitle && <h5>{data.sectionTitle}</h5>}
+
+        {data.heading && <h2>{data.heading}</h2>}
+
+        {data.description && <h3>{data.description}</h3>}
+
+        {data.buttonText && (
+          <div className='button' onClick={handleClick}>
+            <span>{data.buttonText}</span>
+            <img src={arrow} alt='arrow' />
+          </div>
+        )}
       </div>
+
       <div className='right'>
-        <img src={about} alt='' />
+        {data.image?.url && (
+          <img src={data.image.url} alt={data.image.alt || 'About image'} />
+        )}
       </div>
     </div>
   );

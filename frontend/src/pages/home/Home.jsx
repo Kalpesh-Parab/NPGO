@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 import HomeHero from './sections/homeHero/HomeHero';
-import './home.scss';
 import HomeAbout from './sections/homeAbout/HomeAbout';
 import PopularPackages from './sections/popularPackages/PopularPackages';
 import HomeDestinations from './sections/homeDestinations/HomeDestinations';
@@ -14,22 +14,48 @@ import HomeMerch from './sections/homeMerch/HomeMerch';
 import HomeFAQ from './sections/homeFAQ/HomeFAQ';
 import HomeContact from './sections/homeContact/HomeContact';
 
+import './home.scss';
+import { getHomepage } from '../../admin/services/homepageService';
+
 const Home = () => {
+  const [homepageData, setHomepageData] = useState(null);
+
+  useEffect(() => {
+    const fetchHomepage = async () => {
+      try {
+        const res = await getHomepage();
+        setHomepageData(res.data);
+      } catch (err) {
+        console.error('Failed to fetch homepage', err);
+      }
+    };
+
+    fetchHomepage();
+  }, []);
+
   return (
     <>
-      <HomeHero />
-      <HomeAbout />
+      <HomeHero data={homepageData?.hero} />
+      <HomeAbout data={homepageData?.about} />
+
       <PopularPackages />
       <HomeDestinations />
       <HomeExperience />
       <HomeMemories />
-      <HomeCorporate />
+
+      <HomeCorporate data={homepageData?.corporateGallery} />
+
       <HomeBike />
-      <HomeGallery />
-      <HomeTesti />
+
+      <HomeGallery data={homepageData?.homeGallery} />
+
+      <HomeTesti data={homepageData?.testimonials} />
+
       <HomeBlogs />
       <HomeMerch />
-      <HomeFAQ />
+
+      <HomeFAQ data={homepageData?.faqs} />
+
       <HomeContact />
     </>
   );

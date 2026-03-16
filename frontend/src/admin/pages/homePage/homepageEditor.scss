@@ -1,130 +1,318 @@
 .HomepageEditor {
   width: 100%;
-  padding: 2vw 3vw;
+  padding: 2.5vw 3vw;
   font-family: Inter, sans-serif;
-
   color: var(--text-primary);
 
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
   h1 {
-    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+
+    background: linear-gradient(90deg, var(--text-primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
+  /* =========================
+        SECTION CARD
+     ========================= */
+
   .section {
-    border: 1px solid var(--text-secondary);
-    padding: 25px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-    background: var(--bg-secondary);
+    position: relative;
+
+    border-radius: 14px;
+
+    padding: 28px 28px 24px;
+
+    background: linear-gradient(
+      160deg,
+      var(--bg-secondary),
+      rgba(255, 255, 255, 0.02)
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    backdrop-filter: blur(6px);
+
+    box-shadow:
+      0 6px 18px rgba(0, 0, 0, 0.12),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.18),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    }
 
     h2 {
-      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 18px;
+
+      letter-spacing: 0.4px;
+
       color: var(--text-primary);
     }
+
+    /* =========================
+            INPUTS
+       ========================= */
 
     input,
     textarea {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 12px;
-      border: 1px solid var(--text-secondary);
-      border-radius: 5px;
-      font-size: 14px;
+
+      padding: 11px 12px;
+
+      border-radius: 8px;
+
+      border: 1px solid rgba(255, 255, 255, 0.08);
 
       background: var(--bg-primary);
+
       color: var(--text-primary);
 
-      transition: border 0.2s ease;
+      font-size: 14px;
+
+      transition: all 0.2s ease;
+
+      margin-bottom: 12px;
 
       &:focus {
         outline: none;
+
         border-color: var(--accent);
+
+        box-shadow:
+          0 0 0 2px rgba(255, 255, 255, 0.03),
+          0 0 0 4px rgba(0, 0, 0, 0.05);
+      }
+
+      &::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.7;
       }
     }
 
     textarea {
-      min-height: 80px;
+      min-height: 90px;
       resize: vertical;
     }
 
-    .preview {
-      margin-top: 10px;
+    label {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      display: flex;
+      gap: 2vw;
 
-      img,
-      video {
-        border-radius: 6px;
-        max-width: 200px;
-      }
+      
     }
-  }
-
-  .saveBtn {
-    padding: 12px 20px;
-    background: var(--accent);
-    color: var(--bg-primary);
-    border: none;
-    border-radius: 6px;
+    .uploadBtn{
     cursor: pointer;
-    font-size: 15px;
-
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.85;
-    }
   }
+  }
+
+  /* =========================
+          IMAGE GRID
+     ========================= */
 
   .imageGrid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 14px;
+    margin-top: 14px;
   }
 
   .imgBox {
     position: relative;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    background: var(--bg-primary);
+
+    cursor: grab;
+
+    transition: all 0.2s ease;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+    }
 
     img {
-      width: 120px;
+      width: 100%;
       height: 90px;
       object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid var(--text-secondary);
+      display: block;
     }
 
     button {
       position: absolute;
+
       bottom: 0;
       left: 0;
       right: 0;
 
-      background: rgba(0, 0, 0, 0.7);
+      border: none;
+
+      padding: 5px 0;
+
+      font-size: 12px;
+
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0.3)
+      );
+
       color: white;
 
-      border: none;
-      font-size: 12px;
-      padding: 4px;
       cursor: pointer;
 
-      border-bottom-left-radius: 6px;
-      border-bottom-right-radius: 6px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.9);
+      }
     }
   }
 
+  /* =========================
+        TESTIMONIAL CARD
+     ========================= */
+
   .card {
-    border: 1px solid var(--text-secondary);
-    padding: 15px;
-    border-radius: 6px;
-    margin-top: 10px;
-    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    border-radius: 10px;
+
+    padding: 18px;
+
+    margin-top: 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    background: linear-gradient(
+      145deg,
+      var(--bg-primary),
+      rgba(255, 255, 255, 0.02)
+    );
+
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    h4 {
+      margin-bottom: 10px;
+      font-size: 15px;
+      color: var(--text-secondary);
+    }
+
+    .cardHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
+
+  /* =========================
+        BUTTONS
+     ========================= */
 
   button {
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
   }
 
+  button:not(.saveBtn) {
+    padding: 8px 14px;
+    font-size: 13px;
+
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+
+    &:hover {
+      background: rgba(176, 6, 6, 0.832);
+    }
+  }
+
+  .removeBtn {
+    background: rgba(255, 80, 80, 0.15);
+    color: #ff9a9a;
+
+    &:hover {
+      background: rgba(159, 17, 17, 0.25);
+    }
+  }
+
+  /* =========================
+          SAVE BUTTON
+     ========================= */
+
+  .saveBtn {
+    align-self: flex-start;
+
+    padding: 12px 22px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    background: (var(--text-primary));
+
+    color: var(--bg-primary);
+
+    box-shadow:
+      0 6px 18px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+
+    transition: all 0.25s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  /* =========================
+          UPLOAD LOADER
+     ========================= */
+
   .uploadLoader {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
-    margin-bottom: 10px;
+    padding: 6px 0;
   }
 }

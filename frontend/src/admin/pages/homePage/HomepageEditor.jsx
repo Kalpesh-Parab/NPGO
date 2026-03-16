@@ -1,10 +1,49 @@
 import { useState, useEffect } from 'react';
+import { FaUpload } from 'react-icons/fa';
 import API from '../../services/api';
 import './homepageEditor.scss';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
 
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+const SortableImage = ({ img, index, remove }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: img._id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className='imgBox'
+    >
+      <img src={img.url} alt='' />
+      <button onClick={() => remove(index)}>Remove</button>
+    </div>
+  );
+};
 const HomepageEditor = () => {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const sensors = useSensors(useSensor(PointerSensor));
 
   const [formData, setFormData] = useState({
     hero: {
@@ -144,6 +183,29 @@ const HomepageEditor = () => {
     }));
   };
 
+  const handleCorporateDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setFormData((prev) => {
+        const oldIndex = prev.corporateGallery.images.findIndex(
+          (img) => img._id === active.id,
+        );
+
+        const newIndex = prev.corporateGallery.images.findIndex(
+          (img) => img._id === over.id,
+        );
+
+        return {
+          ...prev,
+          corporateGallery: {
+            ...prev.corporateGallery,
+            images: arrayMove(prev.corporateGallery.images, oldIndex, newIndex),
+          },
+        };
+      });
+    }
+  };
   /* ==============================
      HOME GALLERY (UNLIMITED)
   ============================== */
@@ -177,6 +239,29 @@ const HomepageEditor = () => {
     }));
   };
 
+  const handleHomeGalleryDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setFormData((prev) => {
+        const oldIndex = prev.homeGallery.images.findIndex(
+          (img) => img._id === active.id,
+        );
+
+        const newIndex = prev.homeGallery.images.findIndex(
+          (img) => img._id === over.id,
+        );
+
+        return {
+          ...prev,
+          homeGallery: {
+            ...prev.homeGallery,
+            images: arrayMove(prev.homeGallery.images, oldIndex, newIndex),
+          },
+        };
+      });
+    }
+  };
   /* ==============================
      TESTIMONIALS
   ============================== */
@@ -240,6 +325,24 @@ const HomepageEditor = () => {
     }));
   };
 
+  const handleTestimonialDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setFormData((prev) => {
+        const oldIndex = prev.testimonials.findIndex(
+          (t) => t._id === active.id,
+        );
+
+        const newIndex = prev.testimonials.findIndex((t) => t._id === over.id);
+
+        return {
+          ...prev,
+          testimonials: arrayMove(prev.testimonials, oldIndex, newIndex),
+        };
+      });
+    }
+  };
   /* ==============================
      FAQ
   ============================== */
@@ -260,6 +363,31 @@ const HomepageEditor = () => {
     }));
   };
 
+  const removeFaq = (index) => {
+    const updated = [...formData.faqs];
+    updated.splice(index, 1);
+
+    setFormData((prev) => ({
+      ...prev,
+      faqs: updated,
+    }));
+  };
+  const handleFaqDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setFormData((prev) => {
+        const oldIndex = prev.faqs.findIndex((f) => f._id === active.id);
+
+        const newIndex = prev.faqs.findIndex((f) => f._id === over.id);
+
+        return {
+          ...prev,
+          faqs: arrayMove(prev.faqs, oldIndex, newIndex),
+        };
+      });
+    }
+  };
   /* ==============================
      SUBMIT
   ============================== */
@@ -323,10 +451,15 @@ const HomepageEditor = () => {
           onChange={(e) => handleChange('hero', 'buttonLink', e.target.value)}
         />
 
-        <input
-          type='file'
-          onChange={(e) => uploadHeroMedia(e.target.files[0])}
-        />
+        <label className='uploadBtn'>
+          <FaUpload />
+          <span>Hero Video</span>
+          <input
+            type='file'
+            hidden
+            onChange={(e) => uploadHeroMedia(e.target.files[0])}
+          />
+        </label>
 
         <MediaPreview media={formData.hero?.media} />
       </div>
@@ -355,12 +488,32 @@ const HomepageEditor = () => {
           onChange={(e) => handleChange('about', 'description', e.target.value)}
         />
 
-        <input
-          type='file'
-          onChange={(e) => uploadAboutImage(e.target.files[0])}
-        />
+        {/* ABOUT IMAGE */}
+        <label className='uploadBtn'>
+          <FaUpload />
+          <span>About Image</span>
+          <input
+            type='file'
+            hidden
+            onChange={(e) => uploadAboutImage(e.target.files[0])}
+          />
+        </label>
 
         <MediaPreview media={formData.about?.image} />
+
+        {/* BUTTON TEXT */}
+        <input
+          placeholder='Button Text'
+          value={formData.about?.buttonText || ''}
+          onChange={(e) => handleChange('about', 'buttonText', e.target.value)}
+        />
+
+        {/* BUTTON LINK */}
+        <input
+          placeholder='Button Link'
+          value={formData.about?.buttonLink || ''}
+          onChange={(e) => handleChange('about', 'buttonLink', e.target.value)}
+        />
       </div>
 
       {/* CORPORATE GALLERY */}
@@ -368,97 +521,213 @@ const HomepageEditor = () => {
         <h2>Corporate Gallery (Max 26)</h2>
 
         <input
-          type='file'
-          multiple
-          onChange={(e) => addCorporateImages(e.target.files)}
+          placeholder='Title'
+          value={formData.corporateGallery?.title || ''}
+          onChange={(e) =>
+            handleChange('corporateGallery', 'title', e.target.value)
+          }
         />
 
-        <div className='imageGrid'>
-          {formData.corporateGallery.images?.map((img, i) => (
-            <div key={i} className='imgBox'>
-              <img src={img.url} alt='' />
-              <button onClick={() => removeCorporateImage(i)}>Remove</button>
+        <input
+          placeholder='Typing Text'
+          value={formData.corporateGallery?.typingText || ''}
+          onChange={(e) =>
+            handleChange('corporateGallery', 'typingText', e.target.value)
+          }
+        />
+
+        <textarea
+          placeholder='Bottom Heading'
+          value={formData.corporateGallery?.bottomHeading || ''}
+          onChange={(e) =>
+            handleChange('corporateGallery', 'bottomHeading', e.target.value)
+          }
+        />
+
+        <textarea
+          placeholder='Bottom Description'
+          value={formData.corporateGallery?.bottomDescription || ''}
+          onChange={(e) =>
+            handleChange(
+              'corporateGallery',
+              'bottomDescription',
+              e.target.value,
+            )
+          }
+        />
+
+        <input
+          placeholder='Button Text'
+          value={formData.corporateGallery?.buttonText || ''}
+          onChange={(e) =>
+            handleChange('corporateGallery', 'buttonText', e.target.value)
+          }
+        />
+
+        <input
+          placeholder='Button Link'
+          value={formData.corporateGallery?.buttonLink || ''}
+          onChange={(e) =>
+            handleChange('corporateGallery', 'buttonLink', e.target.value)
+          }
+        />
+
+        <label className='uploadBtn'>
+          <FaUpload />
+          <span>Corporate Photos</span>
+          <input
+            type='file'
+            multiple
+            hidden
+            onChange={(e) => addCorporateImages(e.target.files)}
+          />
+        </label>
+
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleCorporateDragEnd}
+        >
+          <SortableContext
+            items={formData.corporateGallery.images.map((img) => img._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className='imageGrid'>
+              {formData.corporateGallery.images?.map((img, i) => (
+                <SortableImage
+                  key={img._id}
+                  img={img}
+                  index={i}
+                  remove={removeCorporateImage}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       </div>
 
       {/* HOME GALLERY */}
       <div className='section'>
         <h2>Home Gallery</h2>
 
-        <input
-          type='file'
-          multiple
-          onChange={(e) => addHomeGalleryImages(e.target.files)}
-        />
+        <label className='uploadBtn'>
+          <FaUpload />
+          <span>Gallery Photos</span>
+          <input
+            type='file'
+            multiple
+            hidden
+            onChange={(e) => addHomeGalleryImages(e.target.files)}
+          />
+        </label>
 
-        <div className='imageGrid'>
-          {formData.homeGallery.images?.map((img, i) => (
-            <div key={i} className='imgBox'>
-              <img src={img.url} alt='' />
-              <button onClick={() => removeHomeGalleryImage(i)}>Remove</button>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleHomeGalleryDragEnd}
+        >
+          <SortableContext
+            items={formData.homeGallery.images.map((img) => img._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className='imageGrid'>
+              {formData.homeGallery.images.map((img, i) => (
+                <SortableImage
+                  key={img._id}
+                  img={img}
+                  index={i}
+                  remove={removeHomeGalleryImage}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
       </div>
 
       {/* TESTIMONIALS */}
       <div className='section'>
-        <h2>Testimonials</h2>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleTestimonialDragEnd}
+        >
+          <SortableContext
+            items={formData.testimonials.map((t) => t._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {formData.testimonials.map((t, i) => (
+              <div key={t._id} className='card'>
+                <h4>Testimonial {i + 1}</h4>
 
-        <button onClick={addTestimonial}>Add Testimonial</button>
+                <input
+                  placeholder='Title'
+                  value={t.title || ''}
+                  onChange={(e) =>
+                    updateTestimonial(i, 'title', e.target.value)
+                  }
+                />
 
-        {formData.testimonials.map((t, i) => (
-          <div key={i} className='card'>
-            <h4>Testimonial {i + 1}</h4>
+                <textarea
+                  placeholder='Review'
+                  value={t.review || ''}
+                  onChange={(e) =>
+                    updateTestimonial(i, 'review', e.target.value)
+                  }
+                />
 
-            <input
-              placeholder='Title'
-              value={t.title || ''}
-              onChange={(e) => updateTestimonial(i, 'title', e.target.value)}
-            />
+                <input
+                  placeholder='Customer Name'
+                  value={t.name || ''}
+                  onChange={(e) => updateTestimonial(i, 'name', e.target.value)}
+                />
 
-            <textarea
-              placeholder='Review'
-              value={t.review || ''}
-              onChange={(e) => updateTestimonial(i, 'review', e.target.value)}
-            />
+                <input
+                  type='number'
+                  placeholder='Rating (1-5)'
+                  value={t.rating || ''}
+                  onChange={(e) =>
+                    updateTestimonial(i, 'rating', e.target.value)
+                  }
+                />
 
-            <input
-              placeholder='Customer Name'
-              value={t.name || ''}
-              onChange={(e) => updateTestimonial(i, 'name', e.target.value)}
-            />
+                <label className='uploadBtn'>
+                  <FaUpload />
+                  <span>Customer Photo</span>
+                  <input
+                    type='file'
+                    hidden
+                    onChange={(e) =>
+                      uploadTestimonialPhoto(i, e.target.files[0])
+                    }
+                  />
+                </label>
 
-            <input
-              type='number'
-              placeholder='Rating (1-5)'
-              value={t.rating || ''}
-              onChange={(e) => updateTestimonial(i, 'rating', e.target.value)}
-            />
+                <MediaPreview media={t.photo} />
 
-            <label>Customer Photo</label>
-            <input
-              type='file'
-              onChange={(e) => uploadTestimonialPhoto(i, e.target.files[0])}
-            />
+                <label className='uploadBtn'>
+                  <FaUpload />
+                  <span>Profile Image</span>
+                  <input
+                    type='file'
+                    hidden
+                    onChange={(e) =>
+                      uploadTestimonialProfile(i, e.target.files[0])
+                    }
+                  />
+                </label>
 
-            <MediaPreview media={t.photo} />
+                <MediaPreview media={t.profile} />
 
-            <label>Profile Image (Company / Avatar)</label>
-            <input
-              type='file'
-              onChange={(e) => uploadTestimonialProfile(i, e.target.files[0])}
-            />
-
-            <MediaPreview media={t.profile} />
-
-            <button className='removeBtn' onClick={() => removeTestimonial(i)}>
-              Remove Testimonial
-            </button>
-          </div>
-        ))}
+                <button
+                  className='removeBtn'
+                  onClick={() => removeTestimonial(i)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </SortableContext>
+        </DndContext>
       </div>
 
       {/* FAQ */}
@@ -467,21 +736,40 @@ const HomepageEditor = () => {
 
         <button onClick={addFaq}>Add FAQ</button>
 
-        {formData.faqs.map((faq, i) => (
-          <div key={i} className='card'>
-            <input
-              placeholder='Question'
-              value={faq.question || ''}
-              onChange={(e) => updateFaq(i, 'question', e.target.value)}
-            />
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleFaqDragEnd}
+        >
+          <SortableContext
+            items={formData.faqs.map((f) => f._id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {formData.faqs.map((faq, i) => (
+              <div key={faq._id} className='card'>
+                <div className='cardHeader'>
+                  <span>FAQ {i + 1}</span>
 
-            <textarea
-              placeholder='Answer'
-              value={faq.answer || ''}
-              onChange={(e) => updateFaq(i, 'answer', e.target.value)}
-            />
-          </div>
-        ))}
+                  <button className='removeBtn' onClick={() => removeFaq(i)}>
+                    Delete
+                  </button>
+                </div>
+
+                <input
+                  placeholder='Question'
+                  value={faq.question || ''}
+                  onChange={(e) => updateFaq(i, 'question', e.target.value)}
+                />
+
+                <textarea
+                  placeholder='Answer'
+                  value={faq.answer || ''}
+                  onChange={(e) => updateFaq(i, 'answer', e.target.value)}
+                />
+              </div>
+            ))}
+          </SortableContext>
+        </DndContext>
       </div>
 
       <button className='saveBtn' onClick={handleSubmit} disabled={loading}>

@@ -3,51 +3,32 @@ import { useEffect, useState } from 'react';
 import quote from '../../../../assets/quote.svg';
 import right from '../../../../assets/right.png';
 import left from '../../../../assets/left.png';
-import t1 from '../../../../assets/t1.png';
-import t2 from '../../../../assets/b1.png';
-import t1q from '../../../../assets/t1q.png';
 
-const HomeTesti = () => {
-  const testimonials = [
-    {
-      photo: t1,
-      title: `Really loved the travel experience with NPGO. A well planned trip.`,
-      review: `From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures, NPGO helps you discover places that inspire every kind of traveler.`,
-      rating: 5,
-      name: `Amrita Shinde`,
-      profile: t1q,
-    },
-    {
-      photo: t2,
-      title: `Amazing coordination and smooth execution.`,
-      review: `Everything from stay to travel was seamless. Highly recommended.`,
-      rating: 3.7,
-      name: `Rahul Patil`,
-      profile: t1q,
-    },
-    {
-      photo: t1,
-      title: `One of my best travel experiences.`,
-      review: `Professional planning and friendly support throughout the journey.`,
-      rating: 4.5,
-      name: `Sneha Kulkarni`,
-      profile: t1q,
-    },
-  ];
+const HomeTesti = ({ data }) => {
+  const testimonials = data || [];
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const next = () => setActiveIndex((prev) => (prev + 1) % testimonials.length);
+  const next = () =>
+    setActiveIndex((prev) =>
+      testimonials.length ? (prev + 1) % testimonials.length : 0,
+    );
 
   const prev = () =>
-    setActiveIndex(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length,
+    setActiveIndex((prev) =>
+      testimonials.length
+        ? (prev - 1 + testimonials.length) % testimonials.length
+        : 0,
     );
 
   useEffect(() => {
+    if (!testimonials.length) return;
+
     const timer = setTimeout(next, 10000);
     return () => clearTimeout(timer);
-  }, [activeIndex]);
+  }, [activeIndex, testimonials.length]);
+
+  if (!testimonials.length) return null;
 
   const renderStars = (rating) => {
     const stars = [];
@@ -71,6 +52,7 @@ const HomeTesti = () => {
     <section className='HomeTesti'>
       <div className='top'>
         <h4>Testimonials</h4>
+
         <div className='quote'>
           <img src={quote} alt='' />
           <img src={quote} alt='' />
@@ -82,10 +64,12 @@ const HomeTesti = () => {
           Here's what people have to say about working together. Real moments,
           real experiences, real feedback.
         </h2>
+
         <div className='arrows'>
           <button onClick={prev}>
             <img src={left} alt='Previous' />
           </button>
+
           <button onClick={next}>
             <img src={right} alt='Next' />
           </button>
@@ -95,15 +79,19 @@ const HomeTesti = () => {
       <div className='bottom'>
         <div className='testimonial'>
           <div className='left'>
-            <img src={test.photo} alt='' />
+            {test.photo?.url && <img src={test.photo.url} alt={test.name} />}
           </div>
 
           <div className='right'>
             <h3>{test.title}</h3>
+
             <h4>{test.review}</h4>
 
             <div className='profile'>
-              <img src={test.profile} alt='' />
+              {test.profile?.url && (
+                <img src={test.profile.url} alt={test.name} />
+              )}
+
               <div className='ratings'>
                 {renderStars(test.rating)}
                 <div className='name'>{test.name}</div>
