@@ -20,9 +20,19 @@ app.use("/api/upload", upLoadRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/homepage", homepageRoutes);
 
+//HEALTH CHECK
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "NPGO backend alive 🚀",
+    uptime: process.uptime()
+  });
+});
+
 app.get('/', (req, res) => {
   res.send('NPGO Backend Running 🚀');
 });
+
 
 const PORT = process.env.PORT || 5000;
 

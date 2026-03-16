@@ -17,3 +17,19 @@
 
   --accent: #454645;
 }
+
+.admin-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.admin-content {
+  flex: 1;
+
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
