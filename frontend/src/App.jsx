@@ -23,6 +23,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Dashboard from './admin/pages/Dashboard/Dashboard';
 import ProtectedRoute from './admin/components/ProtectedRoute';
 import HomepageEditor from './admin/pages/homePage/HomepageEditor';
+import PackageCreator from './admin/pages/packageCreator/PackageCreator';
 
 function App() {
   return (
@@ -41,7 +42,14 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/corporate-events' element={<Corporate />} />
           <Route path='/package' element={<Package />} />
-          <Route path='/destination/list' element={<DestinationListing />} />
+          <Route
+            path='/destination/:country'
+            element={<DestinationListing />}
+          />
+          <Route
+            path='/destination/:country/:destination'
+            element={<DestinationListing />}
+          />
           <Route path='/blogs' element={<Blogs />} />
           <Route path='/events' element={<Events />} />
         </Route>
@@ -54,8 +62,8 @@ function App() {
           {/* protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path='dashboard' element={<Dashboard />} />
-
             <Route path='homepageEditor' element={<HomepageEditor />} />
+            <Route path='packageCreator' element={<PackageCreator />} />
           </Route>
         </Route>
       </Routes>

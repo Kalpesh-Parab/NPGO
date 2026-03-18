@@ -8,6 +8,7 @@ import gj from '../../../../assets/v2.mp4';
 import { useEffect, useRef, useState } from 'react';
 import IndiaMap from './IndiaMap';
 import WorldMap from './WorldMap';
+import { useNavigate } from 'react-router-dom';
 
 const DestSelector = () => {
   const [tooltip, setTooltip] = useState({
@@ -69,16 +70,29 @@ const DestSelector = () => {
       media: gj,
       type: 'video',
     },
-    };
-    
+  };
+
   const countryMedia = {
     IN: {
       name: 'India',
       media: gj,
       type: 'video',
     },
-    };
-    
+  };
+
+  const navigate = useNavigate();
+  const handleSelect = (code, name) => {
+    const slug = name.toLowerCase().replace(/\s+/g, '-');
+
+    if (mapType === 'domestic') {
+      // example → /destination/india/maharashtra
+      navigate(`/destination/india/${slug}`);
+    } else {
+      // example → /destination/japan
+      navigate(`/destination/${slug}`);
+    }
+  };
+
   return (
     <section className='DestSelector'>
       <div className='top'>
@@ -121,9 +135,9 @@ const DestSelector = () => {
         </div>
         <div className='right'>
           {mapType === 'domestic' ? (
-            <IndiaMap stateMedia={stateMedia} setTooltip={setTooltip} />
+            <IndiaMap stateMedia={stateMedia} setTooltip={setTooltip} onSelect={handleSelect}/>
           ) : (
-            <WorldMap countryMedia={countryMedia} setTooltip={setTooltip} />
+            <WorldMap countryMedia={countryMedia} setTooltip={setTooltip} onSelect={handleSelect}/>
           )}
           {tooltip.visible && (
             <div

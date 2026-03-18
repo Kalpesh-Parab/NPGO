@@ -5,6 +5,9 @@ import connectDB from './config/db.js';
 import authRoutes from "./routes/authRoutes.js";
 import upLoadRoutes from "./routes/uploadRoutes.js";
 import homepageRoutes from "./routes/homepageRoutes.js";
+import countryRoutes from "./routes/countryRoutes.js";
+import destinationRoutes from "./routes/destinationRoutes.js";
+import packageRoutes from "./routes/packageRoutes.js";
 
 dotenv.config();
 
@@ -19,6 +22,9 @@ app.use(express.json());
 app.use("/api/upload", upLoadRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/homepage", homepageRoutes);
+app.use("/api/countries", countryRoutes)
+app.use("/api/destinations", destinationRoutes);
+app.use("/api/packages", packageRoutes);
 
 //HEALTH CHECK
 app.get('/health', (req, res) => {

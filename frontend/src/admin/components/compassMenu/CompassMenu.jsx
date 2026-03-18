@@ -13,7 +13,7 @@ const CompassMenu = ({ isOpen }) => {
     'dashboard',
     'homepageEditor',
     'destinations',
-    'blogs',
+    'packageCreator',
     'leads',
     'media',
   ];

@@ -1,62 +1,73 @@
 import { useEffect, useRef, useState } from 'react';
 
-const IndiaMap = ({ stateMedia, setTooltip }) => {
+const IndiaMap = ({
+  stateMedia = {},
+  setTooltip,
+  onSelect,
+  mode = 'user', // 🔥 "user" | "admin"
+}) => {
   const svgRef = useRef(null);
   const [activeState, setActiveState] = useState(null);
   const [bbox, setBbox] = useState(null);
 
-  const handleHover = (id, e) => {
-    if (!svgRef.current) return;
-
-    const el = svgRef.current.getElementById(id);
-
-    if (!el) return;
-
-    const box = el.getBBox();
-    const title = el.getAttribute('title');
-
-    console.log('Hovered ID:', id);
-    console.log('Title from attribute:', title);
-    console.log('From stateMedia:', stateMedia[id]?.name);
-
-    setActiveState(id);
-    setBbox(box);
-
-    setTooltip({
-      visible: true,
-      x: e.clientX,
-      y: e.clientY,
-      text: stateMedia[id]?.name || title || '',
-    });
-  };
-
-  const handleLeave = () => {
-    setActiveState(null);
-    setBbox(null);
-  };
-
+  // 🔍 Extract data (debug)
   useEffect(() => {
     if (!svgRef.current) return;
 
     const paths = svgRef.current.querySelectorAll('path');
 
-    console.log('======= INDIA SVG DEBUG =======');
+    const data = [];
 
-    paths.forEach((path, index) => {
+    paths.forEach((path) => {
       const id = path.getAttribute('id');
-      const titleAttr = path.getAttribute('title');
-      const titleElement = path.querySelector('title')?.textContent;
+      const title =
+        path.getAttribute('title') || path.querySelector('title')?.textContent;
 
-      console.log({
-        index,
-        id,
-        titleAttribute: titleAttr,
-        titleElement,
-      });
+      if (id && title) {
+        data.push({
+          id,
+          name: title.trim(),
+        });
+      }
     });
 
-    console.log('======= END DEBUG =======');
+    console.log('INDIA_MAP_DATA =', data);
   }, []);
+
+  // 🔥 HOVER (ONLY USER MODE)
+  const handleHover = (id, e) => {
+    if (mode === 'admin') return; // ❌ disable in admin
+    if (!svgRef.current) return;
+
+    const el = svgRef.current.getElementById(id);
+    if (!el) return;
+
+    const box = el.getBBox();
+    const title = el.getAttribute('title');
+
+    setActiveState(id);
+    setBbox(box);
+
+    if (setTooltip) {
+      setTooltip({
+        visible: true,
+        x: e.clientX,
+        y: e.clientY,
+        text: stateMedia?.[id]?.name || title || '',
+      });
+    }
+  };
+
+  const handleLeave = () => {
+    if (mode === 'admin') return;
+
+    setActiveState(null);
+    setBbox(null);
+
+    if (setTooltip) {
+      setTooltip((prev) => ({ ...prev, visible: false }));
+    }
+  };
 
   return (
     <svg
@@ -64,20 +75,32 @@ const IndiaMap = ({ stateMedia, setTooltip }) => {
       viewBox='-95 0 821.86 695.70'
       xmlns='http://www.w3.org/2000/svg'
       className='india-map'
+      // 🔥 HOVER ONLY IN USER MODE
       onMouseMove={(e) => {
+        if (mode === 'admin') return;
+
         const path = e.target.closest('path');
         if (!path) return;
 
         const id = path.getAttribute('id');
-        const title = path.getAttribute('title');
-
         if (!id) return;
 
         handleHover(id, e);
       }}
-      onMouseLeave={() => {
-        handleLeave();
-        setTooltip((prev) => ({ ...prev, visible: false }));
+      onMouseLeave={handleLeave}
+      // 🔥 CLICK WORKS FOR BOTH
+      onClick={(e) => {
+        const path = e.target.closest('path');
+        if (!path) return;
+
+        const id = path.getAttribute('id');
+        const name = path.getAttribute('title') || '';
+
+        console.log('✅ CLICKED:', { id, name, mode });
+
+        if (onSelect && id) {
+          onSelect(id, name);
+        }
       }}
     >
       <defs>
@@ -86,8 +109,8 @@ const IndiaMap = ({ stateMedia, setTooltip }) => {
         </clipPath>
       </defs>
 
-      {/* Masked Media */}
-      {activeState && stateMedia[activeState] && bbox && (
+      {/* 🔥 MEDIA ONLY IN USER MODE */}
+      {mode === 'user' && activeState && stateMedia?.[activeState] && bbox && (
         <foreignObject
           x={bbox.x}
           y={bbox.y}

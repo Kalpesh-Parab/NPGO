@@ -1,9 +1,39 @@
 import { useEffect, useRef, useState } from 'react';
 
-const WorldMap = ({ countryMedia, setTooltip }) => {
+const WorldMap = ({ countryMedia, setTooltip, onSelect }) => {
   const svgRef = useRef(null);
   const [activeCountry, setActiveCountry] = useState(null);
   const [bbox, setBbox] = useState(null);
+
+  useEffect(() => {
+    if (!svgRef.current) return;
+
+    const extractWorldMapData = () => {
+      const paths = svgRef.current.querySelectorAll('path');
+
+      const data = [];
+
+      paths.forEach((path) => {
+        const id = path.getAttribute('id');
+        const title =
+          path.getAttribute('title') ||
+          path.querySelector('title')?.textContent;
+
+        if (id && title) {
+          data.push({
+            id,
+            name: title.trim(),
+          });
+        }
+      });
+
+      console.log('WORLD_MAP_DATA =', {
+        worldMap: data,
+      });
+    };
+
+    extractWorldMapData();
+  }, []);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -78,6 +108,17 @@ const WorldMap = ({ countryMedia, setTooltip }) => {
         handleLeave();
         setTooltip((prev) => ({ ...prev, visible: false }));
       }}
+      onClick={(e) => {
+        const path = e.target.closest('path');
+        if (!path) return;
+
+        const id = path.getAttribute('id');
+        const name = countryMedia[id]?.name || path.getAttribute('title') || '';
+
+        if (onSelect && id) {
+          onSelect(id, name);
+        }
+      }}
     >
       <defs>
         <clipPath id='countryClip' clipPathUnits='userSpaceOnUse'>
@@ -119,7 +160,7 @@ const WorldMap = ({ countryMedia, setTooltip }) => {
           )}
         </foreignObject>
       )}
-
+{/* MY PATHS ARE BELOW */}
       <path
         d='m 479.68275,331.6274 -0.077,0.025 -0.258,0.155 -0.147,0.054 -0.134,0.027 -0.105,-0.011 -0.058,-0.091 0.006,-0.139 -0.024,-0.124 -0.02,-0.067 0.038,-0.181 0.086,-0.097 0.119,-0.08 0.188,0.029 0.398,0.116 0.083,0.109 10e-4,0.072 -0.073,0.119 z'
         title='Andorra'
