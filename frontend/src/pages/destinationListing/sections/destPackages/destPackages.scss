@@ -29,6 +29,7 @@
     justify-content: center;
 
     .card {
+      position: relative;
       width: 24%;
       padding: 0.5vw;
       background-color: #fff;
@@ -139,6 +140,14 @@
           justify-content: center;
           border-radius: 0.1vw;
         }
+      }
+      .inactiveOverlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(83, 4, 4, 0.489); // soft red
+        border-radius: 0.3vw;
+        z-index: 5;
+        pointer-events: none;
       }
     }
   }

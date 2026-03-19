@@ -1,6 +1,6 @@
 import '../../../../pages/destinationListing/sections/destPackages/destPackages.scss';
 
-const AdminPackageList = ({ title, packages = [], onEdit, onDelete }) => {
+const AdminPackageList = ({ title, packages = [], onEdit, onDelete, onDuplicate }) => {
   // 🔥 Convert backend → UI
 
   const getDisplayMedia = (pkg) => {
@@ -49,6 +49,16 @@ const AdminPackageList = ({ title, packages = [], onEdit, onDelete }) => {
     };
   };
 
+  const sortedPackages = [...packages].sort((a, b) => {
+    // 1️⃣ Active first
+    if (a.isActive !== b.isActive) {
+      return b.isActive - a.isActive; // true first
+    }
+
+    // 2️⃣ Price ascending
+    return a.price - b.price;
+  });
+
   return (
     <section className='DestPackages'>
       <div className='top'>
@@ -56,7 +66,7 @@ const AdminPackageList = ({ title, packages = [], onEdit, onDelete }) => {
       </div>
 
       <div className='packageCards'>
-        {packages.map((rawPkg) => {
+        {sortedPackages.map((rawPkg) => {
           const pkg = mapData(rawPkg);
 
           return (
@@ -109,6 +119,19 @@ const AdminPackageList = ({ title, packages = [], onEdit, onDelete }) => {
               >
                 Delete
               </div>
+              <div
+                style={{
+                  marginTop: '0.3vw',
+                  textAlign: 'center',
+                  fontSize: '0.8vw',
+                  cursor: 'pointer',
+                  color: '#0a74a1',
+                }}
+                onClick={() => onDuplicate && onDuplicate(rawPkg)}
+              >
+                Duplicate
+              </div>
+              {!rawPkg.isActive && <div className='inactiveOverlay' />}
             </div>
           );
         })}
