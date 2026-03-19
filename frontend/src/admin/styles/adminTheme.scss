@@ -33,3 +33,16 @@
   background: var(--bg-primary);
   color: var(--text-primary);
 }
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}

@@ -1,19 +1,39 @@
-import "./packageCreator.scss";
+import './packageCreator.scss';
 import { useEffect, useState } from 'react';
 import API from '../../services/api';
 import AdminDestSelector from './components/AdminDestSelector';
+import AdminPackageList from './components/AdminPackageList';
 import PackageForm from './components/PackageForm';
 
 const PackageCreator = () => {
+  const [editingPackage, setEditingPackage] = useState(null);
   const [selected, setSelected] = useState(null);
   const [packages, setPackages] = useState([]);
   const [showForm, setShowForm] = useState(false);
+
+  // ✅ MOVE HERE (component scope)
+  const handleEdit = (pkg) => {
+    setEditingPackage(pkg);
+    setShowForm(true);
+  };
+
+  const handleDelete = async (pkg) => {
+    if (!window.confirm('Delete this package?')) return;
+
+    try {
+      await API.delete(`/packages/${pkg._id}`);
+
+      // 🔥 trigger refetch
+      setSelected((prev) => ({ ...prev }));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // 🔥 Fetch packages when selection changes
   useEffect(() => {
     if (!selected) return;
 
-    // 🚫 STOP if no valid ID
     if (!selected._id) {
       setPackages([]);
       return;
@@ -26,7 +46,7 @@ const PackageCreator = () => {
         if (selected.type === 'destination') {
           url = `/packages?destination=${selected._id}`;
         } else {
-          url = `/packages?country=${selected._id}`;
+          url = `/packages?country=${selected._id}&includeInactive=true`;
         }
 
         const res = await API.get(url);
@@ -44,57 +64,37 @@ const PackageCreator = () => {
     <div className='package-creator'>
       <h2>Create Package</h2>
 
-      {/* 1️⃣ Selector */}
       <AdminDestSelector onSelect={setSelected} />
 
-      {/* 2️⃣ Selected Info */}
       {selected && (
         <div className='selected-info'>
           <h3>Packages for: {selected.name}</h3>
         </div>
       )}
 
-      {/* 3️⃣ Existing Packages */}
       {selected && (
-        <div style={{ marginTop: '10px' }}>
-          {packages.length === 0 ? (
-            <p>No packages yet</p>
-          ) : (
-            packages.map((pkg) => (
-              <div
-                key={pkg._id}
-                style={{
-                  padding: '10px',
-                  border: '1px solid #ccc',
-                  marginBottom: '10px',
-                }}
-              >
-                <h4>{pkg.title}</h4>
-                <p>₹ {pkg.price}</p>
-              </div>
-            ))
-          )}
-        </div>
+        <AdminPackageList
+          title={selected.name}
+          packages={packages}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
       )}
 
-      {/* 4️⃣ Add Button */}
       {selected && (
-        <button
-          className='add-btn'
-          onClick={() => setShowForm(!showForm)}
-        >
+        <button className='add-btn' onClick={() => setShowForm(!showForm)}>
           {showForm ? 'Cancel' : '+ Add Package'}
         </button>
       )}
 
-      {/* 5️⃣ Form */}
       {showForm && (
         <PackageForm
           selected={selected}
+          initialData={editingPackage}
           onSuccess={() => {
             setShowForm(false);
-            // 🔥 refetch
-            setSelected({ ...selected });
+            setEditingPackage(null);
+            setSelected((prev) => ({ ...prev }));
           }}
         />
       )}

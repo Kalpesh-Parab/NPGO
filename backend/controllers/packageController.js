@@ -44,30 +44,35 @@ export const createPackage = async (req, res) => {
 };
 
 // ✅ GET ALL
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const getAllPackages = async (req, res) => {
   try {
-    const { country, destination } = req.query;
+    const { country, destination, includeInactive } = req.query;
 
-    let filter = { isActive: true };
+    let filter = {};
 
-    // ✅ HANDLE DESTINATION SAFELY
-    if (destination && destination !== "undefined" && destination !== "null") {
+    // ✅ Only filter active if NOT admin
+    if (includeInactive !== 'true') {
+      filter.isActive = true;
+    }
+
+    // ✅ Destination filter
+    if (destination && destination !== 'undefined' && destination !== 'null') {
       if (!mongoose.Types.ObjectId.isValid(destination)) {
         return res.status(400).json({
-          message: "Invalid destination ID",
+          message: 'Invalid destination ID',
         });
       }
 
       filter.destination = destination;
     }
 
-    // ✅ HANDLE COUNTRY SAFELY
-    else if (country && country !== "undefined" && country !== "null") {
+    // ✅ Country filter
+    else if (country && country !== 'undefined' && country !== 'null') {
       if (!mongoose.Types.ObjectId.isValid(country)) {
         return res.status(400).json({
-          message: "Invalid country ID",
+          message: 'Invalid country ID',
         });
       }
 
@@ -75,8 +80,8 @@ export const getAllPackages = async (req, res) => {
     }
 
     const packages = await Package.find(filter)
-      .populate("country", "name code")
-      .populate("destination", "name code");
+      .populate('country', 'name code')
+      .populate('destination', 'name code');
 
     res.status(200).json(packages);
   } catch (error) {

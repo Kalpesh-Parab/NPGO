@@ -1,24 +1,36 @@
-import "./packageForm.scss";
-import { useState } from "react";
-import API from "../../../services/api";
+import './packageForm.scss';
+import { useState, useEffect } from 'react';
+import API from '../../../services/api';
 
-const PackageForm = ({ selected, onSuccess }) => {
+const PackageForm = ({ selected, onSuccess, initialData }) => {
   const [form, setForm] = useState({
-    title: "",
-    price: "",
-    currency: "INR",
-    description: "",
+    title: '',
+    price: '',
+    currency: 'INR',
+    description: '',
 
-    heroMedia: { type: "image", url: "" },
+    heroMedia: { type: 'image', url: '' },
 
     gallery: [],
 
     itinerary: [],
 
-    types: [""],
-    included: [""],
-    notIncluded: [""],
+    types: [''],
+    included: [''],
+    notIncluded: [''],
+
+    isActive: true,
   });
+
+  // -----------------------------
+  // HELPERS
+  // -----------------------------
+  const getMediaType = (file) => {
+    if (file.type.startsWith('video')) return 'video';
+    return 'image';
+  };
+
+  const slugify = (text) => text.toLowerCase().trim().replace(/\s+/g, '-');
 
   // -----------------------------
   // BASIC HANDLERS
@@ -34,7 +46,12 @@ const PackageForm = ({ selected, onSuccess }) => {
   };
 
   const addField = (field) => {
-    setForm((prev) => ({ ...prev, [field]: [...prev[field], ""] }));
+    setForm((prev) => ({ ...prev, [field]: [...prev[field], ''] }));
+  };
+
+  const removeField = (field, index) => {
+    const updated = form[field].filter((_, i) => i !== index);
+    setForm((prev) => ({ ...prev, [field]: updated }));
   };
 
   // -----------------------------
@@ -42,33 +59,45 @@ const PackageForm = ({ selected, onSuccess }) => {
   // -----------------------------
   const handleUpload = async (file, type, index = null) => {
     const data = new FormData();
-    data.append("file", file);
+    data.append('file', file);
 
-    const res = await API.post("/upload", data);
+    const res = await API.post('/upload', data);
 
-    if (type === "hero") {
+    const media = {
+      ...res.data,
+      type: getMediaType(file),
+      caption: '',
+    };
+
+    if (type === 'hero') {
       setForm((prev) => ({
         ...prev,
-        heroMedia: res.data,
+        heroMedia: media,
       }));
     }
 
-    if (type === "gallery") {
+    if (type === 'gallery') {
       setForm((prev) => ({
         ...prev,
-        gallery: [...prev.gallery, { ...res.data, caption: "" }],
+        gallery: [...prev.gallery, media],
       }));
     }
 
-    if (type === "itinerary-media") {
-      const updated = [...form.itinerary];
-      updated[index].media.push({ ...res.data, caption: "" });
-      setForm({ ...form, itinerary: updated });
+    if (type === 'itinerary-media') {
+      setForm((prev) => {
+        const updated = [...prev.itinerary];
+        updated[index].media.push(media);
+
+        return {
+          ...prev,
+          itinerary: updated,
+        };
+      });
     }
   };
 
   // -----------------------------
-  // ITINERARY HANDLERS
+  // ITINERARY
   // -----------------------------
   const addDay = () => {
     setForm((prev) => ({
@@ -78,12 +107,17 @@ const PackageForm = ({ selected, onSuccess }) => {
         {
           id: prev.itinerary.length + 1,
           day: `Day ${prev.itinerary.length + 1}`,
-          title: "",
-          description: [{ heading: "", content: "" }],
+          title: '',
+          description: [{ heading: '', content: '' }],
           media: [],
         },
       ],
     }));
+  };
+
+  const removeDay = (index) => {
+    const updated = form.itinerary.filter((_, i) => i !== index);
+    setForm({ ...form, itinerary: updated });
   };
 
   const updateDayField = (index, field, value) => {
@@ -100,7 +134,13 @@ const PackageForm = ({ selected, onSuccess }) => {
 
   const addDescriptionBlock = (dayIndex) => {
     const updated = [...form.itinerary];
-    updated[dayIndex].description.push({ heading: "", content: "" });
+    updated[dayIndex].description.push({ heading: '', content: '' });
+    setForm({ ...form, itinerary: updated });
+  };
+
+  const removeDescription = (dayIndex, descIndex) => {
+    const updated = [...form.itinerary];
+    updated[dayIndex].description.splice(descIndex, 1);
     setForm({ ...form, itinerary: updated });
   };
 
@@ -110,6 +150,7 @@ const PackageForm = ({ selected, onSuccess }) => {
   const handleSubmit = async () => {
     const payload = {
       title: form.title,
+      slug: initialData?.slug || slugify(form.title),
       price: Number(form.price),
       currency: form.currency,
       description: form.description,
@@ -125,135 +166,310 @@ const PackageForm = ({ selected, onSuccess }) => {
         notIncluded: form.notIncluded.filter(Boolean),
       },
 
-      country:
-        selected.type === "country"
-          ? selected._id
-          : selected.countryId,
+      isActive: form.isActive,
 
-      destination:
-        selected.type === "destination" ? selected._id : null,
+      country: selected.type === 'country' ? selected._id : selected.countryId,
+
+      destination: selected.type === 'destination' ? selected._id : null,
     };
 
-    await API.post("/packages", payload);
-    alert("Package Created 🚀");
+    if (initialData) {
+      await API.put(`/packages/${initialData._id}`, payload);
+      alert('Package Updated ✏️');
+    } else {
+      await API.post('/packages', payload);
+      alert('Package Created 🚀');
+    }
+
     onSuccess && onSuccess();
   };
 
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        title: initialData.title || '',
+        price: initialData.price || '',
+        currency: initialData.currency || 'INR',
+        description: initialData.description || '',
+
+        heroMedia: initialData.heroMedia || { type: 'image', url: '' },
+
+        gallery: initialData.gallery || [],
+        itinerary: initialData.itinerary || [],
+
+        types: initialData.types?.length ? initialData.types : [''],
+
+        included: initialData.inclusions?.included?.length
+          ? initialData.inclusions.included
+          : [''],
+
+        notIncluded: initialData.inclusions?.notIncluded?.length
+          ? initialData.inclusions.notIncluded
+          : [''],
+
+        isActive:
+          typeof initialData.isActive === 'boolean'
+            ? initialData.isActive
+            : true,
+      });
+    }
+  }, [initialData]);
   // -----------------------------
   // UI
   // -----------------------------
   return (
-    <div className="package-form">
-      <h3>Create Package</h3>
+    <div className='package-form'>
+      <h3>{initialData ? 'Edit Package' : 'Create Package'}</h3>
 
-      {/* BASIC */}
-      <input
-        placeholder="Package Title"
-        value={form.title}
-        onChange={(e) => handleChange("title", e.target.value)}
-      />
+      {/* ================= BASIC ================= */}
+      <div className='section'>
+        <h4>Basic Info</h4>
 
-      <input
-        type="number"
-        placeholder="Price"
-        value={form.price}
-        onChange={(e) => handleChange("price", e.target.value)}
-      />
+        <input
+          placeholder='Package Title'
+          value={form.title}
+          onChange={(e) => handleChange('title', e.target.value)}
+        />
 
-      <textarea
-        placeholder="Description"
-        value={form.description}
-        onChange={(e) => handleChange("description", e.target.value)}
-      />
+        <input
+          type='number'
+          placeholder='Price'
+          value={form.price}
+          onChange={(e) => handleChange('price', e.target.value)}
+        />
 
-      {/* HERO */}
-      <h4>Hero Media</h4>
-      <input type="file" onChange={(e) => handleUpload(e.target.files[0], "hero")} />
-      {form.heroMedia.url && <img src={form.heroMedia.url} width={200} />}
+        <textarea
+          placeholder='Description'
+          value={form.description}
+          onChange={(e) => handleChange('description', e.target.value)}
+        />
+      </div>
 
-      {/* GALLERY */}
-      <h4>Gallery</h4>
-      <input type="file" onChange={(e) => handleUpload(e.target.files[0], "gallery")} />
+      {/* ================= HERO ================= */}
+      <div className='section'>
+        <h4>Hero Media</h4>
 
-      {form.gallery.map((item, i) => (
-        <div key={i}>
-          <img src={item.url} width={100} />
+        <label className='upload-box'>
+          Upload Hero
           <input
-            placeholder="Caption"
-            value={item.caption}
+            type='file'
+            hidden
+            onChange={(e) => handleUpload(e.target.files[0], 'hero')}
+          />
+        </label>
+
+        {form.heroMedia.url &&
+          (form.heroMedia.type === 'image' ? (
+            <img src={form.heroMedia.url} />
+          ) : (
+            <video src={form.heroMedia.url} controls />
+          ))}
+      </div>
+
+      {/* ================= GALLERY ================= */}
+      <div className='section'>
+        <h4>Gallery</h4>
+
+        <label className='upload-box'>
+          Upload Gallery Media
+          <input
+            type='file'
+            hidden
+            multiple
             onChange={(e) => {
-              const updated = [...form.gallery];
-              updated[i].caption = e.target.value;
-              setForm({ ...form, gallery: updated });
+              const files = Array.from(e.target.files);
+              files.forEach((file) => handleUpload(file, 'gallery'));
             }}
           />
-        </div>
-      ))}
+        </label>
 
-      {/* ITINERARY */}
-      <h4>Itinerary</h4>
-      {form.itinerary.map((day, i) => (
-        <div key={i}>
-          <h5>{day.day}</h5>
+        {form.gallery.map((item, i) => (
+          <div key={i}>
+            {item.type === 'image' ? (
+              <img src={item.url} width={100} />
+            ) : (
+              <video src={item.url} width={100} />
+            )}
 
-          <input
-            placeholder="Title"
-            value={day.title}
-            onChange={(e) => updateDayField(i, "title", e.target.value)}
-          />
+            <input
+              placeholder='Caption'
+              value={item.caption}
+              onChange={(e) => {
+                const updated = [...form.gallery];
+                updated[i].caption = e.target.value;
+                setForm({ ...form, gallery: updated });
+              }}
+            />
 
-          {/* Description Blocks */}
-          {day.description.map((desc, j) => (
-            <div key={j}>
+            <button
+              className='danger'
+              onClick={() => {
+                const updated = form.gallery.filter((_, idx) => idx !== i);
+                setForm({ ...form, gallery: updated });
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* ================= TYPES ================= */}
+      <div className='section'>
+        <h4>Types</h4>
+
+        {form.types.map((type, i) => (
+          <div key={i}>
+            <input
+              value={type}
+              onChange={(e) => handleArrayChange('types', i, e.target.value)}
+            />
+            <button onClick={() => removeField('types', i)}>✕</button>
+          </div>
+        ))}
+
+        <button onClick={() => addField('types')}>+ Add Type</button>
+      </div>
+
+      {/* ================= ITINERARY ================= */}
+      <div className='section'>
+        <h4>Itinerary</h4>
+
+        {form.itinerary.map((day, i) => (
+          <div key={i} className='day'>
+            <h5>{day.day}</h5>
+
+            <input
+              placeholder='Title'
+              value={day.title}
+              onChange={(e) => updateDayField(i, 'title', e.target.value)}
+            />
+
+            {day.description.map((desc, j) => (
+              <div key={j}>
+                <input
+                  placeholder='Heading'
+                  value={desc.heading}
+                  onChange={(e) =>
+                    updateDescription(i, j, 'heading', e.target.value)
+                  }
+                />
+                <textarea
+                  placeholder='Content'
+                  value={desc.content}
+                  onChange={(e) =>
+                    updateDescription(i, j, 'content', e.target.value)
+                  }
+                />
+
+                <button
+                  className='danger'
+                  onClick={() => removeDescription(i, j)}
+                >
+                  ✕ Remove
+                </button>
+              </div>
+            ))}
+
+            <button onClick={() => addDescriptionBlock(i)}>
+              + Add Description
+            </button>
+
+            {/* MEDIA */}
+            <label className='upload-box small'>
+              Upload Day Media
               <input
-                placeholder="Heading"
-                value={desc.heading}
-                onChange={(e) =>
-                  updateDescription(i, j, "heading", e.target.value)
-                }
-              />
-              <textarea
-                placeholder="Content"
-                value={desc.content}
-                onChange={(e) =>
-                  updateDescription(i, j, "content", e.target.value)
-                }
-              />
-            </div>
-          ))}
-
-          <button onClick={() => addDescriptionBlock(i)}>
-            + Add Description
-          </button>
-
-          {/* Media */}
-          <input
-            type="file"
-            onChange={(e) =>
-              handleUpload(e.target.files[0], "itinerary-media", i)
-            }
-          />
-
-          {day.media.map((m, k) => (
-            <div key={k}>
-              <img src={m.url} width={80} />
-              <input
-                placeholder="Caption"
-                value={m.caption}
+                type='file'
+                hidden
+                multiple
                 onChange={(e) => {
-                  const updated = [...form.itinerary];
-                  updated[i].media[k].caption = e.target.value;
-                  setForm({ ...form, itinerary: updated });
+                  const files = Array.from(e.target.files);
+                  files.forEach((file) =>
+                    handleUpload(file, 'itinerary-media', i),
+                  );
                 }}
               />
-            </div>
-          ))}
-        </div>
-      ))}
+            </label>
 
-      <button onClick={addDay}>+ Add Day</button>
+            {day.media.map((m, k) => (
+              <div key={k}>
+                {m.type === 'image' ? (
+                  <img src={m.url} width={80} />
+                ) : (
+                  <video src={m.url} width={80} />
+                )}
 
-      <button onClick={handleSubmit}>Create Package</button>
+                <input
+                  placeholder='Caption'
+                  value={m.caption}
+                  onChange={(e) => {
+                    const updated = [...form.itinerary];
+                    updated[i].media[k].caption = e.target.value;
+                    setForm({ ...form, itinerary: updated });
+                  }}
+                />
+              </div>
+            ))}
+
+            <button className='danger' onClick={() => removeDay(i)}>
+              Remove Day
+            </button>
+          </div>
+        ))}
+
+        <button onClick={addDay}>+ Add Day</button>
+      </div>
+
+      {/* ================= INCLUSIONS ================= */}
+      <div className='section'>
+        <h4>Inclusions</h4>
+
+        <h5>Included</h5>
+        {form.included.map((item, i) => (
+          <div key={i}>
+            <input
+              value={item}
+              onChange={(e) => handleArrayChange('included', i, e.target.value)}
+            />
+            <button onClick={() => removeField('included', i)}>✕</button>
+          </div>
+        ))}
+        <button onClick={() => addField('included')}>+ Add Included</button>
+
+        <h5>Not Included</h5>
+        {form.notIncluded.map((item, i) => (
+          <div key={i}>
+            <input
+              value={item}
+              onChange={(e) =>
+                handleArrayChange('notIncluded', i, e.target.value)
+              }
+            />
+            <button onClick={() => removeField('notIncluded', i)}>✕</button>
+          </div>
+        ))}
+        <button onClick={() => addField('notIncluded')}>
+          + Add Not Included
+        </button>
+      </div>
+
+      {/* ================= SETTINGS ================= */}
+      <div className='section'>
+        <h4>Settings</h4>
+
+        <label>
+          <input
+            type='checkbox'
+            checked={form.isActive}
+            onChange={(e) => handleChange('isActive', e.target.checked)}
+          />
+          Active Package
+        </label>
+      </div>
+
+      <button className='submit' onClick={handleSubmit}>
+        {initialData ? 'Update Package' : 'Create Package'}
+      </button>
     </div>
   );
 };

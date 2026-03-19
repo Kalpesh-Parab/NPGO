@@ -48,6 +48,8 @@
 
   .bottom {
     display: flex;
+    align-items: center;
+    justify-content: center;
 
     .left {
       display: flex;
@@ -150,7 +152,6 @@
 
         path:hover {
           opacity: 0.1;
-          
         }
       }
 

@@ -1,35 +1,65 @@
 .package-form {
-  margin-top: 3vw;
+  width: 100%;
+  margin-top: 2vw;
   padding: 2vw;
   border-radius: 1vw;
-  background: #ffffff;
-  box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
+
+  background: var(--bg-secondary);
+  box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
 
   h3 {
     font-size: 1.6vw;
-    margin-bottom: 1.5vw;
+    font-weight: 600;
   }
 
-  label {
-    display: block;
-    font-size: 1vw;
-    margin-bottom: 0.4vw;
-    color: #444;
+  /* ================= SECTION ================= */
+  .section {
+    width: 100%;
+    padding: 1.5vw;
+    border-radius: 1vw;
+
+    background: var(--bg-primary);
+    border: 0.05vw solid rgba(255, 255, 255, 0.05);
+
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+
+    h4 {
+      font-size: 1.2vw;
+      font-weight: 600;
+      margin-bottom: 0.5vw;
+    }
+
+    h5 {
+      font-size: 1vw;
+      color: var(--text-secondary);
+    }
   }
 
+  /* ================= INPUT ================= */
   input,
   textarea {
     width: 100%;
-    padding: 0.8vw;
-    margin-bottom: 1vw;
+    padding: 0.7vw;
     border-radius: 0.5vw;
-    border: 1px solid #ddd;
+    border: 0.05vw solid rgba(255, 255, 255, 0.1);
+
+    background: transparent;
+    color: var(--text-primary);
+
     font-size: 0.9vw;
+
+    transition: all 0.2s ease;
 
     &:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0.3vw rgba(102, 126, 234, 0.5);
+      border-color: var(--accent);
+      box-shadow: 0 0 0.3vw rgba(255, 255, 255, 0.2);
     }
   }
 
@@ -38,50 +68,186 @@
     resize: none;
   }
 
-  img {
-    margin-top: 0.5vw;
-    border-radius: 0.5vw;
-  }
-
+  /* ================= BUTTON ================= */
   button {
-    margin-top: 0.5vw;
     padding: 0.5vw 1vw;
-    border-radius: 0.4vw;
+    border-radius: 0.5vw;
     border: none;
-    background: #eee;
+
+    background: var(--accent);
+    color: var(--bg-primary);
+
+    font-size: 0.85vw;
     cursor: pointer;
-    font-size: 0.8vw;
+
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #ddd;
+      opacity: 0.85;
+      transform: translateY(-0.1vw);
     }
   }
 
-  .itinerary-card {
-    padding: 1vw;
-    margin-bottom: 1vw;
+  .danger {
+    background: #ff4d4f;
+    color: white;
+  }
+
+  /* ================= UPLOAD ================= */
+  .upload-box {
+    width: 100%;
+    height: 8vw;
+
+    border: 0.15vw dashed rgba(255, 255, 255, 0.2);
+    border-radius: 0.8vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.9vw;
+    color: var(--text-secondary);
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+
+  /* ================= MEDIA ================= */
+  img,
+  video {
+    width: 100%;
+    max-height: 15vw;
+    object-fit: cover;
     border-radius: 0.6vw;
-    background: #f9f9f9;
+  }
 
-    h4 {
-      font-size: 1.1vw;
-      margin-bottom: 0.5vw;
+  /* ================= GALLERY ================= */
+  .section:nth-child(4) div {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+
+    img,
+    video {
+      width: 6vw;
+      height: 6vw;
+    }
+
+    input {
+      flex: 1;
+    }
+
+    button {
+      width: 2vw;
+      height: 2vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
     }
   }
 
-  .submit-btn {
-    margin-top: 1.5vw;
+  /* ================= TYPES ================= */
+  .section:nth-child(5) div {
+    display: flex;
+    gap: 1vw;
+
+    input {
+      flex: 1;
+    }
+
+    button {
+      width: 2vw;
+      height: 2vw;
+      padding: 0;
+    }
+  }
+
+  /* ================= ITINERARY ================= */
+  .day {
     width: 100%;
     padding: 1vw;
+    border-radius: 0.8vw;
+
+    background: var(--bg-secondary);
+
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+
+    h5 {
+      font-size: 1.1vw;
+      font-weight: 600;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5vw;
+      padding: 0.8vw;
+      border-radius: 0.6vw;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    img,
+    video {
+      width: 5vw;
+      height: 5vw;
+    }
+  }
+
+  /* ================= INCLUSIONS ================= */
+  .section:nth-child(7) div {
+    display: flex;
+    gap: 1vw;
+    align-items: center;
+
+    input {
+      flex: 1;
+    }
+
+    button {
+      width: 2vw;
+      height: 2vw;
+      padding: 0;
+    }
+  }
+
+  /* ================= SETTINGS ================= */
+  .section:last-of-type label {
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+
+    font-size: 0.9vw;
+
+    input {
+      width: 1vw;
+      height: 1vw;
+    }
+  }
+
+  /* ================= SUBMIT ================= */
+  .submit {
+    width: 100%;
+    padding: 1vw;
+
     font-size: 1vw;
     font-weight: 600;
-    border-radius: 0.6vw;
+
+    border-radius: 0.7vw;
+
     background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
 
     &:hover {
       transform: translateY(-0.2vw);
-      box-shadow: 0 0.5vw 1.5vw rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0.6vw 1.5vw rgba(0, 0, 0, 0.3);
     }
   }
 }
