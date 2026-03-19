@@ -1,0 +1,64 @@
+.package-creator {
+  width: 100%;
+  padding: 2vw 4vw;
+
+  h2 {
+    font-size: 2vw;
+    font-weight: 600;
+    margin-bottom: 2vw;
+  }
+
+  .selected-info {
+    margin-top: 1.5vw;
+
+    h3 {
+      font-size: 1.5vw;
+      font-weight: 500;
+      color: #333;
+    }
+  }
+
+  .package-list {
+    margin-top: 1vw;
+
+    .empty {
+      font-size: 1vw;
+      color: #888;
+    }
+
+    .card {
+      padding: 1vw;
+      border-radius: 0.8vw;
+      background: #fff;
+      box-shadow: 0 0.3vw 1vw rgba(0, 0, 0, 0.08);
+      margin-bottom: 1vw;
+
+      h4 {
+        font-size: 1.2vw;
+        margin-bottom: 0.5vw;
+      }
+
+      p {
+        font-size: 1vw;
+        color: #555;
+      }
+    }
+  }
+
+  .add-btn {
+    margin-top: 2vw;
+    padding: 0.8vw 1.5vw;
+    border-radius: 0.6vw;
+    border: none;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 1vw;
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &:hover {
+      transform: translateY(-0.2vw);
+      box-shadow: 0 0.5vw 1.5vw rgba(0, 0, 0, 0.15);
+    }
+  }
+}

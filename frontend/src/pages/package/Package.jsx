@@ -79,214 +79,189 @@ const Package = () => {
     },
 
     itinerary: [
-  {
-    id: 1,
-    day: 'Day 1',
-    title: 'Arrival in New York',
-    description: [
       {
-        heading: 'Arrival & Transfer',
-        content:
-          'Welcome to the Big Apple! Upon arrival at JFK/EWR, meet your tour manager and transfer to your hotel in Manhattan.',
+        id: 1,
+        day: 'Day 1',
+        title: 'Arrival in New York',
+        description: [
+          {
+            heading: 'Arrival & Transfer',
+            content:
+              'Welcome to the Big Apple! Upon arrival at JFK/EWR, meet your tour manager and transfer to your hotel in Manhattan.',
+          },
+          {
+            heading: 'Evening Leisure',
+            content:
+              'Take a walk to Times Square and experience NYC nightlife.',
+          },
+        ],
+        media: [
+          { type: 'image', url: g1, caption: 'NYC skyline' },
+          { type: 'image', url: g2, caption: 'Times Square at night' },
+          { type: 'image', url: g1, caption: 'City views' },
+          { type: 'image', url: g2, caption: 'NYC lights' },
+          { type: 'image', url: g2, caption: 'Night skyline' },
+        ],
       },
       {
-        heading: 'Evening Leisure',
-        content:
-          'Take a walk to Times Square and experience NYC nightlife.',
-      },
-    ],
-    media: [
-      { type: 'image', url: g1, caption: 'NYC skyline' },
-      { type: 'image', url: g2, caption: 'Times Square at night' },
-      { type: 'image', url: g1, caption: 'City views' },
-      { type: 'image', url: g2, caption: 'NYC lights' },
-      { type: 'image', url: g2, caption: 'Night skyline' },
-    ],
-  },
-  {
-    id: 2,
-    day: 'Day 2',
-    title: 'City Tour',
-    description: [
-      {
-        heading: 'Icons of Liberty',
-        content:
-          'Visit Statue of Liberty and Ellis Island.',
+        id: 2,
+        day: 'Day 2',
+        title: 'City Tour',
+        description: [
+          {
+            heading: 'Icons of Liberty',
+            content: 'Visit Statue of Liberty and Ellis Island.',
+          },
+          {
+            heading: 'Manhattan Exploration',
+            content:
+              'Explore Wall Street, Central Park and Rockefeller Center.',
+          },
+        ],
+        media: [{ type: 'image', url: g1, caption: 'City exploration' }],
       },
       {
-        heading: 'Manhattan Exploration',
-        content:
-          'Explore Wall Street, Central Park and Rockefeller Center.',
-      },
-    ],
-    media: [
-      { type: 'image', url: g1, caption: 'City exploration' },
-    ],
-  },
-  {
-    id: 3,
-    day: 'Day 3',
-    title: 'Washington DC',
-    description: [
-      {
-        heading: 'The Capital Run',
-        content:
-          'Visit Lincoln Memorial and reflecting pool.',
+        id: 3,
+        day: 'Day 3',
+        title: 'Washington DC',
+        description: [
+          {
+            heading: 'The Capital Run',
+            content: 'Visit Lincoln Memorial and reflecting pool.',
+          },
+          {
+            heading: 'Political Landmarks',
+            content: 'See the White House and Smithsonian Museum.',
+          },
+        ],
+        media: [],
       },
       {
-        heading: 'Political Landmarks',
-        content:
-          'See the White House and Smithsonian Museum.',
-      },
-    ],
-    media: [],
-  },
-  {
-    id: 4,
-    day: 'Day 4',
-    title: 'Niagara Falls',
-    description: [
-      {
-        heading: 'Majestic Waters',
-        content:
-          'Witness the illuminated Niagara Falls.',
+        id: 4,
+        day: 'Day 4',
+        title: 'Niagara Falls',
+        description: [
+          {
+            heading: 'Majestic Waters',
+            content: 'Witness the illuminated Niagara Falls.',
+          },
+          {
+            heading: 'Maid of the Mist',
+            content: 'Experience the falls up close via boat ride.',
+          },
+        ],
+        media: [{ type: 'image', url: g2, caption: 'Niagara Falls' }],
       },
       {
-        heading: 'Maid of the Mist',
-        content:
-          'Experience the falls up close via boat ride.',
-      },
-    ],
-    media: [
-      { type: 'image', url: g2, caption: 'Niagara Falls' },
-    ],
-  },
-  {
-    id: 5,
-    day: 'Day 5',
-    title: 'Las Vegas',
-    description: [
-      {
-        heading: 'The Entertainment Capital',
-        content:
-          'Fly to Las Vegas and check into your resort.',
+        id: 5,
+        day: 'Day 5',
+        title: 'Las Vegas',
+        description: [
+          {
+            heading: 'The Entertainment Capital',
+            content: 'Fly to Las Vegas and check into your resort.',
+          },
+          {
+            heading: 'Viva Las Vegas',
+            content: 'Explore casinos and enjoy live shows.',
+          },
+        ],
+        media: [],
       },
       {
-        heading: 'Viva Las Vegas',
-        content:
-          'Explore casinos and enjoy live shows.',
-      },
-    ],
-    media: [],
-  },
-  {
-    id: 6,
-    day: 'Day 6',
-    title: 'Grand Canyon',
-    description: [
-      {
-        heading: 'Natural Wonder',
-        content:
-          'Visit Grand Canyon West Rim and Skywalk.',
+        id: 6,
+        day: 'Day 6',
+        title: 'Grand Canyon',
+        description: [
+          {
+            heading: 'Natural Wonder',
+            content: 'Visit Grand Canyon West Rim and Skywalk.',
+          },
+          {
+            heading: 'Guano Point',
+            content: 'Enjoy panoramic canyon views.',
+          },
+        ],
+        media: [{ type: 'image', url: g1, caption: 'Grand Canyon views' }],
       },
       {
-        heading: 'Guano Point',
-        content:
-          'Enjoy panoramic canyon views.',
-      },
-    ],
-    media: [
-      { type: 'image', url: g1, caption: 'Grand Canyon views' },
-    ],
-  },
-  {
-    id: 7,
-    day: 'Day 7',
-    title: 'San Francisco',
-    description: [
-      {
-        heading: 'The City by the Bay',
-        content:
-          'Explore San Francisco’s famous spots.',
+        id: 7,
+        day: 'Day 7',
+        title: 'San Francisco',
+        description: [
+          {
+            heading: 'The City by the Bay',
+            content: 'Explore San Francisco’s famous spots.',
+          },
+          {
+            heading: 'Golden Gate Bridge',
+            content: 'Visit and cross the iconic bridge.',
+          },
+        ],
+        media: [{ type: 'image', url: g2, caption: 'Golden Gate Bridge' }],
       },
       {
-        heading: 'Golden Gate Bridge',
-        content:
-          'Visit and cross the iconic bridge.',
-      },
-    ],
-    media: [
-      { type: 'image', url: g2, caption: 'Golden Gate Bridge' },
-    ],
-  },
-  {
-    id: 8,
-    day: 'Day 8',
-    title: 'Hollywood',
-    description: [
-      {
-        heading: 'The Red Carpet',
-        content:
-          'Walk through Hollywood Walk of Fame.',
-      },
-      {
-        heading: 'Luxury & Lifestyle',
-        content:
-          'Explore Beverly Hills and Griffith Observatory.',
-      },
-    ],
-    media: [
-      {
-        type: 'video',
-        url: comm,
-        caption: 'Hollywood experience',
-      },
-    ],
-  },
-  {
-    id: 9,
-    day: 'Day 9',
-    title: 'Shopping Day',
-    description: [
-      {
-        heading: 'Retail Therapy',
-        content:
-          'Shop at premium outlets.',
+        id: 8,
+        day: 'Day 8',
+        title: 'Hollywood',
+        description: [
+          {
+            heading: 'The Red Carpet',
+            content: 'Walk through Hollywood Walk of Fame.',
+          },
+          {
+            heading: 'Luxury & Lifestyle',
+            content: 'Explore Beverly Hills and Griffith Observatory.',
+          },
+        ],
+        media: [
+          {
+            type: 'video',
+            url: comm,
+            caption: 'Hollywood experience',
+          },
+        ],
       },
       {
-        heading: 'Farewell Dinner',
-        content:
-          'Enjoy a final dinner with the group.',
+        id: 9,
+        day: 'Day 9',
+        title: 'Shopping Day',
+        description: [
+          {
+            heading: 'Retail Therapy',
+            content: 'Shop at premium outlets.',
+          },
+          {
+            heading: 'Farewell Dinner',
+            content: 'Enjoy a final dinner with the group.',
+          },
+        ],
+        media: [],
+      },
+      {
+        id: 10,
+        day: 'Day 10',
+        title: 'Departure',
+        description: [
+          {
+            heading: 'Final Farewells',
+            content: 'Enjoy breakfast and prepare for departure.',
+          },
+          {
+            heading: 'Return Journey',
+            content: 'Transfer to airport for return flight.',
+          },
+        ],
+        media: [],
       },
     ],
-    media: [],
-  },
-  {
-    id: 10,
-    day: 'Day 10',
-    title: 'Departure',
-    description: [
-      {
-        heading: 'Final Farewells',
-        content:
-          'Enjoy breakfast and prepare for departure.',
-      },
-      {
-        heading: 'Return Journey',
-        content:
-          'Transfer to airport for return flight.',
-      },
-    ],
-    media: [],
-  },
-]
   };
 
   return (
     <>
       <PackHero data={packageData} />
       <PackGallery data={packageData} />
-<PackItinerary data={packageData} />
+      <PackItinerary data={packageData} />
       <PackInclusions data={packageData.inclusions} />
       <HomeTesti />
       <HomeContact />
@@ -297,3 +272,5 @@ const Package = () => {
 };
 
 export default Package;
+
+

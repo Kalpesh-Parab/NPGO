@@ -31,7 +31,6 @@ const packageSchema = new mongoose.Schema({
   currency: String,
 
   types: [String],
-  highlights: [String],
 
   heroMedia: {
     type: {

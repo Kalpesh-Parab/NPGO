@@ -1,93 +1,77 @@
 import { useEffect, useRef, useState } from 'react';
 
-const WorldMap = ({ countryMedia, setTooltip, onSelect }) => {
+const WorldMap = ({
+  countryMedia = {},
+  setTooltip,
+  onSelect,
+  mode = "user", // 🔥 "user" | "admin"
+}) => {
   const svgRef = useRef(null);
   const [activeCountry, setActiveCountry] = useState(null);
   const [bbox, setBbox] = useState(null);
 
-  useEffect(() => {
-    if (!svgRef.current) return;
-
-    const extractWorldMapData = () => {
-      const paths = svgRef.current.querySelectorAll('path');
-
-      const data = [];
-
-      paths.forEach((path) => {
-        const id = path.getAttribute('id');
-        const title =
-          path.getAttribute('title') ||
-          path.querySelector('title')?.textContent;
-
-        if (id && title) {
-          data.push({
-            id,
-            name: title.trim(),
-          });
-        }
-      });
-
-      console.log('WORLD_MAP_DATA =', {
-        worldMap: data,
-      });
-    };
-
-    extractWorldMapData();
-  }, []);
-
+  // 🔍 Extract data (debug)
   useEffect(() => {
     if (!svgRef.current) return;
 
     const paths = svgRef.current.querySelectorAll('path');
 
-    console.log('======= WORLD SVG DEBUG =======');
-    console.log('Total paths found:', paths.length);
+    const data = [];
 
-    paths.forEach((path, index) => {
+    paths.forEach((path) => {
       const id = path.getAttribute('id');
-      const titleAttr = path.getAttribute('title');
-      const titleElement = path.querySelector('title')?.textContent;
+      const title =
+        path.getAttribute('title') ||
+        path.querySelector('title')?.textContent;
 
-      console.log({
-        index,
-        id,
-        titleAttribute: titleAttr,
-        titleElement,
-      });
+      if (id && title) {
+        data.push({
+          id,
+          name: title.trim(),
+        });
+      }
     });
 
-    console.log('======= END WORLD DEBUG =======');
+    console.log('WORLD_MAP_DATA =', data);
   }, []);
 
+  // 🔥 HOVER (ONLY USER MODE)
   const handleHover = (id, e) => {
-    if (!svgRef.current) return;
+  if (!svgRef.current) return;
 
-    const el = svgRef.current.querySelector(`#${id}`);
+  const el = svgRef.current.querySelector(`#${id}`);
+  if (!el) return;
 
-    if (!el) return;
+  const box = el.getBBox();
+  const title = el.getAttribute('title');
 
-    const box = el.getBBox();
-    const title = el.getAttribute('title');
-
-    console.log('Hovered Country:', id);
-    console.log('Title from attribute:', title);
-    console.log('From countryMedia:', countryMedia?.[id]?.name);
-
-    setActiveCountry(id);
-    setBbox(box);
-
+  // ✅ Tooltip ALWAYS
+  if (setTooltip) {
     setTooltip({
       visible: true,
       x: e.clientX,
       y: e.clientY,
       text: countryMedia?.[id]?.name || title || '',
     });
-  };
+  }
+
+  // 🔥 ONLY USER MODE → media
+  if (mode === "user") {
+    setActiveCountry(id);
+    setBbox(box);
+  }
+};
 
   const handleLeave = () => {
+  if (setTooltip) {
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }
+
+  if (mode === "user") {
     setActiveCountry(null);
     setBbox(null);
-  };
+  }
+};
 
   return (
     <svg
@@ -95,7 +79,10 @@ const WorldMap = ({ countryMedia, setTooltip, onSelect }) => {
       viewBox='-60 0 1100.6727 655.96301'
       xmlns='http://www.w3.org/2000/svg'
       className='world-map'
+
+      // 🔥 HOVER ONLY IN USER MODE
       onMouseMove={(e) => {
+
         const path = e.target.closest('path');
         if (!path) return;
 
@@ -104,16 +91,18 @@ const WorldMap = ({ countryMedia, setTooltip, onSelect }) => {
 
         handleHover(id, e);
       }}
-      onMouseLeave={() => {
-        handleLeave();
-        setTooltip((prev) => ({ ...prev, visible: false }));
-      }}
+
+      onMouseLeave={handleLeave}
+
+      // 🔥 CLICK FOR BOTH
       onClick={(e) => {
         const path = e.target.closest('path');
         if (!path) return;
 
         const id = path.getAttribute('id');
-        const name = countryMedia[id]?.name || path.getAttribute('title') || '';
+        const name = path.getAttribute('title') || '';
+
+        console.log("🌍 CLICKED COUNTRY:", { id, name, mode });
 
         if (onSelect && id) {
           onSelect(id, name);
@@ -126,41 +115,47 @@ const WorldMap = ({ countryMedia, setTooltip, onSelect }) => {
         </clipPath>
       </defs>
 
-      {activeCountry && countryMedia?.[activeCountry] && bbox && (
-        <foreignObject
-          x={bbox.x}
-          y={bbox.y}
-          width={bbox.width}
-          height={bbox.height}
-          clipPath='url(#countryClip)'
-        >
-          {countryMedia[activeCountry].type === 'video' ? (
-            <video
-              src={countryMedia[activeCountry].media}
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-          ) : (
-            <img
-              src={countryMedia[activeCountry].media}
-              alt=''
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-              }}
-            />
-          )}
-        </foreignObject>
-      )}
-{/* MY PATHS ARE BELOW */}
+      {/* 🔥 MEDIA ONLY IN USER MODE */}
+      {mode === "user" &&
+        activeCountry &&
+        countryMedia?.[activeCountry] &&
+        bbox && (
+          <foreignObject
+            x={bbox.x}
+            y={bbox.y}
+            width={bbox.width}
+            height={bbox.height}
+            clipPath='url(#countryClip)'
+          >
+            {countryMedia[activeCountry].type === 'video' ? (
+              <video
+                src={countryMedia[activeCountry].media}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            ) : (
+              <img
+                src={countryMedia[activeCountry].media}
+                alt=''
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            )}
+          </foreignObject>
+        )}
+
+      {/* ===== YOUR PATHS (UNCHANGED) ===== */}
+
       <path
         d='m 479.68275,331.6274 -0.077,0.025 -0.258,0.155 -0.147,0.054 -0.134,0.027 -0.105,-0.011 -0.058,-0.091 0.006,-0.139 -0.024,-0.124 -0.02,-0.067 0.038,-0.181 0.086,-0.097 0.119,-0.08 0.188,0.029 0.398,0.116 0.083,0.109 10e-4,0.072 -0.073,0.119 z'
         title='Andorra'

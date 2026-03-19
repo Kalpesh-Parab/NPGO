@@ -6,6 +6,12 @@ import WorldMap from '../../../../pages/destination/sections/destSelector/WorldM
 
 const AdminDestSelector = ({ onSelect }) => {
   const [mapType, setMapType] = useState('domestic');
+  const [tooltip, setTooltip] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    text: '',
+  });
 
   const handleSelect = async (code, name) => {
     console.log('🎯 ADMIN CLICK:', { code, name });
@@ -16,17 +22,17 @@ const AdminDestSelector = ({ onSelect }) => {
 
         onSelect({
           type: 'destination',
-          _id: res.data._id,
-          name: res.data.name,
-          countryId: res.data.country,
+          _id: res.data.data._id,
+          name: res.data.data.name,
+          countryId: res.data.data.country._id,
         });
       } else {
         const res = await API.get(`/countries/${code}`);
 
         onSelect({
           type: 'country',
-          _id: res.data._id,
-          name: res.data.name,
+          _id: res.data.data._id,
+          name: res.data.data.name,
         });
       }
     } catch (err) {
@@ -68,11 +74,31 @@ const AdminDestSelector = ({ onSelect }) => {
         <div className='right'>
           {mapType === 'domestic' ? (
             <IndiaMap
-              mode='admin' // 🔥 IMPORTANT
+              mode='admin'
               onSelect={handleSelect}
+              setTooltip={setTooltip}
             />
           ) : (
-            <WorldMap mode='admin' onSelect={handleSelect} />
+            <WorldMap
+              mode='admin'
+              onSelect={handleSelect}
+              setTooltip={setTooltip}
+            />
+          )}
+          {tooltip.visible && (
+            <div
+              className='map-tooltip'
+              style={{
+                left: tooltip.x - 10,
+                top: tooltip.y + 30,
+                scale: 0.8,
+                position: 'fixed',
+                pointerEvents: 'none',
+                zIndex: 9999,
+              }}
+            >
+              {tooltip.text}
+            </div>
           )}
         </div>
       </div>

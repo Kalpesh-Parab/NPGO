@@ -44,25 +44,41 @@ export const createPackage = async (req, res) => {
 };
 
 // ✅ GET ALL
+import mongoose from "mongoose";
+
 export const getAllPackages = async (req, res) => {
   try {
     const { country, destination } = req.query;
 
     let filter = { isActive: true };
 
-    if (destination) {
+    // ✅ HANDLE DESTINATION SAFELY
+    if (destination && destination !== "undefined" && destination !== "null") {
+      if (!mongoose.Types.ObjectId.isValid(destination)) {
+        return res.status(400).json({
+          message: "Invalid destination ID",
+        });
+      }
+
       filter.destination = destination;
     }
 
-    if (country && !destination) {
+    // ✅ HANDLE COUNTRY SAFELY
+    else if (country && country !== "undefined" && country !== "null") {
+      if (!mongoose.Types.ObjectId.isValid(country)) {
+        return res.status(400).json({
+          message: "Invalid country ID",
+        });
+      }
+
       filter.country = country;
     }
 
     const packages = await Package.find(filter)
-      .populate('country', 'name')
-      .populate('destination', 'name');
+      .populate("country", "name code")
+      .populate("destination", "name code");
 
-    res.json(packages);
+    res.status(200).json(packages);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -1,0 +1,87 @@
+.package-form {
+  margin-top: 3vw;
+  padding: 2vw;
+  border-radius: 1vw;
+  background: #ffffff;
+  box-shadow: 0 0.5vw 2vw rgba(0, 0, 0, 0.08);
+
+  h3 {
+    font-size: 1.6vw;
+    margin-bottom: 1.5vw;
+  }
+
+  label {
+    display: block;
+    font-size: 1vw;
+    margin-bottom: 0.4vw;
+    color: #444;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.8vw;
+    margin-bottom: 1vw;
+    border-radius: 0.5vw;
+    border: 1px solid #ddd;
+    font-size: 0.9vw;
+
+    &:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0.3vw rgba(102, 126, 234, 0.5);
+    }
+  }
+
+  textarea {
+    min-height: 6vw;
+    resize: none;
+  }
+
+  img {
+    margin-top: 0.5vw;
+    border-radius: 0.5vw;
+  }
+
+  button {
+    margin-top: 0.5vw;
+    padding: 0.5vw 1vw;
+    border-radius: 0.4vw;
+    border: none;
+    background: #eee;
+    cursor: pointer;
+    font-size: 0.8vw;
+
+    &:hover {
+      background: #ddd;
+    }
+  }
+
+  .itinerary-card {
+    padding: 1vw;
+    margin-bottom: 1vw;
+    border-radius: 0.6vw;
+    background: #f9f9f9;
+
+    h4 {
+      font-size: 1.1vw;
+      margin-bottom: 0.5vw;
+    }
+  }
+
+  .submit-btn {
+    margin-top: 1.5vw;
+    width: 100%;
+    padding: 1vw;
+    font-size: 1vw;
+    font-weight: 600;
+    border-radius: 0.6vw;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+
+    &:hover {
+      transform: translateY(-0.2vw);
+      box-shadow: 0 0.5vw 1.5vw rgba(0, 0, 0, 0.2);
+    }
+  }
+}

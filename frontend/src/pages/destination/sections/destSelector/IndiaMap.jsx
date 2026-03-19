@@ -36,38 +36,41 @@ const IndiaMap = ({
 
   // 🔥 HOVER (ONLY USER MODE)
   const handleHover = (id, e) => {
-    if (mode === 'admin') return; // ❌ disable in admin
-    if (!svgRef.current) return;
+  if (!svgRef.current) return;
 
-    const el = svgRef.current.getElementById(id);
-    if (!el) return;
+  const el = svgRef.current.getElementById(id);
+  if (!el) return;
 
-    const box = el.getBBox();
-    const title = el.getAttribute('title');
+  const box = el.getBBox();
+  const title = el.getAttribute('title');
 
+  // ✅ ALWAYS show tooltip (admin + user)
+  if (setTooltip) {
+    setTooltip({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY,
+      text: stateMedia?.[id]?.name || title || '',
+    });
+  }
+
+  // 🔥 ONLY USER MODE → media
+  if (mode === "user") {
     setActiveState(id);
     setBbox(box);
-
-    if (setTooltip) {
-      setTooltip({
-        visible: true,
-        x: e.clientX,
-        y: e.clientY,
-        text: stateMedia?.[id]?.name || title || '',
-      });
-    }
-  };
+  }
+};
 
   const handleLeave = () => {
-    if (mode === 'admin') return;
+  if (setTooltip) {
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }
 
+  if (mode === "user") {
     setActiveState(null);
     setBbox(null);
-
-    if (setTooltip) {
-      setTooltip((prev) => ({ ...prev, visible: false }));
-    }
-  };
+  }
+};
 
   return (
     <svg
@@ -77,7 +80,6 @@ const IndiaMap = ({
       className='india-map'
       // 🔥 HOVER ONLY IN USER MODE
       onMouseMove={(e) => {
-        if (mode === 'admin') return;
 
         const path = e.target.closest('path');
         if (!path) return;

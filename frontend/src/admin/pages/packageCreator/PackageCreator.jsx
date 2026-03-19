@@ -1,3 +1,4 @@
+import "./packageCreator.scss";
 import { useEffect, useState } from 'react';
 import API from '../../services/api';
 import AdminDestSelector from './components/AdminDestSelector';
@@ -11,6 +12,12 @@ const PackageCreator = () => {
   // 🔥 Fetch packages when selection changes
   useEffect(() => {
     if (!selected) return;
+
+    // 🚫 STOP if no valid ID
+    if (!selected._id) {
+      setPackages([]);
+      return;
+    }
 
     const fetchPackages = async () => {
       try {
@@ -30,11 +37,11 @@ const PackageCreator = () => {
     };
 
     fetchPackages();
-    setShowForm(false); // reset form
+    setShowForm(false);
   }, [selected]);
 
   return (
-    <div>
+    <div className='package-creator'>
       <h2>Create Package</h2>
 
       {/* 1️⃣ Selector */}
@@ -42,7 +49,7 @@ const PackageCreator = () => {
 
       {/* 2️⃣ Selected Info */}
       {selected && (
-        <div style={{ marginTop: '20px' }}>
+        <div className='selected-info'>
           <h3>Packages for: {selected.name}</h3>
         </div>
       )}
@@ -73,7 +80,7 @@ const PackageCreator = () => {
       {/* 4️⃣ Add Button */}
       {selected && (
         <button
-          style={{ marginTop: '20px' }}
+          className='add-btn'
           onClick={() => setShowForm(!showForm)}
         >
           {showForm ? 'Cancel' : '+ Add Package'}
