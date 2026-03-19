@@ -39,7 +39,12 @@ const DestPackages = ({ title, packages = [] }) => {
 
             <div className='info'>
               <div className='cardTitle'>{pkg.title}</div>
-              <div className='cardDesc'>{pkg.desc}</div>
+              {/* <div className='cardDesc'>{pkg.desc}</div> */}
+              <div className='cardDesc'>
+                {pkg.desc.length > 80
+                  ? `${pkg.desc.substring(0, 80)}...`
+                  : pkg.desc}
+              </div>
             </div>
 
             <div className='ratings'>

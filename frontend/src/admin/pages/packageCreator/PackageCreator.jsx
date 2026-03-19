@@ -4,6 +4,7 @@ import API from '../../services/api';
 import AdminDestSelector from './components/AdminDestSelector';
 import AdminPackageList from './components/AdminPackageList';
 import PackageForm from './components/PackageForm';
+import { toast } from 'sonner';
 
 const PackageCreator = () => {
   const listRef = useRef(null);
@@ -29,17 +30,30 @@ const PackageCreator = () => {
     }, 100);
   };
 
-  const handleDelete = async (pkg) => {
-    if (!window.confirm('Delete this package?')) return;
+  const handleDelete = (pkg) => {
+    toast('Delete this package?', {
+      description: pkg.title,
+      action: {
+        label: 'Delete',
+        onClick: async () => {
+          const toastId = toast.loading('Deleting package...');
 
-    try {
-      await API.delete(`/packages/${pkg._id}`);
+          try {
+            await API.delete(`/packages/${pkg._id}`);
 
-      // 🔥 trigger refetch
-      setSelected((prev) => ({ ...prev }));
-    } catch (err) {
-      console.error(err);
-    }
+            toast.success('Package deleted', { id: toastId });
+
+            // refetch
+            setSelected((prev) => ({ ...prev }));
+          } catch (err) {
+            toast.error('Failed to delete package', { id: toastId });
+          }
+        },
+      },
+      cancel: {
+        label: 'Cancel',
+      },
+    });
   };
 
   // 🔥 Fetch packages when selection changes
@@ -52,6 +66,8 @@ const PackageCreator = () => {
     }
 
     const fetchPackages = async () => {
+      const toastId = toast.loading('Fetching packages...');
+
       try {
         let url = '';
 
@@ -63,6 +79,8 @@ const PackageCreator = () => {
 
         const res = await API.get(url);
         setPackages(res.data);
+
+        toast.success('Packages loaded', { id: toastId });
 
         // 🔥 SCROLL AFTER DATA LOAD
         setTimeout(() => {
@@ -81,7 +99,7 @@ const PackageCreator = () => {
           }
         }, 100); // slight delay for render
       } catch (err) {
-        console.error(err);
+        toast.error('Failed to fetch packages', { id: toastId });
       }
     };
 
@@ -90,6 +108,8 @@ const PackageCreator = () => {
   }, [selected]);
 
   const handleDuplicate = async (pkg) => {
+    const toastId = toast.loading('Duplicating package...');
+
     try {
       const cloned = { ...pkg };
 
@@ -98,15 +118,15 @@ const PackageCreator = () => {
       delete cloned.createdAt;
       delete cloned.__v;
 
-      // optional tweak
       cloned.title = `${pkg.title} (Copy)`;
 
       await API.post('/packages', cloned);
 
-      // refetch
+      toast.success('Package duplicated', { id: toastId });
+
       setSelected((prev) => ({ ...prev }));
     } catch (err) {
-      console.error(err);
+      toast.error('Failed to duplicate', { id: toastId });
     }
   };
   return (
@@ -117,7 +137,7 @@ const PackageCreator = () => {
 
       {selected && (
         <div className='selected-info'>
-          <h3>Packages for: {selected.name}</h3>
+          {/* <h3>Packages for: {selected.name}</h3> */}
         </div>
       )}
       <div ref={listRef}>

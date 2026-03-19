@@ -38,7 +38,7 @@ const Home = () => {
       <HomeHero data={homepageData?.hero} />
       <HomeAbout data={homepageData?.about} />
 
-      <PopularPackages />
+      <PopularPackages mode='random' />
       <HomeDestinations />
       <HomeExperience />
       <HomeMemories />

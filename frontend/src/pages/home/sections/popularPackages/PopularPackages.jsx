@@ -1,48 +1,82 @@
 import './popularPackages.scss';
 import arrow from '../../../../assets/arrowWhite.svg';
 import { useNavigate } from 'react-router-dom';
-import p1 from '../../../../assets/p1.png';
-import p2 from '../../../../assets/p2.png';
-import p3 from '../../../../assets/p3.png';
-import p4 from '../../../../assets/p4.png';
+import { useEffect, useState } from 'react';
+import { getPackages } from '../../../../admin/services/packageService';
 
-const PopularPackages = () => {
+const PopularPackages = ({ mode = 'random', destinationId }) => {
   const navigate = useNavigate();
+  const [packages, setPackages] = useState([]);
 
-  const packages = [
-    {
-      image: p1,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4.5,
-      price: 4000,
-      link: '/destination',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/destination',
-    },
-    {
-      image: p3,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 3.7,
-      price: 4000,
-      link: '/destination',
-    },
-    {
-      image: p4,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4,
-      price: 4000,
-      link: '/destination',
-    },
-  ];
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        // ✅ ONLY SERVICE CALL (no manual URL)
+        const res = await getPackages({
+          destinationId: mode === 'similar' ? destinationId : null,
+        });
+
+        let data = res.data.filter((p) => p.isActive);
+
+        // 🔥 RANDOMIZE
+        data = data.sort(() => 0.5 - Math.random());
+
+        // 🔥 TAKE ONLY 4
+        setPackages(data.slice(0, 4));
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPackages();
+  }, [mode, destinationId]);
+
+  // ⭐ RATING LOGIC
+  const getRating = (pkg) => {
+    const text = (pkg.title || '') + (pkg.description || '');
+
+    const sum = text.length
+      .toString()
+      .split('')
+      .reduce((acc, num) => acc + Number(num), 0);
+
+    const finalDigit =
+      sum >= 10
+        ? sum
+            .toString()
+            .split('')
+            .reduce((a, b) => a + Number(b), 0)
+        : sum;
+
+    return Number(`4.${finalDigit}`);
+  };
+
+  // 🖼 MEDIA
+  const getDisplayMedia = (pkg) => {
+    if (pkg.heroMedia?.type === 'image') return pkg.heroMedia;
+
+    if (pkg.gallery?.length) {
+      const img = pkg.gallery.find((m) => m.type === 'image');
+      if (img) return img;
+      return pkg.gallery[0];
+    }
+
+    return { type: 'image', url: '/fallback.jpg' };
+  };
+
+  // 🔄 MAP DATA
+  const mappedPackages = packages.map((pkg) => {
+    const media = getDisplayMedia(pkg);
+
+    return {
+      image: media.url,
+      title: pkg.title,
+      desc: pkg.destination?.name || pkg.description?.slice(0, 60),
+      ratings: getRating(pkg),
+      price: pkg.price,
+      link: `/package/${pkg.slug}`,
+    };
+  });
 
   const renderStars = (rating) => {
     return (
@@ -88,12 +122,12 @@ const PopularPackages = () => {
       </div>
 
       <div className='packageCards'>
-        {packages.map((pkg, index) => (
+        {mappedPackages.map((pkg, index) => (
           <div className='card' key={index}>
             <img src={pkg.image} alt='' />
 
             <div className='info'>
-              <div className='cardTitle'>{pkg.title}</div>
+              <div className='cardTitle'>{pkg.title.length > 20 ? `${pkg.title.slice(0, 20)}...` : `${pkg.title}`}</div>
               <div className='cardDesc'>{pkg.desc}</div>
             </div>
 

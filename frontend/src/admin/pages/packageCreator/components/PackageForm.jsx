@@ -1,4 +1,5 @@
 import './packageForm.scss';
+import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 import API from '../../../services/api';
 
@@ -58,41 +59,43 @@ const PackageForm = ({ selected, onSuccess, initialData }) => {
   // UPLOAD HANDLER
   // -----------------------------
   const handleUpload = async (file, type, index = null) => {
-    const data = new FormData();
-    data.append('file', file);
+    const toastId = toast.loading('Uploading media...');
 
-    const res = await API.post('/upload', data);
+    try {
+      const data = new FormData();
+      data.append('file', file);
 
-    const media = {
-      ...res.data,
-      type: getMediaType(file),
-      caption: '',
-    };
+      const res = await API.post('/upload', data);
 
-    if (type === 'hero') {
-      setForm((prev) => ({
-        ...prev,
-        heroMedia: media,
-      }));
-    }
+      const media = {
+        ...res.data,
+        type: getMediaType(file),
+        caption: '',
+      };
 
-    if (type === 'gallery') {
-      setForm((prev) => ({
-        ...prev,
-        gallery: [...prev.gallery, media],
-      }));
-    }
+      toast.success('Upload successful', { id: toastId });
 
-    if (type === 'itinerary-media') {
-      setForm((prev) => {
-        const updated = [...prev.itinerary];
-        updated[index].media.push(media);
+      if (type === 'hero') {
+        setForm((prev) => ({ ...prev, heroMedia: media }));
+      }
 
-        return {
+      if (type === 'gallery') {
+        setForm((prev) => ({
           ...prev,
-          itinerary: updated,
-        };
-      });
+          gallery: [...prev.gallery, media],
+        }));
+      }
+
+      if (type === 'itinerary-media') {
+        setForm((prev) => {
+          const updated = [...prev.itinerary];
+          updated[index].media.push(media);
+
+          return { ...prev, itinerary: updated };
+        });
+      }
+    } catch (err) {
+      toast.error('Upload failed', { id: toastId });
     }
   };
 
@@ -148,6 +151,12 @@ const PackageForm = ({ selected, onSuccess, initialData }) => {
   // SUBMIT
   // -----------------------------
   const handleSubmit = async () => {
+    // 🔥 basic validation (small but powerful)
+    if (!form.title || !form.price) {
+      toast.error('Title and Price are required');
+      return;
+    }
+
     const payload = {
       title: form.title,
       slug: initialData?.slug || slugify(form.title),
@@ -173,15 +182,25 @@ const PackageForm = ({ selected, onSuccess, initialData }) => {
       destination: selected.type === 'destination' ? selected._id : null,
     };
 
-    if (initialData) {
-      await API.put(`/packages/${initialData._id}`, payload);
-      alert('Package Updated ✏️');
-    } else {
-      await API.post('/packages', payload);
-      alert('Package Created 🚀');
-    }
+    const toastId = toast.loading(
+      initialData ? 'Updating package...' : 'Creating package...',
+    );
 
-    onSuccess && onSuccess();
+    try {
+      if (initialData) {
+        await API.put(`/packages/${initialData._id}`, payload);
+        toast.success('Package updated', { id: toastId });
+      } else {
+        await API.post('/packages', payload);
+        toast.success('Package created', { id: toastId });
+      }
+
+      onSuccess && onSuccess();
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Something went wrong', {
+        id: toastId,
+      });
+    }
   };
 
   useEffect(() => {
@@ -306,6 +325,7 @@ const PackageForm = ({ selected, onSuccess, initialData }) => {
               onClick={() => {
                 const updated = form.gallery.filter((_, idx) => idx !== i);
                 setForm({ ...form, gallery: updated });
+                toast.info('Media removed');
               }}
             >
               ✕
@@ -411,7 +431,7 @@ const PackageForm = ({ selected, onSuccess, initialData }) => {
               </div>
             ))}
 
-            <button className='danger' onClick={() => removeDay(i)}>
+            <button className='danger' onClick={() => removeDay(i) }>
               Remove Day
             </button>
           </div>

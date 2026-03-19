@@ -42,7 +42,7 @@ const AdminPackageList = ({ title, packages = [], onEdit, onDelete, onDuplicate 
       media,
       title: pkg.title,
       desc:
-        pkg.description?.slice(0, 80) ||
+        pkg.description?.slice(0, 30) ||
         pkg.destination?.name ||
         'No description',
       price: pkg.price,
@@ -62,7 +62,7 @@ const AdminPackageList = ({ title, packages = [], onEdit, onDelete, onDuplicate 
   return (
     <section className='DestPackages'>
       <div className='top'>
-        <h4>{title}</h4>
+        <h4>Packages for {title}</h4>
       </div>
 
       <div className='packageCards'>

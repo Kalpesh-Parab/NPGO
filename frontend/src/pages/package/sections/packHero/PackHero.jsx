@@ -25,7 +25,7 @@ const PackHero = ({ data }) => {
   return (
     <section className='PackHero'>
       <div className='background'>
-        <video src={heroMedia} autoPlay loop muted playsInline></video>
+        <video src={heroMedia.url} autoPlay loop muted playsInline></video>
       </div>
 
       <div className='overlay'></div>
@@ -59,7 +59,7 @@ const PackHero = ({ data }) => {
           <div className='start'>Starting From</div>
           <div className='cost'>
             <span>
-              {currency}
+              {currency}{' '}
               {price}
             </span>{' '}
             per person

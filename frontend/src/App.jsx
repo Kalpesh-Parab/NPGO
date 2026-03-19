@@ -41,7 +41,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/contact' element={<Contact />} />
           <Route path='/corporate-events' element={<Corporate />} />
-          <Route path='/package' element={<Package />} />
+          <Route path='/package/:slug' element={<Package />} />
           <Route
             path='/destination/:country'
             element={<DestinationListing />}
