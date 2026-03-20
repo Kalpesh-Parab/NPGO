@@ -1,6 +1,6 @@
 .activation-zone {
   padding: 20px;
-  color: #fff;
+  color: var(--text-primary);
 
   .header {
     display: flex;
@@ -20,7 +20,8 @@
 
     .panel {
       flex: 1;
-      background: #111;
+      background: var(--bg-primary);
+      color: var(--text-secondary);
       padding: 15px;
       border-radius: 12px;
 

@@ -1,5 +1,6 @@
-import Destination from "../models/Destination.js";
-import Package from "../models/Package.js";
+import Destination from '../models/Destination.js';
+import Package from '../models/Package.js';
+import Country from '../models/Country.js';
 
 export const toggleDestinationActive = async (req, res) => {
   try {
@@ -11,7 +12,25 @@ export const toggleDestinationActive = async (req, res) => {
     if (!destination) {
       return res.status(404).json({
         success: false,
-        message: "Destination not found",
+        message: 'Destination not found',
+      });
+    }
+
+    // 🔥 Get parent country
+    const country = await Country.findById(destination.country);
+
+    if (!country) {
+      return res.status(404).json({
+        success: false,
+        message: 'Parent country not found',
+      });
+    }
+
+    // ❌ BLOCK: Cannot activate if country inactive
+    if (isActive && !country.isActive) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot activate destination while country is inactive',
       });
     }
 
@@ -19,23 +38,32 @@ export const toggleDestinationActive = async (req, res) => {
     destination.isActive = isActive;
     await destination.save();
 
-    // 🔥 CASCADE ONLY WHEN DEACTIVATING
     if (!isActive) {
+      // 🔴 Deactivate packages
       await Package.updateMany(
         { destination: destination._id },
-        { isActive: false }
+        { isActive: false },
+      );
+    } else {
+      // 🟢 Activate packages
+      await Package.updateMany(
+        { destination: destination._id },
+        { isActive: true },
       );
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: `Destination ${isActive ? "activated" : "deactivated"} successfully`,
+      message: `Destination ${
+        isActive ? 'activated' : 'deactivated'
+      } successfully`,
     });
-
   } catch (error) {
-    res.status(500).json({
+    console.error('toggleDestinationActive error:', error);
+
+    return res.status(500).json({
       success: false,
-      message: "Error toggling destination",
+      message: 'Error toggling destination',
       error: error.message,
     });
   }
