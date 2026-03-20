@@ -155,3 +155,46 @@ export const deletePackage = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getPackagesByLocation = async (req, res) => {
+  try {
+    const { country, destination } = req.query;
+
+    // 🔧 normalize slug
+    const normalize = (text) =>
+      text
+        ?.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+
+    const countrySlug = normalize(country);
+    const destinationSlug = normalize(destination);
+
+    // ✅ fetch all active packages
+    const packages = await Package.find({ isActive: true })
+      .populate('country', 'name code')
+      .populate('destination', 'name code');
+
+    // ✅ filter
+    const filtered = packages.filter((pkg) => {
+      const pkgCountrySlug = normalize(pkg.country?.name);
+      const pkgDestinationSlug = normalize(pkg.destination?.name);
+
+      // 🎯 match country
+      if (countrySlug && pkgCountrySlug !== countrySlug) {
+        return false;
+      }
+
+      // 🎯 match destination (only if provided)
+      if (destinationSlug) {
+        return pkgDestinationSlug === destinationSlug;
+      }
+
+      return true;
+    });
+
+    res.status(200).json(filtered);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

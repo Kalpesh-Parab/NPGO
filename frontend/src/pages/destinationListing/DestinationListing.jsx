@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DestListHero from './sections/destListHero/DestListHero';
 // import comm from "../../assets/destination/hero.mp4"
 import comm from '../../assets/destination/hero.jpg';
@@ -14,73 +14,40 @@ import DestIntExplore from '../destination/sections/destIntExplore/DestIntExplor
 import HomeTesti from '../home/sections/homeTesti/HomeTesti';
 import HomeContact from '../home/sections/homeContact/HomeContact';
 import HomeExperience from '../home/sections/homeExperience/HomeExperience';
+import { useParams } from 'react-router-dom';
+import API from '../../admin/services/api';
 const DestinationListing = () => {
-  const packages = [
-    {
-      image: p1,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4.5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p3,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 3.7,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p4,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p4,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p3,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 3.7,
-      price: 4000,
-      link: '/package',
-    },
-  ];
+  const { country, destination } = useParams();
+  const [packages, setPackages] = useState([]);
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        let url = `/packages/by-location?country=${country}`;
+
+        if (destination) {
+          url += `&destination=${destination}`;
+        }
+
+        const res = await API.get(url);
+
+        const transformed = res.data.map((pkg) => ({
+          image: pkg.heroMedia?.url,
+          title: pkg.title,
+          desc: pkg.description,
+          ratings: 4.5, // temp
+          price: pkg.price,
+          link: `/package/${pkg.slug}`,
+        }));
+
+        setPackages(transformed);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPackages();
+  }, [country, destination]);
   return (
     <>
       <DestListHero
@@ -91,12 +58,12 @@ const DestinationListing = () => {
       />
       <DestListFilter />
       <DestPackages title='Maharashtra' packages={packages} />
-          <DestTravelExp />
-          <DestIntExplore />
-          <HomeTesti />
-          <HomeContact />
-          <HomeExperience />
-          <PopularPackages/>
+      <DestTravelExp />
+      <DestIntExplore />
+      <HomeTesti />
+      <HomeContact />
+      <HomeExperience />
+      <PopularPackages />
     </>
   );
 };
