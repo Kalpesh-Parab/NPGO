@@ -20,7 +20,7 @@ const Destination = () => {
       <HomeTesti />
       <HomeContact />
       <HomeExperience />
-      <PopularPackages />
+      <PopularPackages mode='random' />
     </>
   );
 };

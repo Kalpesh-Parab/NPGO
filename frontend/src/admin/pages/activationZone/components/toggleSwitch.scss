@@ -1,0 +1,24 @@
+.toggle-switch {
+  display: flex;
+  background: #222;
+  border-radius: 10px;
+  overflow: hidden;
+
+  button {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: #aaa;
+    cursor: pointer;
+    transition: 0.2s;
+
+    &.active {
+      background: #4caf50;
+      color: #fff;
+    }
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}

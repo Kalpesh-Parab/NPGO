@@ -21,9 +21,10 @@ const Corporate = () => {
       <DestTravelExp />
       <CorpWhyNPGO />
       <CorpGallery />
-      <PopularPackages />
+      <PopularPackages mode='random' />
+
       <HomeTesti />
-      <HomeContact/>
+      <HomeContact />
     </>
   );
 };

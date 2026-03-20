@@ -104,7 +104,7 @@ const Events = () => {
       <HomeTesti />
       <HomeContact />
       <HomeExperience />
-      <PopularPackages />
+      <PopularPackages mode='random' />
     </>
   );
 };

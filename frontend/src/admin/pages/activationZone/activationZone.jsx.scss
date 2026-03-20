@@ -1,0 +1,46 @@
+.activation-zone {
+  padding: 20px;
+  color: #fff;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+    }
+  }
+
+  .content {
+    display: flex;
+    gap: 20px;
+
+    .panel {
+      flex: 1;
+      background: #111;
+      padding: 15px;
+      border-radius: 12px;
+
+      h2 {
+        margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+      }
+    }
+  }
+
+  .loading {
+    margin-top: 20px;
+    text-align: center;
+    opacity: 0.7;
+  }
+}

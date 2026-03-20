@@ -4,6 +4,7 @@ import {
   getCountries,
   getCountryByCode,
 } from "../controllers/countryController.js";
+import { toggleCountryActive } from "../controllers/countryToggleController.js";
 
 const router = express.Router();
 
@@ -15,5 +16,7 @@ router.get("/", getCountries);
 
 // 📄 Get by code
 router.get("/:code", getCountryByCode);
+
+router.patch("/toggle/:code", toggleCountryActive);
 
 export default router;

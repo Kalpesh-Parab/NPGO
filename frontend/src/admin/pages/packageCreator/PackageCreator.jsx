@@ -137,7 +137,6 @@ const PackageCreator = () => {
 
       {selected && (
         <div className='selected-info'>
-          {/* <h3>Packages for: {selected.name}</h3> */}
         </div>
       )}
       <div ref={listRef}>

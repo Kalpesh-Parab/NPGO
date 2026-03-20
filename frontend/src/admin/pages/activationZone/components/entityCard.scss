@@ -1,0 +1,52 @@
+.entity-card {
+  background: #1a1a1a;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid transparent;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: #333;
+  }
+
+  &.selected {
+    border-color: #4caf50;
+  }
+
+  .top {
+    h3 {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      padding: 5px 10px;
+      border-radius: 6px;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+
+      &.active {
+        background: #4caf50;
+        color: #fff;
+      }
+
+      &.inactive {
+        background: #ff4d4f;
+        color: #fff;
+      }
+    }
+  }
+}

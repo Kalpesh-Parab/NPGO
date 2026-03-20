@@ -5,6 +5,7 @@ import {
   getDestinationsByCountry,
   createDestination,
 } from "../controllers/destinationController.js";
+import { toggleDestinationActive } from "../controllers/destinationToggleController.js";
 
 const router = express.Router();
 
@@ -19,5 +20,7 @@ router.get("/:code", getDestinationByCode);
 
 // ➕ Create
 router.post("/create", createDestination);
+
+router.patch("/toggle/:code", toggleDestinationActive);
 
 export default router;
