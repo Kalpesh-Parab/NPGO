@@ -14,7 +14,7 @@ const CompassMenu = ({ isOpen }) => {
     'homepageEditor',
     'destinations',
     'packageCreator',
-    'leads',
+    'activationZone',
     'media',
   ];
 

@@ -24,6 +24,7 @@ import Dashboard from './admin/pages/Dashboard/Dashboard';
 import ProtectedRoute from './admin/components/ProtectedRoute';
 import HomepageEditor from './admin/pages/homePage/HomepageEditor';
 import PackageCreator from './admin/pages/packageCreator/PackageCreator';
+import ActivationZone from './admin/pages/activationZone/ActivationZone';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='homepageEditor' element={<HomepageEditor />} />
             <Route path='packageCreator' element={<PackageCreator />} />
+            <Route path='activationZone' element={<ActivationZone />} />
           </Route>
         </Route>
       </Routes>
