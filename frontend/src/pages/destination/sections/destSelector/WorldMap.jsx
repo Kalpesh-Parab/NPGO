@@ -4,7 +4,7 @@ const WorldMap = ({
   countryMedia = {},
   setTooltip,
   onSelect,
-  mode = "user", // 🔥 "user" | "admin"
+  mode = 'user', // 🔥 "user" | "admin"
 }) => {
   const svgRef = useRef(null);
   const [activeCountry, setActiveCountry] = useState(null);
@@ -16,62 +16,62 @@ const WorldMap = ({
 
     const paths = svgRef.current.querySelectorAll('path');
 
-    const data = [];
+    const pathMap = {};
 
     paths.forEach((path) => {
       const id = path.getAttribute('id');
-      const title =
-        path.getAttribute('title') ||
-        path.querySelector('title')?.textContent;
+      const d = path.getAttribute('d');
 
-      if (id && title) {
-        data.push({
-          id,
-          name: title.trim(),
-        });
+      if (id && d) {
+        pathMap[id] = d;
       }
     });
 
-    console.log('WORLD_MAP_DATA =', data);
+    console.log(
+      '%c👉 COPY THIS INTO WORLD_PATHS 👇',
+      'color: cyan; font-weight: bold;',
+    );
+
+    console.log('export const WORLD_PATHS = ', pathMap);
   }, []);
 
   // 🔥 HOVER (ONLY USER MODE)
   const handleHover = (id, e) => {
-  if (!svgRef.current) return;
+    if (!svgRef.current) return;
 
-  const el = svgRef.current.querySelector(`#${id}`);
-  if (!el) return;
+    const el = svgRef.current.querySelector(`#${id}`);
+    if (!el) return;
 
-  const box = el.getBBox();
-  const title = el.getAttribute('title');
+    const box = el.getBBox();
+    const title = el.getAttribute('title');
 
-  // ✅ Tooltip ALWAYS
-  if (setTooltip) {
-    setTooltip({
-      visible: true,
-      x: e.clientX,
-      y: e.clientY,
-      text: countryMedia?.[id]?.name || title || '',
-    });
-  }
+    // ✅ Tooltip ALWAYS
+    if (setTooltip) {
+      setTooltip({
+        visible: true,
+        x: e.clientX,
+        y: e.clientY,
+        text: countryMedia?.[id]?.name || title || '',
+      });
+    }
 
-  // 🔥 ONLY USER MODE → media
-  if (mode === "user") {
-    setActiveCountry(id);
-    setBbox(box);
-  }
-};
+    // 🔥 ONLY USER MODE → media
+    if (mode === 'user') {
+      setActiveCountry(id);
+      setBbox(box);
+    }
+  };
 
   const handleLeave = () => {
-  if (setTooltip) {
-    setTooltip((prev) => ({ ...prev, visible: false }));
-  }
+    if (setTooltip) {
+      setTooltip((prev) => ({ ...prev, visible: false }));
+    }
 
-  if (mode === "user") {
-    setActiveCountry(null);
-    setBbox(null);
-  }
-};
+    if (mode === 'user') {
+      setActiveCountry(null);
+      setBbox(null);
+    }
+  };
 
   return (
     <svg
@@ -79,10 +79,8 @@ const WorldMap = ({
       viewBox='-60 0 1100.6727 655.96301'
       xmlns='http://www.w3.org/2000/svg'
       className='world-map'
-
       // 🔥 HOVER ONLY IN USER MODE
       onMouseMove={(e) => {
-
         const path = e.target.closest('path');
         if (!path) return;
 
@@ -91,9 +89,7 @@ const WorldMap = ({
 
         handleHover(id, e);
       }}
-
       onMouseLeave={handleLeave}
-
       // 🔥 CLICK FOR BOTH
       onClick={(e) => {
         const path = e.target.closest('path');
@@ -102,7 +98,7 @@ const WorldMap = ({
         const id = path.getAttribute('id');
         const name = path.getAttribute('title') || '';
 
-        console.log("🌍 CLICKED COUNTRY:", { id, name, mode });
+        console.log('🌍 CLICKED COUNTRY:', { id, name, mode });
 
         if (onSelect && id) {
           onSelect(id, name);
@@ -116,7 +112,7 @@ const WorldMap = ({
       </defs>
 
       {/* 🔥 MEDIA ONLY IN USER MODE */}
-      {mode === "user" &&
+      {mode === 'user' &&
         activeCountry &&
         countryMedia?.[activeCountry] &&
         bbox && (

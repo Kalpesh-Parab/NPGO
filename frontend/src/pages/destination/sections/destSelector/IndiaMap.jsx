@@ -12,27 +12,29 @@ const IndiaMap = ({
 
   // 🔍 Extract data (debug)
   useEffect(() => {
-    if (!svgRef.current) return;
+  if (!svgRef.current) return;
 
-    const paths = svgRef.current.querySelectorAll('path');
+  const paths = svgRef.current.querySelectorAll("path");
 
-    const data = [];
+  const pathMap = {};
 
-    paths.forEach((path) => {
-      const id = path.getAttribute('id');
-      const title =
-        path.getAttribute('title') || path.querySelector('title')?.textContent;
+  paths.forEach((path) => {
+    const id = path.getAttribute("id");
+    const d = path.getAttribute("d");
 
-      if (id && title) {
-        data.push({
-          id,
-          name: title.trim(),
-        });
-      }
-    });
+    if (id && d) {
+      pathMap[id] = d;
+    }
+  });
 
-    console.log('INDIA_MAP_DATA =', data);
-  }, []);
+  console.log(
+    "%c👉 COPY THIS INTO INDIA_PATHS 👇",
+    "color: lime; font-weight: bold;"
+  );
+
+  console.log("export const INDIA_PATHS = ", pathMap);
+
+}, []);
 
   // 🔥 HOVER (ONLY USER MODE)
   const handleHover = (id, e) => {

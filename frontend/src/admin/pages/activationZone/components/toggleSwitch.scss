@@ -1,24 +1,27 @@
 .toggle-switch {
   display: flex;
-  background: #222;
-  border-radius: 10px;
+  background: var(--bg-secondary);
+  border-radius: 0.8vw;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   button {
-    padding: 8px 16px;
+    padding: 0.8vh 1.5vw;
     border: none;
     background: transparent;
-    color: #aaa;
+    color: var(--text-secondary);
     cursor: pointer;
-    transition: 0.2s;
+    font-size: clamp(0.75rem, 0.9vw, 1rem);
+    transition: all 0.2s ease;
 
     &.active {
-      background: #4caf50;
-      color: #fff;
+      background: var(--accent);
+      color: var(--bg-primary);
+      font-weight: 500;
     }
 
     &:hover {
-      color: #fff;
+      color: var(--text-primary);
     }
   }
 }

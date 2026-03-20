@@ -20,11 +20,11 @@ const ActivationZone = () => {
   const [pageTitle, setPageTitle] = useState('');
 
   const titles = [
-    'Meri Marzi Zone 😎',
-    'Yahan Sab Band Hai 🚫',
-    'Abhi Mood Nahi Hai 😴',
-    'Control Room: On/Off Ka Game 🎛️',
-    'Kisko Zinda Rakhein? 💀➡️🟢',
+    'Meri Marzi Zone',
+    'Yahan Sab Band Hai',
+    'Abhi Mood Nahi Hai',
+    'Control Room: On/Off Ka Game',
+    'Kisko Zinda Rakhein?',
   ];
 
   useEffect(() => {
@@ -100,7 +100,6 @@ const ActivationZone = () => {
       toast.error('Failed to update destination');
     }
   };
-
   return (
     <div className='activation-zone'>
       {/* 🔥 HEADER */}
@@ -121,6 +120,7 @@ const ActivationZone = () => {
               <EntityCard
                 key={country._id}
                 item={country}
+                mapType={mode === 'international' ? 'world' : 'india'} // 🔥 FIX
                 onClick={() => handleCountryClick(country)}
                 onToggle={() => handleCountryToggle(country)}
                 isSelected={selectedCountry?._id === country._id}
@@ -137,10 +137,12 @@ const ActivationZone = () => {
             <div className='grid'>
               {destinations.map((dest) => (
                 <EntityCard
-                  key={dest._id}
-                  item={dest}
-                  onToggle={() => handleDestinationToggle(dest)}
-                />
+  key={dest._id}
+  item={dest}
+  mapType="india" // 🔥 always india for states
+  isParentActive={selectedCountry?.isActive}
+  onToggle={() => handleDestinationToggle(dest)}
+/>
               ))}
             </div>
           </div>
