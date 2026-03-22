@@ -36,12 +36,12 @@ const DestHero = () => {
         </div>
 
         <div className='buttons'>
-          <div className='buttonWhite' onClick={() => navigate('/destination')}>
+          <div className='buttonWhite' onClick={() => navigate('/destination/india')}>
             <span>Explore Indian Destinations</span>
             <img src={arrowWhite} alt='' />
           </div>
 
-          <div className='button' onClick={() => navigate('/destination')}>
+          <div className='button' onClick={() => navigate('/destination/canada')}>
             <span>International Trips</span>
             <img src={arrow} alt='' />
           </div>

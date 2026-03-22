@@ -160,7 +160,10 @@ export const getPackagesByLocation = async (req, res) => {
   try {
     const { country, destination } = req.query;
 
-    // 🔧 normalize slug
+    const packages = await Package.find({ isActive: true })
+      .populate('country', 'name code')
+      .populate('destination', 'name code');
+
     const normalize = (text) =>
       text
         ?.toLowerCase()
@@ -170,24 +173,16 @@ export const getPackagesByLocation = async (req, res) => {
     const countrySlug = normalize(country);
     const destinationSlug = normalize(destination);
 
-    // ✅ fetch all active packages
-    const packages = await Package.find({ isActive: true })
-      .populate('country', 'name code')
-      .populate('destination', 'name code');
-
-    // ✅ filter
     const filtered = packages.filter((pkg) => {
-      const pkgCountrySlug = normalize(pkg.country?.name);
-      const pkgDestinationSlug = normalize(pkg.destination?.name);
+      const pkgCountry = normalize(pkg.country?.name);
+      const pkgDestination = normalize(pkg.destination?.name);
 
-      // 🎯 match country
-      if (countrySlug && pkgCountrySlug !== countrySlug) {
-        return false;
+      if (destinationSlug) {
+        return pkgDestination === destinationSlug;
       }
 
-      // 🎯 match destination (only if provided)
-      if (destinationSlug) {
-        return pkgDestinationSlug === destinationSlug;
+      if (countrySlug) {
+        return pkgCountry === countrySlug;
       }
 
       return true;

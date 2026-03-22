@@ -6,32 +6,59 @@ import fb from '../../../../assets/facebook.svg';
 import yt from '../../../../assets/youtube.svg';
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'sonner';
+import API from '../../../../admin/services/api';
 
 const HomeContact = () => {
+  const location = useLocation();
   const form = useRef();
 
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
+    const toastId = toast.loading('Sending enquiry...');
 
-    emailjs
-      .sendForm(
+    const formData = new FormData(form.current);
+
+    // 🔥 Extract info from URL
+    const pathParts = location.pathname.split('/').filter(Boolean);
+
+    const data = {
+      name: formData.get('user_name'),
+      email: formData.get('user_email'),
+      phone: formData.get('user_phone'),
+      message: formData.get('message'),
+
+      source: {
+        page: location.pathname, // full path
+        type: pathParts[0] || 'home', // package / destination / etc
+        slug: pathParts[1] || null, // package slug or country
+        subSlug: pathParts[2] || null, // destination (if exists)
+      },
+    };
+
+    try {
+      // 🔥 1. Save to backend
+      await API.post('/contact', data);
+
+      // 🔥 2. Send email
+      await emailjs.sendForm(
         'service_tzlbgg7',
         'template_o2bfrdb',
         form.current,
         'RwUFNw4qZD1J5tcrA',
-      )
-      .then(
-        (result) => {
-          alert('Message Sent Successfully 🚀');
-          form.current.reset();
-        },
-        (error) => {
-          alert('Something went wrong ❌');
-        },
       );
+
+      toast.success('Enquiry sent 🚀', { id: toastId });
+      form.current.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed ❌', { id: toastId });
+    }
   };
+
   return (
-    <section className='HomeContact'>
+    <section id='contact-section' className='HomeContact'>
       <div className='left'>
         <h4>Contact Us</h4>
         <h2>Connect with Us to Design an Exceptional Experience</h2>
@@ -40,6 +67,7 @@ const HomeContact = () => {
           travel package? Our team at NPGO is here to assist you every step of
           the way.
         </h4>
+
         <div className='cta'>
           <div className='chat'>
             <div className='image'>
@@ -51,6 +79,7 @@ const HomeContact = () => {
               <div className='mail'>npgoadventures@gmail.com</div>
             </div>
           </div>
+
           <div className='chat'>
             <div className='image'>
               <img src={call} alt='' />
@@ -62,6 +91,7 @@ const HomeContact = () => {
             </div>
           </div>
         </div>
+
         <div className='blocks'>
           <a
             href='https://www.facebook.com/share/1AiCmXtcjz/?mibextid=wwXIfr'
@@ -91,6 +121,7 @@ const HomeContact = () => {
           </a>
         </div>
       </div>
+
       <div className='right'>
         <form ref={form} onSubmit={sendEmail}>
           <label>Your Name</label>

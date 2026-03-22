@@ -1,13 +1,15 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
+    if (pathname.startsWith('/destination')) return;
+
     window.scrollTo({
       top: 0,
-      behavior: "smooth", // optional
+      behavior: 'smooth',
     });
   }, [pathname]);
 

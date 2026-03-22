@@ -1,3 +1,4 @@
+import "./package.scss";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getPackageBySlug } from '../../admin/services/packageService';
@@ -10,6 +11,7 @@ import HomeTesti from '../home/sections/homeTesti/HomeTesti';
 import HomeContact from '../home/sections/homeContact/HomeContact';
 import HomeExperience from '../home/sections/homeExperience/HomeExperience';
 import PopularPackages from '../home/sections/popularPackages/PopularPackages';
+import { scrollToContact } from "../../utils/scrollToContact";
 
 const Package = () => {
   const { slug } = useParams();
@@ -40,7 +42,9 @@ const Package = () => {
       <PackGallery data={packageData} />
       <PackItinerary data={packageData} />
       <PackInclusions data={packageData.inclusions} />
-
+      <div className='booking'>
+        <button onClick={scrollToContact}>Book Now</button>
+      </div>
       <HomeTesti />
       <HomeContact />
       <HomeExperience />

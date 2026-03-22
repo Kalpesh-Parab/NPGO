@@ -2,6 +2,7 @@ import './packHero.scss';
 import arrow from '../../../../assets/arrow.svg';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { scrollToContact } from '../../../../utils/scrollToContact';
 
 const PackHero = ({ data }) => {
   const navigate = useNavigate();
@@ -13,26 +14,49 @@ const PackHero = ({ data }) => {
 
   const visibleTypes = showAllTypes ? types : types.slice(0, 3);
   const remainingCount = types.length - 3;
+
   useEffect(() => {
     if (!showAllTypes) return;
 
     const timer = setTimeout(() => {
       setShowAllTypes(false);
-    }, 7000); // 7 seconds (you can tweak 5–10s)
+    }, 7000);
 
     return () => clearTimeout(timer);
   }, [showAllTypes]);
+
+  // 🔥 MEDIA RENDER LOGIC
+  const renderMedia = () => {
+    if (!heroMedia || !heroMedia.url) {
+      return <img src='/fallback.jpg' alt='fallback' />;
+    }
+
+    if (heroMedia.type === 'video') {
+      return (
+        <video
+          src={heroMedia.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      );
+    }
+
+    // default → image
+    return <img src={heroMedia.url} alt={title} />;
+  };
+
   return (
     <section className='PackHero'>
       <div className='background'>
-        <video src={heroMedia.url} autoPlay loop muted playsInline></video>
+        {renderMedia()}
       </div>
 
       <div className='overlay'></div>
 
       <div className='details'>
         <h4>Package Details</h4>
-
         <h2>{title}</h2>
 
         {/* TAGS */}
@@ -46,8 +70,8 @@ const PackHero = ({ data }) => {
           {!showAllTypes && remainingCount > 0 && (
             <div
               className='tag more'
-              onClick={() => setShowAllTypes((prev) => !prev)}
-              style={{cursor:'pointer'}}
+              onClick={() => setShowAllTypes(true)}
+              style={{ cursor: 'pointer' }}
             >
               +{remainingCount} more
             </div>
@@ -59,15 +83,14 @@ const PackHero = ({ data }) => {
           <div className='start'>Starting From</div>
           <div className='cost'>
             <span>
-              {currency}{' '}
-              {price}
+              {currency} {price}
             </span>{' '}
             per person
           </div>
         </div>
 
         {/* CTA */}
-        <div className='button' onClick={() => navigate('/destination')}>
+        <div className='button' onClick={scrollToContact}>
           <span>Enquire Now</span>
           <img src={arrow} alt='' />
         </div>

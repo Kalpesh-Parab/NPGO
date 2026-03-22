@@ -1,6 +1,7 @@
 import './corpFirst.scss';
 import arrow from '../../../../assets/arrowWhite.svg';
 import { useNavigate } from 'react-router-dom';
+import { scrollToContact } from '../../../../utils/scrollToContact';
 
 const CorpFirst = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const CorpFirst = () => {
         and meaningful experiences — ensuring your team travels with purpose and
         returns inspired.
       </div>
-      <div className='button' onClick={() => navigate('/about')}>
+      <div className='button' onClick={scrollToContact}>
         <span>Plan a Corporate Event</span>
         <img src={arrow} alt='' />
       </div>

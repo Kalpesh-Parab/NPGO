@@ -8,6 +8,7 @@ import homepageRoutes from "./routes/homepageRoutes.js";
 import countryRoutes from "./routes/countryRoutes.js";
 import destinationRoutes from "./routes/destinationRoutes.js";
 import packageRoutes from "./routes/packageRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use("/api/homepage", homepageRoutes);
 app.use("/api/countries", countryRoutes)
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/packages", packageRoutes);
+app.use("/api/contact", contactRoutes);
 
 //HEALTH CHECK
 app.get('/health', (req, res) => {

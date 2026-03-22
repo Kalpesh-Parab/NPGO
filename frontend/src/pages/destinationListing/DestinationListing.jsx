@@ -1,46 +1,101 @@
 import React, { useEffect, useState } from 'react';
+import './destinationListing.scss';
 import DestListHero from './sections/destListHero/DestListHero';
-// import comm from "../../assets/destination/hero.mp4"
 import comm from '../../assets/destination/hero.jpg';
 import DestListFilter from './sections/destListFilter/DestListFilter';
 import PopularPackages from '../home/sections/popularPackages/PopularPackages';
 import DestPackages from './sections/destPackages/DestPackages';
-import p1 from '../../assets/p1.png';
-import p2 from '../../assets/p2.png';
-import p3 from '../../assets/p3.png';
-import p4 from '../../assets/p4.png';
 import DestTravelExp from './sections/destTravelExp/DestTravelExp';
 import DestIntExplore from '../destination/sections/destIntExplore/DestIntExplore';
 import HomeTesti from '../home/sections/homeTesti/HomeTesti';
 import HomeContact from '../home/sections/homeContact/HomeContact';
 import HomeExperience from '../home/sections/homeExperience/HomeExperience';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import API from '../../admin/services/api';
+
 const DestinationListing = () => {
   const { country, destination } = useParams();
-  const [packages, setPackages] = useState([]);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [packages, setPackages] = useState([]);
+  const [allPackages, setAllPackages] = useState([]);
+  const [packageTypes, setPackageTypes] = useState([]);
+  const [selectedType, setSelectedType] = useState('');
+
+  const navigate = useNavigate();
+
+  // 🔥 MEDIA FALLBACK
+  const getDisplayMedia = (pkg) => {
+    if (pkg.heroMedia?.type === 'image' && pkg.heroMedia?.url) {
+      return pkg.heroMedia.url;
+    }
+
+    if (pkg.gallery?.length) {
+      const image = pkg.gallery.find((m) => m.type === 'image');
+      if (image) return image.url;
+      if (pkg.gallery[0]?.url) return pkg.gallery[0].url;
+    }
+
+    if (pkg.itinerary?.length) {
+      for (const day of pkg.itinerary) {
+        if (day.media?.length) {
+          const image = day.media.find((m) => m.type === 'image');
+          if (image) return image.url;
+          if (day.media[0]?.url) return day.media[0].url;
+        }
+      }
+    }
+
+    return '/fallback.jpg';
+  };
+
+  // 🔥 UNIVERSAL NORMALIZER (IMPORTANT FIX)
+  const normalizePackage = (pkg) => ({
+    image: getDisplayMedia(pkg),
+    title: pkg.title || '',
+    desc: pkg.description || '',
+    ratings: 4.5,
+    price: pkg.price || 0,
+    link: `/package/${pkg.slug}`,
+    types: pkg.types || [],
+  });
+
+  // 🔥 FETCH ALL PACKAGES (for search)
+  useEffect(() => {
+    const fetchAllPackages = async () => {
+      try {
+        const res = await API.get('/packages');
+        const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
+
+        setAllPackages(data.map(normalizePackage)); // ✅ normalized
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAllPackages();
+  }, []);
+
+  // 🔥 FETCH LOCATION PACKAGES
   useEffect(() => {
     const fetchPackages = async () => {
       try {
         let url = `/packages/by-location?country=${country}`;
-
-        if (destination) {
-          url += `&destination=${destination}`;
-        }
+        if (destination) url += `&destination=${destination}`;
 
         const res = await API.get(url);
 
-        const transformed = res.data.map((pkg) => ({
-          image: pkg.heroMedia?.url,
-          title: pkg.title,
-          desc: pkg.description,
-          ratings: 4.5, // temp
-          price: pkg.price,
-          link: `/package/${pkg.slug}`,
-        }));
+        const packageArray = Array.isArray(res.data)
+          ? res.data
+          : res.data?.data || [];
 
-        setPackages(transformed);
+        // ✅ extract types
+        const allTypes = [
+          ...new Set(packageArray.flatMap((pkg) => pkg.types || [])),
+        ];
+        setPackageTypes(allTypes);
+
+        setPackages(packageArray.map(normalizePackage)); // ✅ normalized
       } catch (err) {
         console.error(err);
       }
@@ -48,6 +103,36 @@ const DestinationListing = () => {
 
     fetchPackages();
   }, [country, destination]);
+
+  // 🔥 DECIDE BASE DATASET
+  const basePackages = searchQuery ? allPackages : packages;
+
+  // 🔥 FILTER ONLY (NO REMAP ❌)
+  const filteredPackages = basePackages.filter((pkg) => {
+    const matchesType = selectedType ? pkg.types.includes(selectedType) : true;
+
+    const matchesSearch = searchQuery
+      ? pkg.title.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
+
+    return matchesType && matchesSearch;
+  });
+
+  const formatTitle = (slug) => {
+    if (!slug) return 'All Packages';
+
+    return slug
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
+  // 🔥 RESET FILTERS ON ROUTE CHANGE
+  useEffect(() => {
+    setSelectedType('');
+    setSearchQuery('');
+  }, [country, destination]);
+
   return (
     <>
       <DestListHero
@@ -56,14 +141,41 @@ const DestinationListing = () => {
         backgroundType='image'
         backgroundSrc={comm}
       />
-      <DestListFilter />
-      <DestPackages title='Maharashtra' packages={packages} />
+
+      <DestListFilter
+        packageTypes={packageTypes}
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        allPackages={allPackages}
+      />
+
+      {filteredPackages.length === 0 ? (
+        <div className='noResults'>
+          <h3>Didn’t find what you were looking for?</h3>
+          <p>We’ve got your back — create your own custom trip ✨</p>
+
+          <button onClick={() => navigate('/customise')}>
+            Customize Your Trip
+          </button>
+
+          <h4>Packages you may like</h4>
+          <PopularPackages mode='random' />
+        </div>
+      ) : (
+        <DestPackages
+          title={formatTitle(destination || country)}
+          packages={filteredPackages}
+        />
+      )}
+
       <DestTravelExp />
       <DestIntExplore />
       <HomeTesti />
       <HomeContact />
       <HomeExperience />
-      <PopularPackages />
+      <PopularPackages mode='random' />
     </>
   );
 };

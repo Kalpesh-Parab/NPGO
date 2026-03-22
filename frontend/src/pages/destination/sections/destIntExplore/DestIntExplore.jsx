@@ -2,6 +2,7 @@ import './destIntExplore.scss';
 import arrow from '../../../../assets/arrow.svg';
 import int from '../../../../assets/destination/int.png';
 import { useNavigate } from 'react-router-dom';
+import { scrollToContact } from '../../../../utils/scrollToContact';
 
 const DestIntExplore = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const DestIntExplore = () => {
           <h2>We’re expanding beyond borders!</h2>
           <h3>International trips are coming soon.</h3>
         </div>
-        <div className='button' onClick={() => navigate('/contact')}>
+        <div className='button' onClick={scrollToContact}>
           <span>Contact Us</span>
           <img src={arrow} alt='' />
         </div>

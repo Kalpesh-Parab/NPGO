@@ -36,7 +36,7 @@ function App() {
         {/* WEBSITE ROUTES */}
         <Route element={<WebsiteLayout />}>
           <Route path='/' element={<Home />} />
-          <Route path='/destination' element={<Destination />} />
+          <Route path='/dest' element={<Destination />} />
           <Route path='/customise' element={<Custom />} />
           <Route path='/merchandise' element={<Merch />} />
           <Route path='/about' element={<About />} />
