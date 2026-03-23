@@ -43,6 +43,7 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/corporate-events' element={<Corporate />} />
           <Route path='/package/:slug' element={<Package />} />
+          <Route path='/event/:slug' element={<Package />} />
           <Route
             path='/destination/:country'
             element={<DestinationListing />}

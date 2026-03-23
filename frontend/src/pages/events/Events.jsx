@@ -8,78 +8,67 @@ import HomeContact from '../home/sections/homeContact/HomeContact';
 import HomeExperience from '../home/sections/homeExperience/HomeExperience';
 import PopularPackages from '../home/sections/popularPackages/PopularPackages';
 import EventsExplorer from './sections/eventsExplorer/EventsExplorer';
+import { useEffect, useState } from 'react';
+import { getAllEvents } from '../../admin/services/eventService';
+import { toast } from 'sonner';
 
-import p1 from '../../assets/p1.png';
-import p2 from '../../assets/p2.png';
-import p3 from '../../assets/p3.png';
-import p4 from '../../assets/p4.png';
 const Events = () => {
-  const events = [
-    {
-      image: p1,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4.5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p3,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 3.7,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p4,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p4,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 4,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p2,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 5,
-      price: 4000,
-      link: '/package',
-    },
-    {
-      image: p3,
-      title: 'Himalaya Trek, Nepal',
-      desc: 'Mardi Himal Base Camp, Lumle, Nepal',
-      ratings: 3.7,
-      price: 4000,
-      link: '/package',
-    },
-  ];
+  const [events, setEvents] = useState([]);
+
+  const getDisplayMedia = (ev) => {
+    if (ev.heroMedia?.type === 'image' && ev.heroMedia?.url) {
+      return ev.heroMedia.url;
+    }
+
+    if (ev.gallery?.length) {
+      const image = ev.gallery.find((m) => m.type === 'image');
+      if (image) return image.url;
+      if (ev.gallery[0]?.url) return ev.gallery[0].url;
+    }
+
+    if (ev.itinerary?.length) {
+      for (const day of ev.itinerary) {
+        if (day.media?.length) {
+          const image = day.media.find((m) => m.type === 'image');
+          if (image) return image.url;
+          if (day.media[0]?.url) return day.media[0].url;
+        }
+      }
+    }
+
+    return '/fallback.jpg';
+  };
+
+useEffect(() => {
+  const fetchEvents = async () => {
+    const toastId = toast.loading('Loading events...');
+
+    try {
+      const res = await getAllEvents();
+
+      const rawEvents = res.data;
+
+      // 🔥 MAP BACKEND → UI FORMAT
+      const formatted = rawEvents.map((ev) => ({
+        image: getDisplayMedia(ev),
+        title: ev.title,
+        desc: ev.description || '',
+        ratings: 4.5, // temp (you don’t have rating in DB yet)
+        price: ev.price,
+        link: `/event/${ev.slug}`,
+      }));
+
+      setEvents(formatted);
+
+      toast.dismiss(toastId);
+    } catch (err) {
+      toast.error('Failed to load events', { id: toastId });
+    }
+  };
+
+  fetchEvents();
+}, []);
+  
   return (
     <>
       <CommonHero

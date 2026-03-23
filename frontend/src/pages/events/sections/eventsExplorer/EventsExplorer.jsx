@@ -1,7 +1,6 @@
 import './eventsExplorer.scss';
 import { useNavigate } from 'react-router-dom';
 const EventsExplorer = ({ title, events = [] }) => {
-  
   const navigate = useNavigate();
 
   const renderStars = (rating) => {
@@ -48,7 +47,10 @@ const EventsExplorer = ({ title, events = [] }) => {
             </div>
 
             <div className='details'>
-              <div className='viewButton' onClick={() => navigate(evnt.link)}>
+              <div
+                className='viewButton'
+                onClick={() => navigate(evnt.link || `/event/${evnt.slug}`)}
+              >
                 View More Details
               </div>
               <div className='price'>₹{evnt.price}</div>

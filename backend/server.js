@@ -8,6 +8,7 @@ import homepageRoutes from "./routes/homepageRoutes.js";
 import countryRoutes from "./routes/countryRoutes.js";
 import destinationRoutes from "./routes/destinationRoutes.js";
 import packageRoutes from "./routes/packageRoutes.js";
+import eventRoutes from "./routes/eventRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import customEnquiryRoutes from "./routes/customEnquiryRoutes.js";
 
@@ -27,6 +28,7 @@ app.use("/api/homepage", homepageRoutes);
 app.use("/api/countries", countryRoutes)
 app.use("/api/destinations", destinationRoutes);
 app.use("/api/packages", packageRoutes);
+app.use("/api/events", eventRoutes);
 app.use("/api/contact", contactRoutes);
 app.use('/api/custom-enquiry', customEnquiryRoutes);
 

@@ -196,13 +196,17 @@ const Custom = () => {
           <div className='grid2'>
             <select name='adults' onChange={handleChange}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((a) => (
-                <option key={a}>{a} Adults (18+)</option>
+                <option key={a} value={a}>
+                  {a} Adults (18+)
+                </option>
               ))}
             </select>
 
             <select name='children' onChange={handleChange}>
               {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((c) => (
-                <option key={c}>{c} Children</option>
+                <option key={c} value={c}>
+                  {c} Children
+                </option>
               ))}
             </select>
           </div>
