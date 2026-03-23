@@ -28,7 +28,7 @@ const HomeContact = () => {
       email: formData.get('user_email'),
       phone: formData.get('user_phone'),
       message: formData.get('message'),
-
+      status: 'new',
       source: {
         page: location.pathname, // full path
         type: pathParts[0] || 'home', // package / destination / etc
@@ -49,11 +49,11 @@ const HomeContact = () => {
         'RwUFNw4qZD1J5tcrA',
       );
 
-      toast.success('Enquiry sent 🚀', { id: toastId });
+      toast.success('Enquiry submitted', { id: toastId });
       form.current.reset();
     } catch (err) {
       console.error(err);
-      toast.error('Failed ❌', { id: toastId });
+      toast.error('Failed to submit enquiry', { id: toastId });
     }
   };
 

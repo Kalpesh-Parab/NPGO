@@ -7,7 +7,15 @@ import Bike2 from '../../../../assets/b2.png';
 import Bike3 from '../../../../assets/b3.png';
 
 const HomeBike = () => {
-  const navigate = useNavigate();
+const navigate = useNavigate();
+
+const handleNavigate = () => {
+  navigate('/customise', {
+    state: {
+      from: window.location.pathname,
+    },
+  });
+};
 
   const cards = [
     {
@@ -41,7 +49,7 @@ const HomeBike = () => {
           vision. Perfect for honeymoon trips, family vacations, solo journeys,
           or private group tours.
         </div>
-        <div className='button' onClick={() => navigate('/customise')}>
+        <div className='button' onClick={handleNavigate}>
           <span>Know More</span>
           <img src={arrow} alt='' />
         </div>

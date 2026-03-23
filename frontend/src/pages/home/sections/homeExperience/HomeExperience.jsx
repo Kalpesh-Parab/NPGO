@@ -13,11 +13,18 @@ const images = [
 ];
 
 const HomeExperience = () => {
-  const navigate = useNavigate();
   const [stack, setStack] = useState(images);
   const [flipping, setFlipping] = useState(false);
   const timerRef = useRef(null);
+  const navigate = useNavigate();
 
+  const handleNavigate = () => {
+    navigate('/customise', {
+      state: {
+        from: window.location.pathname,
+      },
+    });
+  };
   const nextCard = () => {
     if (flipping) return;
 
@@ -68,7 +75,7 @@ const HomeExperience = () => {
           distinction, enjoying truly exclusive and authentic cultural
           experiences.
         </div>
-        <div className='button' onClick={() => navigate('/destination')}>
+        <div className='button' onClick={handleNavigate}>
           <span>Craft Your Journey !</span>
           <img src={arrow} alt='' />
         </div>

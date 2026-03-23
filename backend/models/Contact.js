@@ -27,6 +27,13 @@ const contactSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // 🆕 STATUS
+    status: {
+      type: String,
+      enum: ['new', 'contacted', 'closed'],
+      default: 'new',
+    },
+
     // 🌍 Location Tracking
     location: {
       ip: String,
@@ -43,13 +50,14 @@ const contactSchema = new mongoose.Schema(
         default: 'home',
       },
       slug: { type: String },
-      subSlug: { type: String }, // 🔥 important (you’re already sending this)
+      subSlug: { type: String },
     },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-// 🔥 Index for analytics later
+// 🔥 Indexing (analytics + filtering)
+contactSchema.index({ status: 1, createdAt: -1 });
 contactSchema.index({ 'source.type': 1, 'source.slug': 1 });
 
 export default mongoose.model('Contact', contactSchema);

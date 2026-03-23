@@ -4,10 +4,14 @@ import comm from '../../assets/common/comm.mp4';
 import arrow from '../../assets/arrowWhite.svg';
 import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
-
+import API from '../../admin/services/api';
+import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 
 const Custom = () => {
+  const location = useLocation();
+
+  const previousPage = location.state?.from || null;
   const [formData, setFormData] = useState({
     knowDestination: '',
     day: '',
@@ -19,7 +23,7 @@ const Custom = () => {
     mustDo: '',
     specialOccasion: '',
     flights: '',
-    budget: 4000,
+    budget: 1000,
     firstName: '',
     lastName: '',
     email: '',
@@ -35,7 +39,7 @@ const Custom = () => {
     });
   };
 
-  const MIN = 4000;
+  const MIN = 1000;
   const MAX = 100000;
 
   const percentage = ((formData.budget - MIN) / (MAX - MIN)) * 100;
@@ -66,46 +70,41 @@ const Custom = () => {
 
     move(e.clientX);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-     if (!formData.terms) {
-    toast.error(
-      "Please accept the Terms and Conditions before submitting your enquiry."
-    );
-    return;
-  }
+    if (!formData.terms) {
+      toast.error('Please accept Terms and Conditions');
+      return;
+    }
 
-    emailjs
-      .send(
+    const toastId = toast.loading('Submitting enquiry...');
+
+    try {
+      // 🔥 1. Save to backend
+      await API.post('/custom-enquiry', {
+        ...formData,
+
+        source: {
+          from: previousPage,
+          type: previousPage?.split('/')[1] || 'custom',
+          slug: previousPage?.split('/')[2] || null,
+        },
+      });
+
+      // 🔥 2. EmailJS
+      await emailjs.send(
         'service_tzlbgg7',
         'template_24xzq25',
-        {
-          knowDestination: formData.knowDestination,
-          day: formData.day,
-          month: formData.month,
-          year: formData.year,
-          nights: formData.nights,
-          adults: formData.adults,
-          children: formData.children,
-          mustDo: formData.mustDo,
-          specialOccasion: formData.specialOccasion,
-          flights: formData.flights,
-          budget: formData.budget,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-        },
+        formData,
         'RwUFNw4qZD1J5tcrA',
-      )
-      .then(() => {
-      toast.success('Your enquiry has been submitted successfully ');
-    })
-      .catch((error) => {
+      );
+
+      toast.success('Enquiry submitted 🚀', { id: toastId });
+    } catch (error) {
       console.error(error);
-      toast.error('Something went wrong. Please try again.');
-    });
+      toast.error('Something went wrong ❌', { id: toastId });
+    }
   };
 
   return (
@@ -264,7 +263,7 @@ const Custom = () => {
           <label>Budget per person</label>
 
           <div className='budgetSlider'>
-            <span className='min'>₹4,000</span>
+            <span className='min'>₹1,000</span>
 
             <div className='sliderTrack' onMouseDown={(e) => startDrag(e)}>
               <div
