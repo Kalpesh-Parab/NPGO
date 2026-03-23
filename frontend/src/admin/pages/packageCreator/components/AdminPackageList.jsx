@@ -1,6 +1,13 @@
 import '../../../../pages/destinationListing/sections/destPackages/destPackages.scss';
 
-const AdminPackageList = ({ title, packages = [], onEdit, onDelete, onDuplicate }) => {
+const AdminPackageList = ({
+  title,
+  packages = [],
+  onEdit,
+  onDelete,
+  onDuplicate,
+  type = 'package',
+}) => {
   // 🔥 Convert backend → UI
 
   const getDisplayMedia = (pkg) => {
@@ -62,7 +69,9 @@ const AdminPackageList = ({ title, packages = [], onEdit, onDelete, onDuplicate 
   return (
     <section className='DestPackages'>
       <div className='top'>
-        <h4>Packages for {title}</h4>
+        <h4>
+          {type === 'event' ? 'Events' : 'Packages'} for {title}
+        </h4>
       </div>
 
       <div className='packageCards'>

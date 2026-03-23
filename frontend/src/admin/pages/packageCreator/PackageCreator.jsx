@@ -6,7 +6,8 @@ import AdminPackageList from './components/AdminPackageList';
 import PackageForm from './components/PackageForm';
 import { toast } from 'sonner';
 
-const PackageCreator = () => {
+const PackageCreator = ({ type = 'package' }) => {
+  const BASE_URL = type === 'event' ? '/events' : '/packages';
   const listRef = useRef(null);
   const [editingPackage, setEditingPackage] = useState(null);
   const [selected, setSelected] = useState(null);
@@ -39,7 +40,7 @@ const PackageCreator = () => {
           const toastId = toast.loading('Deleting package...');
 
           try {
-            await API.delete(`/packages/${pkg._id}`);
+            await API.delete(`${BASE_URL}/${pkg._id}`);
 
             toast.success('Package deleted', { id: toastId });
 
@@ -72,9 +73,9 @@ const PackageCreator = () => {
         let url = '';
 
         if (selected.type === 'destination') {
-          url = `/packages?destination=${selected._id}&includeInactive=true`;
+          url = `${BASE_URL}?destination=${selected._id}&includeInactive=true`;
         } else {
-          url = `/packages?country=${selected._id}&includeInactive=true`;
+          url = `${BASE_URL}?country=${selected._id}&includeInactive=true`;
         }
 
         const res = await API.get(url);
@@ -120,7 +121,7 @@ const PackageCreator = () => {
 
       cloned.title = `${pkg.title} (Copy)`;
 
-      await API.post('/packages', cloned);
+      await API.post(`${BASE_URL}`, cloned);
 
       toast.success('Package duplicated', { id: toastId });
 
@@ -131,14 +132,11 @@ const PackageCreator = () => {
   };
   return (
     <div className='package-creator'>
-      <h2>Create Package</h2>
+      <h2>Create {type === 'event' ? 'Event' : 'Package'}</h2>
 
       <AdminDestSelector onSelect={setSelected} />
 
-      {selected && (
-        <div className='selected-info'>
-        </div>
-      )}
+      {selected && <div className='selected-info'></div>}
       <div ref={listRef}>
         {selected && (
           <AdminPackageList
@@ -147,13 +145,37 @@ const PackageCreator = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onDuplicate={handleDuplicate}
+            type={type}
           />
         )}
       </div>
 
       {selected && (
-        <button className='add-btn' onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Cancel' : '+ Add Package'}
+        <button
+          className='add-btn'
+          onClick={() => {
+            setShowForm((prev) => {
+              const next = !prev;
+
+              if (!prev) {
+                // only scroll when opening
+                setTimeout(() => {
+                  if (formRef.current) {
+                    formRef.current.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start',
+                    });
+                  }
+                }, 100);
+              }
+
+              return next;
+            });
+          }}
+        >
+          {showForm
+            ? 'Cancel'
+            : `+ Add ${type === 'event' ? 'Event' : 'Package'}`}
         </button>
       )}
 
@@ -162,6 +184,7 @@ const PackageCreator = () => {
           <PackageForm
             selected={selected}
             initialData={editingPackage}
+            type={type}
             onSuccess={() => {
               setShowForm(false);
               setEditingPackage(null);

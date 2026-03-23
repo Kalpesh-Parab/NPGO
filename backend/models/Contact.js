@@ -42,16 +42,18 @@ const contactSchema = new mongoose.Schema(
     },
 
     // 📊 Source Tracking
-    source: {
-      page: { type: String },
-      type: {
-        type: String,
-        enum: ['home', 'package', 'destination', 'corporate', 'merch'],
-        default: 'home',
-      },
-      slug: { type: String },
-      subSlug: { type: String },
-    },
+    type: {
+  type: String,
+  enum: [
+    'home',
+    'package',
+    'event',        // ✅ ADD THIS
+    'destination',
+    'corporate',
+    'merch',
+  ],
+  default: 'home',
+},
   },
   { timestamps: true }
 );

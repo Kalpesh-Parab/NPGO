@@ -3,7 +3,8 @@ import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 import API from '../../../services/api';
 
-const PackageForm = ({ selected, onSuccess, initialData }) => {
+const PackageForm = ({ selected, onSuccess, initialData, type = "package" }) => {
+  const BASE_URL = type === 'event' ? '/events' : '/packages';
   const [form, setForm] = useState({
     title: '',
     price: '',
@@ -183,16 +184,16 @@ const PackageForm = ({ selected, onSuccess, initialData }) => {
     };
 
     const toastId = toast.loading(
-      initialData ? 'Updating package...' : 'Creating package...',
+      initialData ? `Updating ${type}...` : `Creating ${type}...`,
     );
 
     try {
       if (initialData) {
-        await API.put(`/packages/${initialData._id}`, payload);
-        toast.success('Package updated', { id: toastId });
+        await API.put(`${BASE_URL}/${initialData._id}`, payload);
+        toast.success(`${type} updated`, { id: toastId });
       } else {
-        await API.post('/packages', payload);
-        toast.success('Package created', { id: toastId });
+        await API.post(`${BASE_URL}`, payload);
+        toast.success(`${type} created`, { id: toastId });
       }
 
       onSuccess && onSuccess();

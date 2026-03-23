@@ -15,7 +15,7 @@ const CompassMenu = ({ isOpen }) => {
     'destinations',
     'packageCreator',
     'activationZone',
-    'media',
+    'eventCreator',
   ];
 
   useEffect(() => {

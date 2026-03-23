@@ -65,7 +65,14 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='homepageEditor' element={<HomepageEditor />} />
-            <Route path='packageCreator' element={<PackageCreator />} />
+            <Route
+              path='packageCreator'
+              element={<PackageCreator type='package' />}
+            />
+            <Route
+              path='eventCreator'
+              element={<PackageCreator type='event' />}
+            />
             <Route path='activationZone' element={<ActivationZone />} />
           </Route>
         </Route>
