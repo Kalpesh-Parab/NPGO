@@ -1,32 +1,30 @@
 import './merchExplorer.scss';
-import arrow from '../../../../assets/arrowWhite.svg';
-import merch1 from '../../../../assets/merch1.png';
-import merch2 from '../../../../assets/merch2.png';
-import merch3 from '../../../../assets/merch3.png';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import API from '../../../../admin/services/api';
 
 const MerchExplorer = () => {
-  const PRODUCTS_PER_PAGE = 12;
-  // 🔥 Mock Data (Later replace with API data)
-  const merchs = Array.from({ length: 30 }, (_, index) => ({
-    id: index + 1,
-    photo: [merch1, merch2, merch3][index % 3],
-    title: `NPGO Cap ${index + 1}`,
-    price: '150',
-    desc: 'Premium travel inspired merchandise',
-    link: 'https://www.amazon.in/', // 🔥 Mock Affiliate Link
-  }));
-
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const totalPages = Math.ceil(merchs.length / PRODUCTS_PER_PAGE);
+  const PRODUCTS_PER_PAGE = 12;
 
-  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const currentProducts = merchs.slice(
-    startIndex,
-    startIndex + PRODUCTS_PER_PAGE,
-  );
+  const fetchMerch = async () => {
+    try {
+      const res = await API.get(
+        `/merch?page=${currentPage}&limit=${PRODUCTS_PER_PAGE}`,
+      );
+
+      setProducts(res.data.data);
+      setTotalPages(res.data.pagination.pages); // 🔥 IMPORTANT
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchMerch();
+  }, [currentPage]);
 
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -34,7 +32,6 @@ const MerchExplorer = () => {
       window.scrollTo({ top: 700, behavior: 'smooth' });
     }
   };
-  const navigate = useNavigate();
 
   return (
     <section className='MerchExplorer'>
@@ -46,24 +43,27 @@ const MerchExplorer = () => {
       </div>
 
       <div className='products'>
-        {currentProducts.map((merch) => (
+        {products.map((merch) => (
           <a
-            href={merch.link}
+            href={merch.affiliateLink}
             target='_blank'
             rel='noopener noreferrer'
             className='product'
-            key={merch.id}
+            key={merch._id}
           >
             <div className='image'>
-              <img src={merch.photo} alt={merch.title} />
+              <img src={merch.images?.[0]} alt={merch.title} />
             </div>
 
             <div className='pDetails'>
               <div className='pLeft'>
                 <div className='title'>{merch.title}</div>
-                <div className='desc'>{merch.desc}</div>
+                <div className='desc'>{merch.description}</div>
               </div>
-              <div className='price'>₹{merch.price}</div>
+              <div className='price'>
+                {merch.currency}
+                {merch.price}
+              </div>
             </div>
           </a>
         ))}
