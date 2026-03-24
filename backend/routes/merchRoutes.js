@@ -6,7 +6,6 @@ import {
   getMerchById,
   updateMerch,
   deleteMerch,
-  toggleMerchStatus,
 } from '../controllers/merchController.js';
 
 const router = express.Router();
