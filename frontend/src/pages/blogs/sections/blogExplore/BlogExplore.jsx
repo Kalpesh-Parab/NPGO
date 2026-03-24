@@ -1,40 +1,55 @@
 import './blogExplore.scss';
-import blog1 from '../../../../assets/blog1.png';
-import blog2 from '../../../../assets/blog2.png';
-import blog3 from '../../../../assets/blog3.png';
-import profile1 from '../../../../assets/profile1.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import API from '../../../../admin/services/api';
 
 const BlogExplore = () => {
   const BLOGS_PER_PAGE = 9;
 
-  // 🔥 Mock Data (Repeat to simulate multiple pages)
-  const Blogs = Array.from({ length: 21 }, (_, index) => ({
-    id: index + 1,
-    title:
-      index % 3 === 0
-        ? 'The Ultimate Street Food Crawl: Searching for the Perfect Vada Pav in South Mumbai'
-        : index % 3 === 1
-          ? 'Mist, Mountains, and Coffee Estates: A Complete Guide to Luxury Homestays in Coorg'
-          : 'Lost in Time: Exploring the Architectural Wonders and Golden Sunsets of Ancient Hampi',
-    author:
-      index % 3 === 0
-        ? 'Arjun Mehta'
-        : index % 3 === 1
-          ? 'Priya Nair'
-          : 'Rohan Das',
-    photo: [blog1, blog2, blog3][index % 3],
-    profile: profile1,
-    date: 'February 05, 2026',
-    domain: ['Food', 'Stay', 'Travel'][index % 3],
-  }));
-
+  const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [selectedBlog, setSelectedBlog] = useState(null);
 
-  const totalPages = Math.ceil(Blogs.length / BLOGS_PER_PAGE);
+  const fetchBlogs = async (page = 1) => {
+    try {
+      const res = await API.get(`/blogs?page=${page}&limit=${BLOGS_PER_PAGE}`);
 
-  const startIndex = (currentPage - 1) * BLOGS_PER_PAGE;
-  const currentBlogs = Blogs.slice(startIndex, startIndex + BLOGS_PER_PAGE);
+      setBlogs(res.data.data);
+      setTotalPages(res.data.pagination.pages);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    if (selectedBlog) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [selectedBlog]);
+  useEffect(() => {
+    fetchBlogs(currentPage);
+  }, [currentPage]);
+
+  const getYoutubeEmbedUrl = (url) => {
+    try {
+      const urlObj = new URL(url);
+
+      if (urlObj.hostname.includes('youtube.com')) {
+        const id = urlObj.searchParams.get('v');
+        return `https://www.youtube.com/embed/${id}?rel=0`;
+      }
+
+      if (urlObj.hostname.includes('youtu.be')) {
+        const id = urlObj.pathname.slice(1);
+        return `https://www.youtube.com/embed/${id}?rel=0`;
+      }
+
+      return url;
+    } catch {
+      return url;
+    }
+  };
 
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -43,73 +58,127 @@ const BlogExplore = () => {
     }
   };
 
-  // ✅ Title truncation helper
-  const truncateTitle = (text, limit = 70) => {
-    if (!text) return '';
-    return text.length > limit ? text.slice(0, limit) + '...' : text;
-  };
-
   return (
     <section className='BlogExplore'>
       <h3>
         Curated journeys, expert tips, and inspiring stories from the world of
         refined travel.
       </h3>
+
       <div className='blogCards'>
-        {currentBlogs.map((blog) => (
-          <div className='blogCard' key={blog.id}>
+        {blogs.map((blog) => (
+          <div
+            className='blogCard'
+            key={blog._id}
+            onClick={() => setSelectedBlog(blog)}
+          >
             <div className='image'>
-              <img src={blog.photo} alt={blog.title} />
+              <img src={blog.thumbnail} alt={blog.title} />
             </div>
 
             <div className='details'>
-              <div className='domain'>{blog.domain}</div>
+              <div className='domain'>{blog.category}</div>
 
-              <div className='title'>{truncateTitle(blog.title)}</div>
+              <div className='title'>{blog.title}</div>
 
               <div className='author'>
                 <div className='left'>
-                  <img
-                    src={blog.profile}
-                    alt={blog.author}
-                    className='profile'
-                  />
                   <div className='name'>{blog.author}</div>
                 </div>
-                <div className='date'>{blog.date}</div>
+                <div className='date'>
+                  {new Date(blog.createdAt).toDateString()}
+                </div>
               </div>
             </div>
           </div>
         ))}
+        {selectedBlog && (
+          <div className='blogModal'>
+            <div className='overlay' onClick={() => setSelectedBlog(null)} />
+
+            <div className='modalContent'>
+              <button
+                className='closeBtn'
+                onClick={() => setSelectedBlog(null)}
+              >
+                ✕
+              </button>
+
+              <div className='modalInner'>
+                <img
+                  src={selectedBlog.thumbnail}
+                  alt={selectedBlog.title}
+                  className='heroImage'
+                />
+
+                <h2>{selectedBlog.title}</h2>
+
+                <div className='meta'>
+                  <span>{selectedBlog.author}</span>
+                  <span>{new Date(selectedBlog.createdAt).toDateString()}</span>
+                </div>
+
+                <div className='content'>
+                  {selectedBlog.content?.map((block, i) => {
+                    if (block.type === 'text') {
+                      return <p key={i}>{block.text}</p>;
+                    }
+
+                    if (block.type === 'media') {
+                      if (block.media.type === 'image') {
+                        return (
+                          <img
+                            key={i}
+                            src={block.media.url}
+                            alt=''
+                            className='contentMedia'
+                          />
+                        );
+                      }
+
+                      if (block.media.type === 'video') {
+                        const isYoutube =
+                          block.media.url.includes('youtube') ||
+                          block.media.url.includes('youtu.be');
+
+                        return isYoutube ? (
+                          <iframe
+                            key={i}
+                            src={getYoutubeEmbedUrl(block.media.url)}
+                            className='contentMedia'
+                            allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                            allowFullScreen
+                            referrerPolicy='strict-origin-when-cross-origin'
+                          />
+                        ) : (
+                          <video
+                            key={i}
+                            src={block.media.url}
+                            controls
+                            className='contentMedia'
+                          />
+                        );
+                      }
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* 🔥 Pagination (Same as MerchExplorer) */}
+      {/* Pagination */}
       <div className='pagination'>
-        <button
-          className='navBtn'
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          ←
-        </button>
+        <button onClick={() => goToPage(currentPage - 1)}>←</button>
 
-        {[...Array(totalPages)].map((_, index) => (
-          <button
-            key={index}
-            className={`pageBtn ${currentPage === index + 1 ? 'active' : ''}`}
-            onClick={() => goToPage(index + 1)}
-          >
-            {index + 1}
+        {[...Array(totalPages)].map((_, i) => (
+          <button key={i} onClick={() => goToPage(i + 1)}>
+            {i + 1}
           </button>
         ))}
 
-        <button
-          className='navBtn'
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          →
-        </button>
+        <button onClick={() => goToPage(currentPage + 1)}>→</button>
       </div>
     </section>
   );

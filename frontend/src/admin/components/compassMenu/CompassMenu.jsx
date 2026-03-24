@@ -16,6 +16,7 @@ const CompassMenu = ({ isOpen }) => {
     'activationZone',
     'eventCreator',
     'merchandise',
+    'blogsEditor',
   ];
 
   useEffect(() => {
