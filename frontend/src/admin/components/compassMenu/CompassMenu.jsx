@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import './compassMenu.scss';
 
 const CompassMenu = ({ isOpen }) => {
-
   const navigate = useNavigate();
   const compassRef = useRef(null);
 
@@ -16,12 +15,11 @@ const CompassMenu = ({ isOpen }) => {
     'packageCreator',
     'activationZone',
     'eventCreator',
+    'merchandise',
   ];
 
   useEffect(() => {
-
     const handleMouseMove = (e) => {
-
       if (!compassRef.current) return;
 
       const rect = compassRef.current.getBoundingClientRect();
@@ -39,13 +37,11 @@ const CompassMenu = ({ isOpen }) => {
       degrees += 90;
 
       setAngle(degrees);
-
     };
 
     window.addEventListener('mousemove', handleMouseMove);
 
     return () => window.removeEventListener('mousemove', handleMouseMove);
-
   }, []);
 
   if (!isOpen) return null;
@@ -55,13 +51,10 @@ const CompassMenu = ({ isOpen }) => {
 
   return (
     <div className='compass-overlay'>
-
       <div className='compass-wrapper'>
-
         <div className='compass-cap'></div>
 
         <div ref={compassRef} className='compass-box'>
-
           {/* compass needle */}
 
           <div
@@ -75,7 +68,6 @@ const CompassMenu = ({ isOpen }) => {
           <div className='compass-pin'></div>
 
           {menuItems.map((item, index) => {
-
             const rad = step * index;
 
             const x = radius * Math.cos(rad);
@@ -90,20 +82,16 @@ const CompassMenu = ({ isOpen }) => {
                 style={{
                   left: `calc(50% + ${x}px)`,
                   top: `calc(50% + ${y}px)`,
-                  transform: `translate(-50%, -50%) rotate(${rotation}deg)`
+                  transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
                 }}
                 onClick={() => navigate(`/admin/${item}`)}
               >
-                <span className="compass-text">{item}</span>
+                <span className='compass-text'>{item}</span>
               </div>
             );
-
           })}
-
         </div>
-
       </div>
-
     </div>
   );
 };

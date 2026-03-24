@@ -25,6 +25,7 @@ import ProtectedRoute from './admin/components/ProtectedRoute';
 import HomepageEditor from './admin/pages/homePage/HomepageEditor';
 import PackageCreator from './admin/pages/packageCreator/PackageCreator';
 import ActivationZone from './admin/pages/activationZone/ActivationZone';
+import Merchandise from './admin/pages/merchandise/Merchandise';
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
               element={<PackageCreator type='event' />}
             />
             <Route path='activationZone' element={<ActivationZone />} />
+            <Route path='merchandise' element={<Merchandise />} />            
           </Route>
         </Route>
       </Routes>

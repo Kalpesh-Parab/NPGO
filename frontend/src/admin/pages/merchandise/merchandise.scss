@@ -1,0 +1,166 @@
+.adminMerch {
+  width: 100%;
+  padding: 2vh 2vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+
+  .merchForm {
+    width: 100%;
+    background: var(--bg-secondary);
+    padding: 2vh 2vw;
+    border-radius: 1vw;
+
+    h2 {
+      margin-bottom: 2vh;
+      font-size: 1.5vw;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1vw;
+
+      input {
+        padding: 1vh 1vw;
+        border-radius: 0.5vw;
+        border: none;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+      }
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 2vh;
+      padding: 1vh 1vw;
+      border-radius: 0.5vw;
+      border: none;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 10vh;
+    }
+
+    .images {
+      margin-top: 2vh;
+      display: flex;
+      flex-direction: column;
+      gap: 1vh;
+
+      .uploadBox {
+        width: fit-content;
+        padding: 1vh 1.5vw;
+        background: var(--accent);
+        color: var(--bg-primary);
+        border-radius: 0.5vw;
+        cursor: pointer;
+        font-size: 0.9vw;
+      }
+
+      .preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1vw;
+
+        .imgWrap {
+          position: relative;
+          width: 8vw;
+          height: 10vh;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0.5vw;
+          }
+
+          button {
+            position: absolute;
+            top: 0.3vh;
+            right: 0.3vw;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 1.5vw;
+            height: 1.5vw;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .actions {
+      margin-top: 2vh;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        padding: 1vh 2vw;
+        border: none;
+        border-radius: 0.5vw;
+        background: var(--accent);
+        color: var(--bg-primary);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .merchList {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2vw;
+
+    .card {
+      background: var(--bg-secondary);
+      border-radius: 1vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      img {
+        width: 100%;
+        height: 20vh;
+        object-fit: cover;
+      }
+
+      .info {
+        padding: 1vh 1vw;
+
+        h3 {
+          font-size: 1.1vw;
+        }
+
+        p {
+          font-size: 0.8vw;
+          color: var(--text-secondary);
+        }
+
+        span {
+          display: block;
+          margin-top: 1vh;
+          font-weight: bold;
+        }
+      }
+
+      .cardActions {
+        display: flex;
+        justify-content: space-between;
+        padding: 1vh 1vw;
+
+        button {
+          flex: 1;
+          margin: 0 0.2vw;
+          padding: 0.8vh;
+          border: none;
+          border-radius: 0.4vw;
+          cursor: pointer;
+          background: var(--accent);
+          color: var(--bg-primary);
+        }
+      }
+    }
+  }
+}

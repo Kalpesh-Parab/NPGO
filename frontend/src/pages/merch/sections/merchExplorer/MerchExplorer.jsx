@@ -6,7 +6,7 @@ const MerchExplorer = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [expanded, setExpanded] = useState({});
   const PRODUCTS_PER_PAGE = 12;
 
   const fetchMerch = async () => {
@@ -58,7 +58,29 @@ const MerchExplorer = () => {
             <div className='pDetails'>
               <div className='pLeft'>
                 <div className='title'>{merch.title}</div>
-                <div className='desc'>{merch.description}</div>
+                <div className='desc'>
+                  {expanded[merch._id]
+                    ? merch.description
+                    : `${merch.description?.slice(0, 35)}${
+                        merch.description?.length > 35 ? '...' : ''
+                      }`}
+
+                  {merch.description?.length > 35 && (
+                    <span
+                      className='readMore'
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setExpanded((prev) => ({
+                          ...prev,
+                          [merch._id]: !prev[merch._id],
+                        }));
+                      }}
+                    >
+                      <br></br>
+                      {expanded[merch._id] ? ' Show less' : ' Read more'}
+                    </span>
+                  )}
+                </div>
               </div>
               <div className='price'>
                 {merch.currency}

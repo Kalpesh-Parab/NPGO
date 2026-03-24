@@ -31,7 +31,7 @@
     padding: 2.08333vw 0 5vw 0;
 
     .product {
-        text-decoration: none;
+      text-decoration: none;
       width: 23%;
       display: flex;
       flex-direction: column;
@@ -105,6 +105,13 @@
             font-size: 1.09375vw;
             font-weight: 400;
             line-height: 140%;
+
+            .readMore {
+              margin-left: 0.5vw;
+              color: lightseagreen;
+              cursor: pointer;
+              font-weight: 500;
+            }
           }
         }
 
