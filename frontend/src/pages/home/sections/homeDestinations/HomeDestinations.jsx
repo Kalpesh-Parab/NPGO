@@ -1,120 +1,132 @@
 import './homeDestinations.scss';
 import arrow from '../../../../assets/arrow.svg';
+import fallback from '../../../../assets/logo.png';
+
 import { useNavigate } from 'react-router-dom';
-import mh from '../../../../assets/Maharashtra.svg';
-import gj from '../../../../assets/Gujrat.svg';
-import pb from '../../../../assets/Punjab.svg';
-import mp from '../../../../assets/MP.svg';
-import up from '../../../../assets/UP.svg';
-import mhHover from '../../../../assets/MaharashtraHover.svg';
-import v1 from '../../../../assets/v1.MP4';
-import v2 from '../../../../assets/v2.mp4';
+import { useEffect, useState } from 'react';
+import { INDIA_PATHS } from '../../../../admin/pages/activationZone/data/IndiaPath';
+import API from '../../../../admin/services/api';
+import StateShape from './StateShape';
 
 const HomeDestinations = () => {
   const navigate = useNavigate();
 
-  const destinations = [
-    {
-      image: mh,
-      title: 'Maharashtra',
-      desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-      packages: 12,
-      hoverImage: mhHover,
-    },
-    {
-      image: mh,
-      title: 'Maharashtra',
-      desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-      packages: 12,
-      hoverVideo: v1,
-    },
-    {
-      image: gj,
-      title: 'Gujrat',
-      desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-      packages: 10,
-      hoverVideo: v2,
-    },
-    {
-      image: pb,
-      title: 'Punjab',
-      desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-      packages: 6,
-    },
-    {
-      image: mp,
-      title: 'Madhya Pradesh',
-      desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-      packages: 9,
-    },
-    {
-      image: up,
-      title: 'Uttar Pradesh',
-      desc: 'From breathtaking natural landscapes and iconic landmarks to vibrant cities and hidden local treasures.',
-      packages: 11,
-    },
+  const SELECTED_STATES = [
+    'IN-MH',
+    'IN-UT',
+    'IN-GJ',
+    'IN-HP',
+    'IN-KL',
+    'IN-MP',
   ];
+
+  const DESC_MAP = {
+    'IN-MH': 'From beaches to hill stations and vibrant cities.',
+    'IN-UT': 'Land of gods, mountains, and spiritual journeys.',
+    'IN-GJ': 'Culture, deserts, and stunning heritage sites.',
+    'IN-HP': 'Snowy peaks, valleys, and peaceful retreats.',
+    'IN-KL': 'Backwaters, greenery, and serene escapes.',
+    'IN-MP': 'Forests, wildlife, and ancient heritage.',
+  };
+
+  const [destinations, setDestinations] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const res = await API.get('/destinations/country/IN');
+      let data = res.data?.data || res.data;
+
+      data = data.filter((d) => SELECTED_STATES.includes(d.code));
+
+      const finalData = await Promise.all(
+        data.map(async (item) => {
+          const slug = item.name.toLowerCase().replace(/\s+/g, '-');
+
+          let packageCount = 0;
+
+          try {
+            const pkgRes = await API.get(
+              `/packages/by-location?country=india&destination=${slug}`,
+            );
+
+            const pkgData = Array.isArray(pkgRes.data)
+              ? pkgRes.data
+              : pkgRes.data?.data || [];
+
+            packageCount = pkgData.length;
+          } catch {}
+
+          return {
+            name: item.name,
+            code: item.code,
+            slug,
+            media: item.media || fallback,
+            mediaType: item.mediaType || 'image',
+            packages: packageCount,
+            desc: DESC_MAP[item.code],
+          };
+        }),
+      );
+
+      setDestinations(finalData);
+    } catch (err) {
+      console.error('HomeDestinations error', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <section className='HomeDestinations'>
       <div className='top'>
         <h4>Destination Packages</h4>
+
         <div className='button' onClick={() => navigate('/dest')}>
           <span>View More Packages</span>
           <img src={arrow} alt='' />
         </div>
       </div>
 
-      <div className='title'>
-        Explore handpicked destinations across the globe
-      </div>
+      <div className='title'>Explore handpicked destinations across India</div>
 
       <div className='titleDesc'>
-        From breathtaking natural landscapes and iconic landmarks to vibrant
-        cities and hidden local treasures, NPGO helps you discover places that
-        inspire every kind of traveler.
+        Discover places that inspire every kind of traveler.
       </div>
 
       <div className='destinationCards'>
-        {destinations.map((dest, index) => (
-          <div className='destinationCard' key={index}>
-            {(dest.hoverImage || dest.hoverVideo) && (
-              <div
-                className='hoverMedia'
-                style={{
-                  WebkitMaskImage: `url(${dest.image})`,
-                  maskImage: `url(${dest.image})`,
-                }}
-              >
-                {dest.hoverImage && <img src={dest.hoverImage} alt='' />}
-                {dest.hoverVideo && (
-                  <video
-                    src={dest.hoverVideo}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload='auto'
-                  />
-                )}
+        {destinations.map((dest, index) => {
+          const pathD = INDIA_PATHS[dest.code];
+          const clipId = `clip-${index}-${dest.code}`;
+
+          return (
+            <div
+              className='destinationCard'
+              key={dest.code}
+              onClick={() => navigate(`/destination/india/${dest.slug}`)}
+            >
+              <div className='svgWrapper'>
+                <StateShape
+                  pathD={pathD}
+                  media={dest.media}
+                  mediaType={dest.mediaType}
+                  clipId={clipId}
+                />
               </div>
-            )}
 
-            <img src={dest.image} alt='' className='mainImage' />
+              <div className='info'>
+                <div className='destTitle'>{dest.name}</div>
+                <div className='destDesc'>{dest.desc}</div>
+              </div>
 
-            <div className='info'>
-              <div className='destTitle'>{dest.title}</div>
-              <div className='destDesc'>{dest.desc}</div>
-            </div>
-
-            <div className='hoverInfo'>
-              <div className='packages'>{dest.packages} Packages</div>
-              <div className='viewAll' onClick={() => navigate('/dest')}>
-                View All
+              <div className='hoverInfo'>
+                <div className='packages'>{dest.packages} Packages</div>
+                <div className='viewAll'>View All</div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

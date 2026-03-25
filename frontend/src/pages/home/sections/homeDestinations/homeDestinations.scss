@@ -111,44 +111,32 @@
       overflow: hidden;
 
       /* ================= BASE SVG ================= */
-      .mainImage {
-        width: 100%;
-        aspect-ratio: 1.75;
-        object-fit: contain;
-        border-radius: 0.3vw;
-        transition: opacity 0.4s ease;
-        z-index: 2;
-      }
 
       /* ================= MASKED HOVER MEDIA ================= */
-      .hoverMedia {
-        position: absolute;
-        top: 2.5vw;
-        left: 0.5vw;
-        width: calc(100% - 1vw);
-        aspect-ratio: 1.75;
+      .svgWrapper {
+        width: 100%;
+        height: 55%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.4s ease;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
 
-        z-index: 1;
-        pointer-events: none;
-
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-size: contain;
-        -webkit-mask-position: top center;
-
-        mask-repeat: no-repeat;
-        mask-size: contain;
-        mask-position: top center;
-
-        img,
-        video {
+        video,
+        img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: center;
+        }
+
+        /* 🔥 MEDIA HIDDEN BY DEFAULT */
+        .media {
+          opacity: 0;
+          transition: opacity 0.4s ease;
+          filter: brightness(0.85);
         }
       }
 
@@ -203,15 +191,6 @@
 
       /* ================= HOVER STATE ================= */
       &:hover {
-        .mainImage {
-          opacity: 0;
-        }
-
-        .hoverMedia {
-          opacity: 1;
-          visibility: visible;
-        }
-
         .info {
           display: none;
           opacity: 0;
@@ -219,6 +198,24 @@
 
         .hoverInfo {
           display: flex;
+          opacity: 1;
+        }
+      }
+    }
+    .destinationCard {
+      &:hover {
+        .info {
+          display: none;
+          opacity: 0;
+        }
+
+        .hoverInfo {
+          display: flex;
+          opacity: 1;
+        }
+
+        /* 🔥 SHOW MEDIA */
+        .media {
           opacity: 1;
         }
       }

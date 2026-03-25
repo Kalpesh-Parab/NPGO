@@ -2,6 +2,7 @@ import './activationZone.scss';
 import API from '../../services/api';
 import { useEffect, useState } from 'react';
 import {
+  deleteDestinationMedia,
   getCountries,
   getDestinationsByCountry,
   toggleCountry,
@@ -43,29 +44,24 @@ const ActivationZone = () => {
   const handleUpload = async () => {
     if (!file) return toast.error('Select file first');
 
+    const toastId = toast.loading('Uploading media...');
+
     try {
       setUploading(true);
 
       const formData = new FormData();
       formData.append('file', file);
 
-      // 🔥 Upload to Cloudinary
       const res = await uploadFile(formData);
 
       const mediaUrl = res.data.url;
+      let mediaType = res.data.type === 'video' ? 'video' : 'image';
 
-      // 🔥 BULLETPROOF detection
-      let mediaType = 'image';
-
-      if (
-        res.data.resource_type === 'video' ||
-        mediaUrl.includes('.mp4') ||
-        mediaUrl.includes('.webm')
-      ) {
+      if (mediaUrl.includes('.mp4') || mediaUrl.includes('.webm')) {
         mediaType = 'video';
       }
-      // 🔥 Decide API
-      if (mode === 'domestic' && selectedCountry) {
+
+      if (mode === 'domestic') {
         await updateDestinationMedia(selectedEntity.code, {
           media: mediaUrl,
           mediaType,
@@ -77,14 +73,27 @@ const ActivationZone = () => {
         });
       }
 
-      toast.success('Media updated successfully');
+      toast.success('Upload complete ✅', { id: toastId });
 
-      setShowModal(false);
       setFile(null);
 
-      fetchCountries();
+      // 🔥 INSTANT REFRESH (NO MANUAL RELOAD)
+      await fetchCountries();
+
+      if (mode === 'domestic' && selectedCountry) {
+        const res = await getDestinationsByCountry(selectedCountry.code);
+        setDestinations(res.data.data);
+      }
+
+      // 🔥 UPDATE MODAL LIVE
+      setSelectedEntity((prev) => ({
+        ...prev,
+        media: mediaUrl,
+        mediaType,
+      }));
     } catch (err) {
-      toast.error('Upload failed');
+      console.error(err);
+      toast.error('Upload failed ❌', { id: toastId });
     } finally {
       setUploading(false);
     }
@@ -257,11 +266,7 @@ const ActivationZone = () => {
               /> */}
               {/* 🔥 PACKAGE COUNT */}
               <p>📦 {packageCount} Packages</p>
-              {mode === 'domestic' ? (
-                <SingleStatePreview entity={selectedEntity} mode={mode} />
-              ) : (
-                <p>International preview coming soon 🌍</p>
-              )}
+              <SingleStatePreview entity={selectedEntity} mode={mode} />
 
               {/* 🔥 FILE INPUT */}
               <input type='file' onChange={(e) => setFile(e.target.files[0])} />
