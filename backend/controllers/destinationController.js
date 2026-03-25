@@ -1,11 +1,13 @@
-import Destination from "../models/Destination.js";
-import Country from "../models/Country.js";
+import Destination from '../models/Destination.js';
+import Country from '../models/Country.js';
 
 // 📄 Get all destinations
 export const getAllDestinations = async (req, res) => {
   try {
-    const destinations = await Destination.find()
-      .populate("country", "name code type");
+    const destinations = await Destination.find().populate(
+      'country',
+      'name code type',
+    );
 
     res.status(200).json({
       success: true,
@@ -14,7 +16,7 @@ export const getAllDestinations = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching destinations",
+      message: 'Error fetching destinations',
       error: error.message,
     });
   }
@@ -25,13 +27,15 @@ export const getDestinationByCode = async (req, res) => {
   try {
     const { code } = req.params;
 
-    const destination = await Destination.findOne({ code })
-      .populate("country", "name code type");
+    const destination = await Destination.findOne({ code }).populate(
+      'country',
+      'name code type',
+    );
 
     if (!destination) {
       return res.status(404).json({
         success: false,
-        message: "Destination not found",
+        message: 'Destination not found',
       });
     }
 
@@ -42,7 +46,7 @@ export const getDestinationByCode = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching destination",
+      message: 'Error fetching destination',
       error: error.message,
     });
   }
@@ -58,7 +62,7 @@ export const getDestinationsByCountry = async (req, res) => {
     if (!country) {
       return res.status(404).json({
         success: false,
-        message: "Country not found",
+        message: 'Country not found',
       });
     }
 
@@ -73,7 +77,7 @@ export const getDestinationsByCountry = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching destinations",
+      message: 'Error fetching destinations',
       error: error.message,
     });
   }
@@ -89,7 +93,7 @@ export const createDestination = async (req, res) => {
     if (!country) {
       return res.status(400).json({
         success: false,
-        message: "Invalid country",
+        message: 'Invalid country',
       });
     }
 
@@ -98,7 +102,7 @@ export const createDestination = async (req, res) => {
     if (existing) {
       return res.status(400).json({
         success: false,
-        message: "Destination already exists",
+        message: 'Destination already exists',
       });
     }
 
@@ -114,13 +118,46 @@ export const createDestination = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Destination created successfully",
+      message: 'Destination created successfully',
       data: destination,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error creating destination",
+      message: 'Error creating destination',
+      error: error.message,
+    });
+  }
+};
+
+// ✏️ Update Destination Media
+export const updateDestinationMedia = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { media, mediaType } = req.body;
+
+    const destination = await Destination.findOneAndUpdate(
+      { code },
+      { media, mediaType },
+      { new: true },
+    );
+
+    if (!destination) {
+      return res.status(404).json({
+        success: false,
+        message: 'Destination not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Media updated successfully',
+      data: destination,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error updating media',
       error: error.message,
     });
   }

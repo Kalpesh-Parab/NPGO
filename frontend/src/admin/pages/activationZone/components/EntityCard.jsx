@@ -5,6 +5,7 @@ import { WORLD_PATHS } from '../data/worldPath';
 
 const EntityCard = ({
   item,
+  onEdit,
   onToggle,
   onClick,
   isSelected,
@@ -93,6 +94,15 @@ const EntityCard = ({
             }}
           >
             {item.isActive ? 'Active' : 'Inactive'}
+          </button>
+          <button
+            className='edit-btn'
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(item);
+            }}
+          >
+            Edit
           </button>
         </div>
       </div>

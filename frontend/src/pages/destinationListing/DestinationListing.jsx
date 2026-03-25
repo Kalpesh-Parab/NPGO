@@ -155,12 +155,15 @@ const DestinationListing = () => {
         <div className='noResults'>
           <h3>Didn’t find what you were looking for?</h3>
           <p>We’ve got your back — create your own custom trip ✨</p>
-          onClick=
-          {() =>
-            navigate('/customise', {
-              state: { from: window.location.pathname },
-            })
-          }
+          <button
+            onClick={() =>
+              navigate('/customise', {
+                state: { from: window.location.pathname },
+              })
+            }
+          >
+            Create Custom Trip ✨
+          </button>
           <h4>Packages you may like</h4>
           <PopularPackages mode='random' />
         </div>

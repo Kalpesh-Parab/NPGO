@@ -1,5 +1,5 @@
-import Country from "../models/Country.js";
-import Destination from "../models/Destination.js";
+import Country from '../models/Country.js';
+import Destination from '../models/Destination.js';
 
 // ➕ Create Country
 export const createCountry = async (req, res) => {
@@ -12,7 +12,7 @@ export const createCountry = async (req, res) => {
     if (existing) {
       return res.status(400).json({
         success: false,
-        message: "Country already exists",
+        message: 'Country already exists',
       });
     }
 
@@ -26,13 +26,13 @@ export const createCountry = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Country created successfully",
+      message: 'Country created successfully',
       data: country,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error creating country",
+      message: 'Error creating country',
       error: error.message,
     });
   }
@@ -41,7 +41,7 @@ export const createCountry = async (req, res) => {
 // 📥 Get All Countries
 export const getCountries = async (req, res) => {
   try {
-    const countries = await Country.find().populate("destinations");
+    const countries = await Country.find().populate('destinations');
 
     res.status(200).json({
       success: true,
@@ -50,7 +50,7 @@ export const getCountries = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching countries",
+      message: 'Error fetching countries',
       error: error.message,
     });
   }
@@ -61,15 +61,15 @@ export const getCountryByCode = async (req, res) => {
   try {
     const { code } = req.params;
 
-const country = await Country.findOne({ code }).populate({
-  path: "destinations",
-  select: "name code isActive"
-});
+    const country = await Country.findOne({ code }).populate({
+      path: 'destinations',
+      select: 'name code isActive',
+    });
 
     if (!country) {
       return res.status(404).json({
         success: false,
-        message: "Country not found",
+        message: 'Country not found',
       });
     }
 
@@ -80,7 +80,40 @@ const country = await Country.findOne({ code }).populate({
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching country",
+      message: 'Error fetching country',
+      error: error.message,
+    });
+  }
+};
+
+// ✏️ Update Country Media
+export const updateCountryMedia = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { media, mediaType } = req.body;
+
+    const country = await Country.findOneAndUpdate(
+      { code },
+      { media, mediaType },
+      { new: true },
+    );
+
+    if (!country) {
+      return res.status(404).json({
+        success: false,
+        message: 'Country not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Media updated successfully',
+      data: country,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error updating media',
       error: error.message,
     });
   }

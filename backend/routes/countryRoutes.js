@@ -3,6 +3,7 @@ import {
   createCountry,
   getCountries,
   getCountryByCode,
+  updateCountryMedia,
 } from "../controllers/countryController.js";
 import { toggleCountryActive } from "../controllers/countryToggleController.js";
 
@@ -18,5 +19,8 @@ router.get("/", getCountries);
 router.get("/:code", getCountryByCode);
 
 router.patch("/toggle/:code", toggleCountryActive);
+
+// 📷 Update media
+router.patch("/media/:code", updateCountryMedia);
 
 export default router;

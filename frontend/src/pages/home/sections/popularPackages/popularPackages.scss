@@ -4,6 +4,7 @@
   width: 100%;
   flex-direction: column;
   padding: 5.15vw 4.166666vw;
+  // justify-content: center;
   gap: 2vw;
 
   .top {
@@ -78,9 +79,14 @@
     font-size: 2.5vw;
     font-family: Inter, sans-serif;
     color: #000;
+    text-align: left;
   }
-
+  
   .titleDesc {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 60%;
     font-size: 1.145833vw;
     font-family: Inter, sans-serif;

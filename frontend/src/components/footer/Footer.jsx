@@ -28,7 +28,7 @@ const Footer = () => {
               <NavLink to='/' className='footerLink'>
                 Home
               </NavLink>
-              <NavLink to='/destination' className='footerLink'>
+              <NavLink to='/dest' className='footerLink'>
                 Destinations
               </NavLink>
               <NavLink to='/about' className='footerLink'>
@@ -39,6 +39,9 @@ const Footer = () => {
               </NavLink>
               <NavLink to='/customise' className='footerLink'>
                 Customize Pack
+              </NavLink>
+              <NavLink to='/events' className='footerLink'>
+                NPGO Events
               </NavLink>
               <NavLink to='/merchandise' className='footerLink'>
                 Merchandise

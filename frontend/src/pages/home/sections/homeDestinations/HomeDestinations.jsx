@@ -59,7 +59,7 @@ const HomeDestinations = () => {
     <section className='HomeDestinations'>
       <div className='top'>
         <h4>Destination Packages</h4>
-        <div className='button' onClick={() => navigate('/destination')}>
+        <div className='button' onClick={() => navigate('/dest')}>
           <span>View More Packages</span>
           <img src={arrow} alt='' />
         </div>
@@ -109,7 +109,7 @@ const HomeDestinations = () => {
 
             <div className='hoverInfo'>
               <div className='packages'>{dest.packages} Packages</div>
-              <div className='viewAll' onClick={() => navigate('/destination')}>
+              <div className='viewAll' onClick={() => navigate('/dest')}>
                 View All
               </div>
             </div>

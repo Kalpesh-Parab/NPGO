@@ -114,7 +114,7 @@ const DestExplore = () => {
                 <h4>{card.title}</h4>
                 <p>{card.desc}</p>
               </div>
-              <div className='button' onClick={() => navigate('/destination')}>
+              <div className='button' onClick={() => navigate('/dest')}>
                 <span>Explore Packages</span>
                 <img src={arrow} alt='' />
               </div>

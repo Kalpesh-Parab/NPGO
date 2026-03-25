@@ -11,6 +11,12 @@ import { toast } from 'sonner';
 import ToggleSwitch from './components/ToggleSwitch';
 import EntityCard from './components/EntityCard';
 
+import {
+  uploadFile,
+  updateDestinationMedia,
+  updateCountryMedia,
+} from '../../services/activationService';
+
 const ActivationZone = () => {
   const [mode, setMode] = useState('domestic'); // domestic | international
   const [countries, setCountries] = useState([]);
@@ -18,6 +24,10 @@ const ActivationZone = () => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageTitle, setPageTitle] = useState('');
+  const [selectedEntity, setSelectedEntity] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const titles = [
     'Meri Marzi Zone',
@@ -26,6 +36,51 @@ const ActivationZone = () => {
     'Control Room: On/Off Ka Game',
     'Kisko Zinda Rakhein?',
   ];
+
+  const handleUpload = async () => {
+    if (!file) return toast.error('Select file first');
+
+    try {
+      setUploading(true);
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // 🔥 Upload to Cloudinary
+      const res = await uploadFile(formData);
+
+      const mediaUrl = res.data.url;
+      const mediaType = res.data.resource_type === 'video' ? 'video' : 'image';
+
+      // 🔥 Decide API
+      if (mode === 'domestic' && selectedCountry) {
+        await updateDestinationMedia(selectedEntity.code, {
+          media: mediaUrl,
+          mediaType,
+        });
+      } else {
+        await updateCountryMedia(selectedEntity.code, {
+          media: mediaUrl,
+          mediaType,
+        });
+      }
+
+      toast.success('Media updated successfully');
+
+      setShowModal(false);
+      setFile(null);
+
+      fetchCountries();
+    } catch (err) {
+      toast.error('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+  const handleEdit = (entity) => {
+    setSelectedEntity(entity);
+    setShowModal(true);
+  };
 
   useEffect(() => {
     const random = titles[Math.floor(Math.random() * titles.length)];
@@ -124,6 +179,7 @@ const ActivationZone = () => {
                 onClick={() => handleCountryClick(country)}
                 onToggle={() => handleCountryToggle(country)}
                 isSelected={selectedCountry?._id === country._id}
+                onEdit={handleEdit}
               />
             ))}
           </div>
@@ -137,13 +193,33 @@ const ActivationZone = () => {
             <div className='grid'>
               {destinations.map((dest) => (
                 <EntityCard
-  key={dest._id}
-  item={dest}
-  mapType="india" // 🔥 always india for states
-  isParentActive={selectedCountry?.isActive}
-  onToggle={() => handleDestinationToggle(dest)}
-/>
+                  key={dest._id}
+                  item={dest}
+                  mapType='india' // 🔥 always india for states
+                  isParentActive={selectedCountry?.isActive}
+                  onToggle={() => handleDestinationToggle(dest)}
+                  onEdit={handleEdit}
+                />
               ))}
+            </div>
+          </div>
+        )}
+        {showModal && (
+          <div className='modal'>
+            <div className='modal-content'>
+              <h3>{selectedEntity?.name}</h3>
+
+              {selectedEntity?.media && (
+                <img src={selectedEntity.media} alt='preview' />
+              )}
+
+              <input type='file' onChange={(e) => setFile(e.target.files[0])} />
+
+              <button onClick={handleUpload} disabled={uploading}>
+                {uploading ? 'Uploading...' : 'Upload'}
+              </button>
+
+              <button onClick={() => setShowModal(false)}>Close</button>
             </div>
           </div>
         )}

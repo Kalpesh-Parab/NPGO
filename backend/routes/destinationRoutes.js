@@ -4,6 +4,7 @@ import {
   getDestinationByCode,
   getDestinationsByCountry,
   createDestination,
+  updateDestinationMedia,
 } from "../controllers/destinationController.js";
 import { toggleDestinationActive } from "../controllers/destinationToggleController.js";
 
@@ -22,5 +23,8 @@ router.get("/:code", getDestinationByCode);
 router.post("/create", createDestination);
 
 router.patch("/toggle/:code", toggleDestinationActive);
+
+// 📷 Update media
+router.patch("/media/:code", updateDestinationMedia);
 
 export default router;

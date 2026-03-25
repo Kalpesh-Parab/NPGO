@@ -104,7 +104,7 @@ const PopularPackages = ({ mode = 'random', destinationId }) => {
     <section className='PopularPackages'>
       <div className='top'>
         <h4>Popular Packages</h4>
-        <div className='button' onClick={() => navigate('/destination')}>
+        <div className='button' onClick={() => navigate('/dest')}>
           <span>View More Packages</span>
           <img src={arrow} alt='' />
         </div>

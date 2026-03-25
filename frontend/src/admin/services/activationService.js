@@ -10,3 +10,14 @@ export const getCountries = () => API.get('/countries');
 
 export const getDestinationsByCountry = (code) =>
   API.get(`/destinations/country/${code}`);
+
+// upload file
+export const uploadFile = (formData) => API.post('/upload', formData);
+
+// update destination media
+export const updateDestinationMedia = (code, data) =>
+  API.patch(`/destinations/media/${code}`, data);
+
+// update country media
+export const updateCountryMedia = (code, data) =>
+  API.patch(`/countries/media/${code}`, data);
