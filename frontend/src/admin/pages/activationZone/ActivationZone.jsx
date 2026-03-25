@@ -1,4 +1,5 @@
 import './activationZone.scss';
+import API from '../../services/api';
 import { useEffect, useState } from 'react';
 import {
   getCountries,
@@ -16,6 +17,7 @@ import {
   updateDestinationMedia,
   updateCountryMedia,
 } from '../../services/activationService';
+import SingleStatePreview from './components/SingleStatePreview';
 
 const ActivationZone = () => {
   const [mode, setMode] = useState('domestic'); // domestic | international
@@ -28,6 +30,7 @@ const ActivationZone = () => {
   const [showModal, setShowModal] = useState(false);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [packageCount, setPackageCount] = useState(0);
 
   const titles = [
     'Meri Marzi Zone',
@@ -50,8 +53,17 @@ const ActivationZone = () => {
       const res = await uploadFile(formData);
 
       const mediaUrl = res.data.url;
-      const mediaType = res.data.resource_type === 'video' ? 'video' : 'image';
 
+      // 🔥 BULLETPROOF detection
+      let mediaType = 'image';
+
+      if (
+        res.data.resource_type === 'video' ||
+        mediaUrl.includes('.mp4') ||
+        mediaUrl.includes('.webm')
+      ) {
+        mediaType = 'video';
+      }
       // 🔥 Decide API
       if (mode === 'domestic' && selectedCountry) {
         await updateDestinationMedia(selectedEntity.code, {
@@ -155,6 +167,33 @@ const ActivationZone = () => {
       toast.error('Failed to update destination');
     }
   };
+
+  const fetchPackageCount = async (entity) => {
+    try {
+      let url = '';
+
+      if (mode === 'domestic') {
+        url = `/packages/by-location?country=india&destination=${entity.name.toLowerCase().replace(/\s+/g, '-')}`;
+      } else {
+        url = `/packages/by-location?country=${entity.name.toLowerCase()}`;
+      }
+
+      const res = await API.get(url);
+
+      const data = Array.isArray(res.data) ? res.data : res.data?.data || [];
+
+      setPackageCount(data.length);
+    } catch (err) {
+      console.error(err);
+      setPackageCount(0);
+    }
+  };
+  useEffect(() => {
+    if (selectedEntity) {
+      fetchPackageCount(selectedEntity);
+    }
+  }, [selectedEntity]);
+
   return (
     <div className='activation-zone'>
       {/* 🔥 HEADER */}
@@ -209,10 +248,22 @@ const ActivationZone = () => {
             <div className='modal-content'>
               <h3>{selectedEntity?.name}</h3>
 
-              {selectedEntity?.media && (
-                <img src={selectedEntity.media} alt='preview' />
+              {/* <video
+                src={selectedEntity?.media}
+                autoPlay
+                loop
+                controls
+                alt=''
+              /> */}
+              {/* 🔥 PACKAGE COUNT */}
+              <p>📦 {packageCount} Packages</p>
+              {mode === 'domestic' ? (
+                <SingleStatePreview entity={selectedEntity} mode={mode} />
+              ) : (
+                <p>International preview coming soon 🌍</p>
               )}
 
+              {/* 🔥 FILE INPUT */}
               <input type='file' onChange={(e) => setFile(e.target.files[0])} />
 
               <button onClick={handleUpload} disabled={uploading}>
@@ -220,6 +271,17 @@ const ActivationZone = () => {
               </button>
 
               <button onClick={() => setShowModal(false)}>Close</button>
+              <button
+                onClick={async () => {
+                  await deleteDestinationMedia(selectedEntity.code);
+                  toast.success('Media deleted');
+
+                  setShowModal(false);
+                  fetchCountries();
+                }}
+              >
+                Delete Media
+              </button>
             </div>
           </div>
         )}

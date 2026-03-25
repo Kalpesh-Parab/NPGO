@@ -21,3 +21,6 @@ export const updateDestinationMedia = (code, data) =>
 // update country media
 export const updateCountryMedia = (code, data) =>
   API.patch(`/countries/media/${code}`, data);
+
+export const deleteDestinationMedia = (code) =>
+  API.patch(`/destinations/delete-media/${code}`);

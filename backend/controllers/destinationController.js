@@ -162,3 +162,29 @@ export const updateDestinationMedia = async (req, res) => {
     });
   }
 };
+
+export const deleteDestinationMedia = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const destination = await Destination.findOneAndUpdate(
+      { code },
+      {
+        media: null,
+        mediaType: null,
+      },
+      { new: true }
+    );
+
+    if (!destination) {
+      return res.status(404).json({ message: "Not found" });
+    }
+
+    res.json({
+      success: true,
+      data: destination,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

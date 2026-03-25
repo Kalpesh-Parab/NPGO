@@ -5,6 +5,7 @@ import {
   getDestinationsByCountry,
   createDestination,
   updateDestinationMedia,
+  deleteDestinationMedia,
 } from "../controllers/destinationController.js";
 import { toggleDestinationActive } from "../controllers/destinationToggleController.js";
 
@@ -26,5 +27,8 @@ router.patch("/toggle/:code", toggleDestinationActive);
 
 // 📷 Update media
 router.patch("/media/:code", updateDestinationMedia);
+
+// 🗑️ Delete media
+router.patch("/delete-media/:code", deleteDestinationMedia);
 
 export default router;
