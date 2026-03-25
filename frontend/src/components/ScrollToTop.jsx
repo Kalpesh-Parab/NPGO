@@ -5,10 +5,16 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname.startsWith('/destination')) return;
+    let targetScroll = 0;
+
+    if (pathname.startsWith('/destination')) {
+      // Calculate 20% of the total document height
+      const docHeight = document.documentElement.scrollHeight;
+      targetScroll = docHeight * .1;
+    }
 
     window.scrollTo({
-      top: 0,
+      top: targetScroll,
       behavior: 'smooth',
     });
   }, [pathname]);
