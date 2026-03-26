@@ -41,19 +41,26 @@ const contactSchema = new mongoose.Schema(
       city: String,
     },
 
-    // 📊 Source Tracking
-    type: {
-  type: String,
-  enum: [
-    'home',
-    'package',
-    'event',        // ✅ ADD THIS
-    'destination',
-    'corporate',
-    'merch',
-  ],
-  default: 'home',
-},
+    // 📊 SOURCE TRACKING (🔥 MATCHES CUSTOM ENQUIRY)
+    source: {
+      page: String, // full URL
+
+      type: {
+        type: String,
+        enum: [
+          'home',
+          'package',
+          'event',
+          'destination',
+          'corporate',
+          'merch',
+        ],
+        default: 'home',
+      },
+
+      slug: String,
+      subSlug: String,
+    },
   },
   { timestamps: true }
 );

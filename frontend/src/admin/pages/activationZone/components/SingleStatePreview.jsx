@@ -116,7 +116,7 @@ const SingleStatePreview = ({ entity, mode = 'domestic' }) => {
           transform={transform}
           fill='none'
           stroke='white'
-          strokeWidth='2'
+          strokeWidth='.5'
         />
       </svg>
     </div>

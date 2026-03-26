@@ -5,7 +5,7 @@ import geoip from 'geoip-lite';
 // 🔥 CREATE
 export const createContact = async (req, res) => {
   try {
-    const { name, email, message } = req.body;
+    const { name, email, message, source } = req.body;
 
     if (!name || !email || !message) {
       return res.status(400).json({
@@ -18,7 +18,19 @@ export const createContact = async (req, res) => {
     const geo = geoip.lookup(ip) || {};
 
     const contactData = {
-      ...req.body,
+      name,
+      email,
+      phone: req.body.phone,
+      message,
+
+      // ✅ SAFE SOURCE HANDLING
+      source: {
+        page: source?.page || 'unknown',
+        type: source?.type || 'home',
+        slug: source?.slug || null,
+        subSlug: source?.subSlug || null,
+      },
+
       location: {
         ip,
         country: geo.country || 'unknown',

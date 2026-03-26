@@ -68,7 +68,7 @@ const Package = () => {
       <HomeContact />
       <HomeExperience />
 
-      <PopularPackages mode='random' />
+      <PopularPackages mode='similar' />
     </>
   );
 };

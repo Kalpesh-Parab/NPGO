@@ -27,6 +27,7 @@ import PackageCreator from './admin/pages/packageCreator/PackageCreator';
 import ActivationZone from './admin/pages/activationZone/ActivationZone';
 import Merchandise from './admin/pages/merchandise/Merchandise';
 import BlogsEditor from './admin/pages/blogsEditor/BlogsEditor';
+import Enquiries from './admin/pages/enquiries/Enquiries';
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
             <Route path='activationZone' element={<ActivationZone />} />
             <Route path='merchandise' element={<Merchandise />} />            
             <Route path='blogsEditor' element={<BlogsEditor />} />            
+            <Route path='enquiries' element={<Enquiries />} />            
           </Route>
         </Route>
       </Routes>

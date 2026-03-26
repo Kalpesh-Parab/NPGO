@@ -1,0 +1,153 @@
+.enquiries {
+  padding: 20px;
+  color: var(--text);
+
+  .toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    button {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      background: var(--card);
+      color: var(--text);
+
+      &.active {
+        background: var(--primary);
+        color: #fff;
+      }
+    }
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  .loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .enquiry-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+
+    th,
+    td {
+      padding: 14px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.03);
+      }
+    }
+
+    .highlight {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .status {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+
+      &.new {
+        background: orange;
+      }
+      &.checked {
+        background: #3b82f6;
+      }
+      &.contacted {
+        background: #22c55e;
+      }
+    }
+
+    .delete {
+      background: #ef4444;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal-content {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 16px;
+      width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+
+      .details {
+        margin: 20px 0;
+
+        div {
+          margin-bottom: 8px;
+        }
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+
+        button {
+          flex: 1;
+          padding: 8px;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+          background: #444;
+          color: #fff;
+
+          &.active {
+            background: var(--primary);
+          }
+        }
+      }
+
+      .close {
+        margin-top: 15px;
+        width: 100%;
+        padding: 10px;
+      }
+    }
+  }
+}

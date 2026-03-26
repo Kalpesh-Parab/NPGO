@@ -16,6 +16,7 @@ const CompassMenu = ({ isOpen }) => {
     'eventCreator',
     'merchandise',
     'blogsEditor',
+    'enquiries',
   ];
 
   useEffect(() => {

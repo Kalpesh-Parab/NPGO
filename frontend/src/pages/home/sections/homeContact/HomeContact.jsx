@@ -20,7 +20,6 @@ const HomeContact = () => {
 
     const formData = new FormData(form.current);
 
-    // 🔥 Extract info from URL
     const pathParts = location.pathname.split('/').filter(Boolean);
 
     const data = {
@@ -28,20 +27,19 @@ const HomeContact = () => {
       email: formData.get('user_email'),
       phone: formData.get('user_phone'),
       message: formData.get('message'),
-      status: 'new',
+
+      // ✅ ONLY SOURCE (no top-level type now)
       source: {
-        page: location.pathname, // full path
-        type: pathParts[0] || 'home', // package / destination / etc
-        slug: pathParts[1] || null, // package slug or country
-        subSlug: pathParts[2] || null, // destination (if exists)
+        page: window.location.href, // 🔥 full URL
+        type: pathParts[0] || 'home',
+        slug: pathParts[1] || null,
+        subSlug: pathParts[2] || null,
       },
     };
 
     try {
-      // 🔥 1. Save to backend
       await API.post('/contact', data);
 
-      // 🔥 2. Send email
       await emailjs.sendForm(
         'service_tzlbgg7',
         'template_o2bfrdb',
@@ -125,36 +123,16 @@ const HomeContact = () => {
       <div className='right'>
         <form ref={form} onSubmit={sendEmail}>
           <label>Your Name</label>
-          <input
-            type='text'
-            name='user_name'
-            placeholder='Enter your name'
-            required
-          />
+          <input type='text' name='user_name' placeholder='Enter your name' required />
 
           <label>Your Email</label>
-          <input
-            type='email'
-            name='user_email'
-            placeholder='Enter your email address'
-            required
-          />
+          <input type='email' name='user_email' placeholder='Enter your email address' required />
 
           <label>Contact No.</label>
-          <input
-            type='text'
-            name='user_phone'
-            placeholder='+91 XXXXX XXXXX'
-            required
-          />
+          <input type='text' name='user_phone' placeholder='+91 XXXXX XXXXX' required />
 
           <label>Your Message</label>
-          <textarea
-            name='message'
-            placeholder='Tell us about your dream trip...'
-            rows='4'
-            required
-          ></textarea>
+          <textarea name='message' placeholder='Tell us about your dream trip...' rows='4' required />
 
           <button type='submit'>Submit Your Enquiry!</button>
         </form>
