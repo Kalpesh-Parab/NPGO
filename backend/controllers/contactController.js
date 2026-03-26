@@ -141,7 +141,7 @@ export const updateContactStatus = async (req, res) => {
   try {
     const { status } = req.body;
 
-    if (!['new', 'contacted', 'closed'].includes(status)) {
+    if (!['new', 'checked', 'contacted'].includes(status)) {
       return res.status(400).json({
         success: false,
         message: 'Invalid status value',

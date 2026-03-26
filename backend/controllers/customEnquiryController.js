@@ -89,7 +89,7 @@ export const updateCustomEnquiryStatus = async (req, res) => {
   try {
     const { status } = req.body;
 
-    if (!['new', 'contacted', 'converted'].includes(status)) {
+    if (!['new', 'checked', 'contacted'].includes(status)) {
       return res.status(400).json({
         success: false,
         message: 'Invalid status',

@@ -1,243 +1,302 @@
 import { useEffect, useState } from 'react';
 import API from '../../services/api';
 import './enquiries.scss';
-import { toast } from 'sonner';
 
 const Enquiries = () => {
-  const [type, setType] = useState('contact'); // contact | custom
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
+  const [type, setType] = useState('contact');
+
+  const [contactData, setContactData] = useState([]);
+  const [customData, setCustomData] = useState([]);
+
   const [selected, setSelected] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  const LIMIT = 8;
+  // 🔄 Fetch Data
+  const fetchContact = async () => {
+    const res = await API.get('/contact');
+    setContactData(res.data.data || []);
+  };
 
-  // 🔥 Fetch Data
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-
-      let res;
-
-      if (type === 'contact') {
-        res = await API.get(`/contact?page=${page}&limit=${LIMIT}`);
-        setData(res.data.data);
-      } else {
-        res = await API.get(`/custom-enquiry`);
-        setData(res.data.data.slice((page - 1) * LIMIT, page * LIMIT));
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  const fetchCustom = async () => {
+    const res = await API.get('/custom-enquiry');
+    setCustomData(res.data.data || []);
   };
 
   useEffect(() => {
-    fetchData();
-  }, [type, page]);
+    fetchContact();
+    fetchCustom();
+  }, []);
 
-  // 🔥 Open Modal + Auto Checked
-  const openEnquiry = async (item) => {
-    let updatedItem = item;
+  const data = type === 'contact' ? contactData : customData;
 
-    if (item.status === 'new') {
-      await updateStatus(item._id, 'checked');
-      updatedItem = { ...item, status: 'checked' };
-    }
+  // 🔁 Update Status
+  const updateStatus = async (item, newStatus) => {
+    const endpoint =
+      type === 'contact'
+        ? `/contact/${item._id}/status`
+        : `/custom-enquiry/${item._id}/status`;
 
-    setSelected(updatedItem);
+    await API.patch(endpoint, { status: newStatus });
+
+    if (type === 'contact') fetchContact();
+    else fetchCustom();
+
+    setSelected({ ...item, status: newStatus });
   };
 
-  // 🔥 Update Status
-  const updateStatus = async (id, status) => {
-    try {
-      const url =
-        type === 'contact'
-          ? `/contact/${id}/status`
-          : `/custom-enquiry/${id}/status`;
-
-      await API.patch(url, { status });
-
-      fetchData();
-      setSelected((prev) => ({ ...prev, status }));
-    } catch (err) {
-      console.error(err);
+  // ⚡ Auto mark contacted
+  useEffect(() => {
+    if (selected && selected.status === 'new') {
+      updateStatus(selected, 'checked');
     }
-  };
+  }, [selected]);
 
-  // 🔥 Delete
-  const handleDelete = async (id) => {
-    if (type !== 'contact') return;
+  const buildUrl = (path) => {
+    if (!path) return '#';
 
-    toast('Delete this enquiry?', {
-      action: {
-        label: 'Delete',
-        onClick: async () => {
-          try {
-            await API.delete(`/contact/${id}`);
-            toast.success('Deleted successfully');
-            fetchData();
-          } catch {
-            toast.error('Delete failed');
-          }
-        },
-      },
-    });
+    // already full URL (contact case)
+    if (path.startsWith('http')) return path;
+
+    // custom case → prepend domain
+    return `https://npgo.me${path}`;
   };
 
   return (
     <div className='enquiries'>
-      {/* 🔥 Toggle */}
+      {/* 🔘 TOGGLE */}
       <div className='toggle'>
         <button
           className={type === 'contact' ? 'active' : ''}
           onClick={() => setType('contact')}
         >
-          Contact
+          Contact Enquiries
         </button>
+
         <button
           className={type === 'custom' ? 'active' : ''}
           onClick={() => setType('custom')}
         >
-          Custom Trips
+          Custom Enquiries
         </button>
       </div>
 
-      {/* 🔥 Cards */}
-      <div className='table-wrapper'>
-        {loading && <div className='loading'>Loading enquiries...</div>}
-        <table className='enquiry-table'>
+      {/* 📊 TABLE */}
+      <div className='table-container'>
+        <table>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Action</th>
+              {type === 'contact' ? (
+                <>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Message</th>
+                  <th>Source</th>
+                  <th>Location</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </>
+              ) : (
+                <>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Travel</th>
+                  <th>People</th>
+                  <th>Budget</th>
+                  <th>Source</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </>
+              )}
             </tr>
           </thead>
 
           <tbody>
             {data.map((item) => (
-              <tr key={item._id} onClick={() => openEnquiry(item)}>
-                <td>{item.name || `${item.firstName} ${item.lastName}`}</td>
-
-                <td className='highlight'>{item.email}</td>
-
-                <td className='highlight'>{item.phone}</td>
-
-                <td>
-                  <span className={`status ${item.status}`}>{item.status}</span>
-                </td>
-
-                <td onClick={(e) => e.stopPropagation()}>
-                  {type === 'contact' && (
-                    <button
-                      className='delete'
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </td>
+              <tr
+                key={item._id}
+                onClick={() => setSelected(item)}
+                className={item.status === 'new' ? 'highlight' : ''}
+              >
+                {type === 'contact' ? (
+                  <>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.phone}</td>
+                    <td>{item.message?.slice(0, 30)}...</td>
+                    <td>
+                      <a
+                        href={item.source?.page}
+                        target='_blank'
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {item.source?.type} / {item.source?.slug}
+                      </a>
+                    </td>
+                    <td>
+                      {item.location?.country}, {item.location?.city}
+                    </td>
+                    <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <StatusBadge status={item.status} />
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td>
+                      {item.firstName} {item.lastName}
+                    </td>
+                    <td>{item.email}</td>
+                    <td>{item.phone}</td>
+                    <td>{new Date(item.travelDate).toLocaleDateString()}</td>
+                    <td>{item.adults + item.children}</td>
+                    <td>{item.budget}</td>
+                    <td>
+                      <a
+                        href={buildUrl(item.source?.from)}
+                        target='_blank'
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {item.source?.type}
+                      </a>
+                    </td>
+                    <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <StatusBadge status={item.status} />
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {/* 🔥 Pagination */}
-      <button
-        disabled={page === 1}
-        onClick={() => setPage((p) => Math.max(1, p - 1))}
-      >
-        Prev
-      </button>
-      <span>{page}</span>
-      <button
-        disabled={data.length < LIMIT}
-        onClick={() => setPage((p) => p + 1)}
-      >
-        Next
-      </button>
-
-      {/* 🔥 Modal */}
+      {/* 🧊 MODAL */}
       {selected && (
-        <div className='modal' onClick={() => setSelected(null)}>
-          <div className='modal-content' onClick={(e) => e.stopPropagation()}>
-            <h2>Enquiry Details</h2>
-
-            <div className='details'>
-              <div>
-                <strong>Name:</strong>{' '}
-                {selected.name || `${selected.firstName} ${selected.lastName}`}
-              </div>
-              <div>
-                <strong>Email:</strong> {selected.email}
-              </div>
-              <div>
-                <strong>Phone:</strong> {selected.phone}
-              </div>
-
-              {selected.message && (
-                <div>
-                  <strong>Message:</strong> {selected.message}
-                </div>
-              )}
-
-              {/* 🔥 SOURCE LINK */}
-              {selected.source?.page && (
-                <div>
-                  <strong>Source:</strong>{' '}
-                  <a
-                    href={`https://npgo.me${selected.source.page}`}
-                    target='_blank'
-                    rel='noreferrer'
-                  >
-                    https://npgo.me{selected.source.page}
-                  </a>
-                </div>
-              )}
-
-              <div>
-                <strong>Location:</strong> {selected.location?.city},{' '}
-                {selected.location?.country}
-              </div>
+        <div className='modal-overlay' onClick={() => setSelected(null)}>
+          <div className='modal' onClick={(e) => e.stopPropagation()}>
+            <div className='modal-header'>
+              <h2>Enquiry Details</h2>
+              <button className='close-btn' onClick={() => setSelected(null)}>
+                ✕
+              </button>
             </div>
 
-            {/* 🔥 Status Buttons */}
+            <div className='section'>
+              <h4>User Info</h4>
+              {type === 'contact' ? (
+                <>
+                  <p>
+                    <strong>Name:</strong> {selected.name}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {selected.email}
+                  </p>
+                  <p>
+                    <strong>Phone:</strong> {selected.phone}
+                  </p>
+                  <p>
+                    <strong>Message:</strong> {selected.message}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <strong>Name:</strong> {selected.firstName}{' '}
+                    {selected.lastName}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {selected.email}
+                  </p>
+                  <p>
+                    <strong>Phone:</strong> {selected.phone}
+                  </p>
+                </>
+              )}
+            </div>
+
+            {type === 'custom' && (
+              <div className='section'>
+                <h4>Travel Info</h4>
+                <p>Destination: {selected.knowDestination}</p>
+                <p>
+                  Date: {new Date(selected.travelDate).toLocaleDateString()}
+                </p>
+                <p>Nights: {selected.nights}</p>
+                <p>Adults: {selected.adults}</p>
+                <p>Children: {selected.children}</p>
+                <p>Budget: {selected.budget}</p>
+                <p>Must Do: {selected.mustDo}</p>
+                <p>Special Occasion: {selected.specialOccasion}</p>
+              </div>
+            )}
+
+            <div className='section'>
+              <h4>Source</h4>
+
+              {type === 'contact' ? (
+                <>
+                  <p>
+                    Page:{' '}
+                    <a href={buildUrl(selected.source?.page)} target='_blank'>
+                      {selected.source?.page}
+                    </a>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    From:{' '}
+                    <a href={buildUrl(selected.source?.from)} target='_blank'>
+                      {selected.source?.from}
+                    </a>
+                  </p>
+                </>
+              )}
+
+              <p>Type: {selected.source?.type}</p>
+              <p>Slug: {selected.source?.slug}</p>
+            </div>
+
+            <div className='section'>
+              <h4>Location</h4>
+              <p>
+                {selected.location?.country}, {selected.location?.city}
+              </p>
+            </div>
+
+            <div className='section'>
+              <h4>Date</h4>
+              <p>{new Date(selected.createdAt).toLocaleString()}</p>
+            </div>
+
+            {/* 🎯 ACTIONS */}
             <div className='actions'>
-              <button
-                className={selected.status === 'new' ? 'active' : ''}
-                onClick={() => updateStatus(selected._id, 'new')}
-              >
-                New
+              <button onClick={() => updateStatus(selected, 'contacted')}>
+                Mark as Contacted
               </button>
 
-              <button
-                className={selected.status === 'checked' ? 'active' : ''}
-                onClick={() => updateStatus(selected._id, 'checked')}
-              >
-                Checked
-              </button>
-
-              <button
-                className={selected.status === 'contacted' ? 'active' : ''}
-                onClick={() => updateStatus(selected._id, 'contacted')}
-              >
-                Contacted
-              </button>
+              {type === 'contact' ? (
+                <button onClick={() => updateStatus(selected, 'closed')}>
+                  Close
+                </button>
+              ) : (
+                <button onClick={() => updateStatus(selected, 'converted')}>
+                  Convert
+                </button>
+              )}
             </div>
-
-            <button className='close' onClick={() => setSelected(null)}>
-              Close
-            </button>
           </div>
         </div>
       )}
     </div>
   );
+};
+
+// 🎨 STATUS BADGE
+const StatusBadge = ({ status }) => {
+  return <span className={`badge ${status}`}>{status}</span>;
 };
 
 export default Enquiries;

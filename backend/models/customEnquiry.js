@@ -82,7 +82,7 @@ const customEnquirySchema = new mongoose.Schema(
     // 🧑‍💼 ADMIN FLOW
     status: {
       type: String,
-      enum: ['new', 'contacted', 'converted'],
+      enum: ['new', 'checked', 'contacted'],
       default: 'new',
     },
   },

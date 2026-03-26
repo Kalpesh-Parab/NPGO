@@ -1,152 +1,156 @@
 .enquiries {
-  padding: 20px;
-  color: var(--text);
+  padding: 2rem;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
 
   .toggle {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
 
     button {
-      padding: 8px 16px;
-      border-radius: 20px;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
       border: none;
       cursor: pointer;
-      background: var(--card);
-      color: var(--text);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
 
       &.active {
-        background: var(--primary);
-        color: #fff;
+        background: var(--accent);
+        color: var(--bg-primary);
       }
     }
   }
 
-  .table-wrapper {
+  .table-container {
+    width: 100%;
     overflow-x: auto;
-  }
-  .loading {
-    padding: 20px;
-    text-align: center;
-    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border-radius: 1rem;
   }
 
-  .enquiry-table {
+  table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--bg-secondary);
-    border-radius: 12px;
-    overflow: hidden;
+    min-width: 80vw;
+
+    thead {
+      position: sticky;
+      top: 0;
+      background: var(--bg-secondary);
+    }
 
     th,
     td {
-      padding: 14px;
+      padding: 1rem;
       text-align: left;
+      font-size: 0.9rem;
     }
 
-    th {
-      background: var(--bg-secondary);
-      color: var(--text-secondary);
-      font-weight: 500;
-      font-size: 13px;
-    }
-
-    tr {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    tbody tr {
       cursor: pointer;
       transition: 0.2s;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.05);
       }
-    }
-
-    .highlight {
-      font-weight: 500;
-      color: var(--accent);
-    }
-
-    .status {
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-
-      &.new {
-        background: orange;
-      }
-      &.checked {
-        background: #3b82f6;
-      }
-      &.contacted {
-        background: #22c55e;
-      }
-    }
-
-    .delete {
-      background: #ef4444;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
-      color: #fff;
-      cursor: pointer;
     }
   }
 
-  .pagination {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
+  .highlight {
+    background: rgba(34, 197, 94, 0.1);
   }
 
-  .modal {
+  .badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+
+    &.new {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+    }
+
+    &.checked {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
+    &.contacted {
+      background: rgba(250, 204, 21, 0.2);
+      color: #facc15;
+    }
+
+    &.closed,
+    &.converted {
+      background: rgba(100, 116, 139, 0.2);
+      color: #64748b;
+    }
+  }
+
+  /* 🧊 MODAL */
+  .modal-overlay {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.6);
 
     display: flex;
     justify-content: center;
     align-items: center;
+  }
 
-    .modal-content {
-      background: var(--card);
-      padding: 20px;
-      border-radius: 16px;
-      width: 500px;
-      max-height: 80vh;
-      overflow-y: auto;
+  .modal {
+    width: 60%;
+    max-height: 80vh;
+    overflow-y: auto;
 
-      .details {
-        margin: 20px 0;
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 1rem;
 
-        div {
-          margin-bottom: 8px;
-        }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .close-btn {
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+      }
+    }
+
+    .section {
+      margin-bottom: 1.5rem;
+
+      h4 {
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
       }
 
-      .actions {
-        display: flex;
-        gap: 10px;
-
-        button {
-          flex: 1;
-          padding: 8px;
-          border-radius: 10px;
-          border: none;
-          cursor: pointer;
-          background: #444;
-          color: #fff;
-
-          &.active {
-            background: var(--primary);
-          }
-        }
+      p {
+        margin: 0.2rem 0;
       }
+    }
 
-      .close {
-        margin-top: 15px;
-        width: 100%;
-        padding: 10px;
+    .actions {
+      display: flex;
+      gap: 1rem;
+
+      button {
+        padding: 0.6rem 1.2rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        background: var(--accent);
+        color: var(--bg-primary);
       }
     }
   }
