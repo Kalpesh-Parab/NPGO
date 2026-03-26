@@ -43,13 +43,6 @@ const Enquiries = () => {
     setSelected({ ...item, status: newStatus });
   };
 
-  // ⚡ Auto mark contacted
-  useEffect(() => {
-    if (selected && selected.status === 'new') {
-      updateStatus(selected, 'checked');
-    }
-  }, [selected]);
-
   const buildUrl = (path) => {
     if (!path) return '#';
 
@@ -277,15 +270,9 @@ const Enquiries = () => {
                 Mark as Contacted
               </button>
 
-              {type === 'contact' ? (
-                <button onClick={() => updateStatus(selected, 'closed')}>
-                  Close
-                </button>
-              ) : (
-                <button onClick={() => updateStatus(selected, 'converted')}>
-                  Convert
-                </button>
-              )}
+              <button onClick={() => updateStatus(selected, 'new')}>
+                Mark as New
+              </button>
             </div>
           </div>
         </div>

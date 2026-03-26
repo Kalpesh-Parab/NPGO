@@ -50,7 +50,7 @@ const Package = () => {
 
     fetchData();
   }, [slug, isEvent]);
-
+console.log(data)
   if (!data) return null;
 
   return (
@@ -68,7 +68,7 @@ const Package = () => {
       <HomeContact />
       <HomeExperience />
 
-      <PopularPackages mode='similar' />
+<PopularPackages mode="similar" destinationId={data.destination._id} />
     </>
   );
 };

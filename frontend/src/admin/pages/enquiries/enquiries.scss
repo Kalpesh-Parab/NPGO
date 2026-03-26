@@ -69,6 +69,18 @@
     font-size: 0.8rem;
     text-transform: capitalize;
 
+    .badge.new {
+      background: red;
+    }
+    .badge.checked {
+      background: orange;
+    }
+    .badge.contacted {
+      background: blue;
+    }
+    .badge.converted {
+      background: green;
+    }
     &.new {
       background: rgba(34, 197, 94, 0.2);
       color: #22c55e;
