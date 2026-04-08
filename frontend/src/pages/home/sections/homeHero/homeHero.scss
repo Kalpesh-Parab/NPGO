@@ -101,14 +101,16 @@
 
 @media (max-width: 480px) {
   .HomeHero {
-    height: max-content;
+    height: 80vh;
 
     .bg-video {
-      height: 30vh;
+      // height: max-content;
     }
 
-    .overlay {
+    .mainOverlay {
+      gap: 3vw;
       .heading {
+        font-size: 9.444vw;
         padding-top: 1%;
         letter-spacing: normal;
       }
@@ -116,8 +118,14 @@
       .subHeading {
         padding-top: 2%;
         letter-spacing: normal;
-        font-size: 4.8vw;
+        font-size: 3.8vw;
+      }
+
+      .button{
+        font-size: 2.777vw;
+        padding: 2vw;
       }
     }
   }
 }
+

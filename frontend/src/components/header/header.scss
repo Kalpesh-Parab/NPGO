@@ -125,3 +125,90 @@
 .Header.hide {
   transform: translateY(-110%);
 }
+
+@media (max-width: 480px) {
+  .Header {
+    height: 70px;
+
+    .logo {
+      img {
+        width: 40px;
+      }
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      cursor: pointer;
+      z-index: 1100;
+
+      span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: #111;
+        transition: all 0.3s ease;
+      }
+
+      &.active {
+        span:nth-child(1) {
+          transform: translateY(8px) rotate(45deg);
+        }
+        span:nth-child(2) {
+          opacity: 0;
+        }
+        span:nth-child(3) {
+          transform: translateY(-8px) rotate(-45deg);
+        }
+      }
+    }
+
+    /* HIDE DESKTOP LINKS */
+    .links {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 75%;
+      height: 100vh;
+      background: #fff;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 100px 30px;
+      gap: 20px;
+      transition: right 0.4s ease;
+
+      .link {
+        font-size: 16px;
+      }
+
+      &.open {
+        right: 0;
+      }
+    }
+
+    /* OPTIONAL OVERLAY */
+    &::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .links.open ~ &::after {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* CONTACT BUTTON (OPTIONAL HIDE) */
+    .button {
+      display: none;
+    }
+  }
+}

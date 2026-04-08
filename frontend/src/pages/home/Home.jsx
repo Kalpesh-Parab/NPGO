@@ -52,7 +52,7 @@ const Home = () => {
       <HomeTesti data={homepageData?.testimonials} />
 
       <HomeBlogs />
-      <HomeMerch />
+      {/* <HomeMerch /> */}
 
       <HomeFAQ data={homepageData?.faqs} />
 
