@@ -19,6 +19,8 @@
 
     .title {
       width: 98%;
+      font-weight: 500;
+      font-family: Inter, sans-serif;
       font-size: 2.5vw;
       color: #000;
     }
@@ -139,6 +141,51 @@
           transform: rotate(45deg);
           filter: invert(1);
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeGallery {
+    padding: 11.11vw 0;
+    gap: 5vw;
+    .top {
+      padding: 4.44vw;
+      gap: 7vw;
+      h4 {
+        font-size: 3.88889vw;
+      }
+      .title {
+        font-size: 7.2vw;
+        letter-spacing: -0.3vw;
+        width: 100%;
+      }
+    }
+
+    .gallery {
+      padding: 0 4.44vw;
+      .galleryBlock {
+        column-gap: 1vw;
+        grid-template-columns: 58.145833vw 58.145833vw;
+      }
+    }
+
+    .bot{
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7vw;
+
+      .titleDesc{
+        font-size: 4.4444vw;
+        width: 100%;
+        letter-spacing: -.2vw;
+      }
+
+      .button{
+        font-size: 3.3333vw;
+        padding: 3vw 4vw;
+        gap: 2vw;
       }
     }
   }

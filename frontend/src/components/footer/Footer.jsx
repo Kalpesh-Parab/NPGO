@@ -80,7 +80,7 @@ const Footer = () => {
             </div>
           </div>
           <div className='tRightList'>
-            <div className='listHeading'>Conatct</div>
+            <div className='listHeading'>Contact</div>
             <div className='listing'>
               <div className='li'>Phone: IN: +91 00000000</div>
               <div className='li'>Email: npgo@gmail.com</div>

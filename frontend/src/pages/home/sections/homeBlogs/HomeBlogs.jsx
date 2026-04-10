@@ -66,6 +66,10 @@ const HomeBlogs = () => {
         corporate journey.
       </div>
 
+      <div className='buttonMob' onClick={() => navigate('/blogs')}>
+        <span>View All Blogs</span>
+        <img src={arrow} alt='' />
+      </div>
       <div className='blogCards'>
         {Blogs.map((blog, i) => (
           <div className='blogCard' key={i}>

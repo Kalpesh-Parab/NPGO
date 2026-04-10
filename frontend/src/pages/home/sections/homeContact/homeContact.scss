@@ -31,6 +31,16 @@
       line-height: 120%; /* 57.6px */
     }
 
+    h3 {
+      margin: 0;
+      color: #111;
+      font-family: Inter, sans-serif;
+      font-size: 1.145833vw;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 140%;
+    }
+
     .cta {
       display: flex;
       padding-top: 1.1vw;
@@ -184,6 +194,94 @@
       button:hover {
         background: #58c425cc;
         color: #292626;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeContact {
+    flex-direction: column;
+    gap: 7vw;
+
+    .left {
+      width: 100%;
+      h4 {
+        font-size: 3.88889vw;
+      }
+
+      h2 {
+        font-size: 7.8889vw;
+      }
+
+      h3 {
+        font-size: 4.4444vw;
+      }
+
+      .cta {
+        flex-direction: column;
+        gap: 7vw;
+
+        .chat {
+          gap: 6vw;
+          .image {
+            padding: 5vw;
+            height: 100%;
+            img {
+              scale: 0.8;
+            }
+          }
+
+          .details {
+            gap: 1vw;
+            .title {
+              font-size: 3.333vw;
+            }
+            .disc {
+              font-size: 3.333vw;
+            }
+            .mail {
+              font-size: 3.333vw;
+            }
+          }
+        }
+      }
+
+      .blocks{
+        margin-top: 5vw;
+        gap: 3vw;
+        .block{
+          width: 7.666666vw;
+          img{
+            width: 4.333333vw;
+          }
+        }
+      }
+    }
+
+    .right {
+      width: 100%;
+
+      form{
+        padding: 6vw 5vw;
+        gap: 5vw;
+        label{
+          font-size: 3.333vw;
+        }
+
+        input, textarea{
+          font-size: 3.3333vw;
+          padding: 3vw;
+        }
+
+        textarea{
+          height: 35vw;
+        }
+
+        button{
+          font-size: 3.3333vw;
+          padding: 3vw;
+        }
       }
     }
   }

@@ -81,7 +81,21 @@ const HomeTesti = ({ data }) => {
           <div className='left'>
             {test.photo?.url && <img src={test.photo.url} alt={test.name} />}
           </div>
+          <div className='midBottom'>
+            <div className='quote'>
+              <img src={quote} alt='' />
+              <img src={quote} alt='' />
+            </div>
+            <div className='arrows'>
+              <button onClick={prev}>
+                <img src={left} alt='Previous' />
+              </button>
 
+              <button onClick={next}>
+                <img src={right} alt='Next' />
+              </button>
+            </div>
+          </div>
           <div className='right'>
             <h3>{test.title}</h3>
 

@@ -31,7 +31,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: .5vw;
+    gap: 0.5vw;
   }
 
   .faq {
@@ -89,7 +89,7 @@
     }
 
     .answer {
-        padding: .5vw 1vw;
+      padding: 0.5vw 1vw;
       margin-top: 1.2vw;
       font-family: Inter, sans-serif;
       font-size: 1.35vw;
@@ -105,8 +105,48 @@
       }
 
       .icon {
-        transform: rotate(135deg);    
+        transform: rotate(135deg);
+      }
     }
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeFAQ {
+    padding: 11.111vw 4.444vw;
+    gap: 7vw;
+
+    .title {
+      font-size: 3.8889vw;
+    }
+
+    .subTitle {
+      width: 100%;
+      font-size: 7.88889vw;
+    }
+
+    .faqs {
+      gap: 3vw;
+      .faq {
+        padding: 3vw 3vw;
+        .faqTop {
+          .question {
+            font-size: 3.444vw;
+          }
+
+          .icon {
+            width: 3.444vw;
+            opacity: 0.7;
+          }
+        }
+
+        .answerWrapper {
+          .answer {
+            padding: 3vw 1vw;
+            font-size: 3.8vw;
+          }
+        }
+      }
     }
   }
 }

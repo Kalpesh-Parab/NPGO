@@ -12,7 +12,7 @@
     justify-content: center;
 
     h4 {
-        margin: 0;
+      margin: 0;
       width: 60%;
       font-size: 1.05vw;
       font-weight: 400;
@@ -32,7 +32,7 @@
     align-items: center;
 
     h2 {
-        margin: 0;
+      margin: 0;
       width: 55%;
       font-size: 1.875vw;
       font-weight: 400;
@@ -94,6 +94,53 @@
         }
       }
 
+      .midBottom {
+        display: none;
+        justify-content: space-between;
+
+        .arrows {
+          display: flex;
+          gap: 0.6vw;
+
+          button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.6vw;
+            border-radius: 50%;
+            position: relative;
+
+            &::after {
+              content: '';
+              position: absolute;
+              inset: 0;
+              border-radius: 50%;
+              background: rgba(255, 255, 255, 0.15);
+              opacity: 0;
+              transition: opacity 0.3s ease;
+            }
+
+            &:hover::after {
+              opacity: 1;
+            }
+
+            img {
+              transition: transform 0.3s ease;
+            }
+
+            &:hover img {
+              transform: scale(1.1);
+            }
+          }
+        }
+
+        .quote {
+          width: 40%;
+          display: flex;
+          gap: 0.5vw;
+          justify-content: flex-start;
+        }
+      }
       .right {
         width: 47%;
         display: flex;
@@ -102,14 +149,14 @@
         gap: 1.4vw;
 
         h3 {
-            margin: 0;
+          margin: 0;
           font-size: 2.083vw;
           font-weight: 500;
           line-height: 110%;
         }
 
         h4 {
-            margin: 0;
+          margin: 0;
           font-size: 1.145vw;
           color: #989898;
           line-height: 140%;
@@ -205,5 +252,103 @@
   }
   to {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeTesti {
+    padding: 11.1111vw 4.4444vw;
+    gap: 7vw;
+
+    .top {
+      justify-content: start;
+
+      h4 {
+        font-size: 3.8889vw;
+      }
+      .quote {
+        display: none;
+      }
+    }
+
+    .mid {
+      h2 {
+        width: 100%;
+        font-size: 4.4444vw;
+      }
+      .arrows {
+        display: none;
+      }
+    }
+
+    .bottom {
+      padding-top: 0;
+      .testimonial {
+        gap: 5vw;
+        flex-direction: column;
+
+        .left {
+          width: 100%;
+          img {
+            border-radius: 2.5vw;
+          }
+        }
+        .midBottom {
+          display: flex;
+
+          .quote {
+            img {
+              width: 7.5vw;
+            }
+          }
+
+          .arrows {
+            img {
+              width: 15vw;
+            }
+          }
+        }
+
+        .right {
+          width: 100%;
+          gap: 7vw;
+
+          h3 {
+            font-size: 7.8889vw;
+          }
+
+          h4 {
+            font-size: 4.4444vw;
+          }
+
+          .profile {
+            img {
+              width: 20.2778vw;
+            }
+
+            .ratings {
+              .star {
+                width: 3.4444vw;
+                height: 3.4444vw;
+              }
+
+              .name {
+                font-size: 3.3333vw;
+              }
+            }
+          }
+
+          .pagination {
+            justify-content: center;
+            gap: 1.5vw;
+
+            .dot {
+              width: 8vw;
+              height: 1vw;
+            }
+          }
+        }
+      }
+    }
   }
 }

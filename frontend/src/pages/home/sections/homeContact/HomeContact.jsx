@@ -60,11 +60,11 @@ const HomeContact = () => {
       <div className='left'>
         <h4>Contact Us</h4>
         <h2>Connect with Us to Design an Exceptional Experience</h2>
-        <h4>
+        <h3>
           Have questions, need help planning your trip, or want a customized
           travel package? Our team at NPGO is here to assist you every step of
           the way.
-        </h4>
+        </h3>
 
         <div className='cta'>
           <div className='chat'>

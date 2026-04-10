@@ -178,3 +178,62 @@
     text-transform: uppercase;
   }
 }
+
+@media (max-width: 480px) {
+  .Footer {
+    background: #000;
+    .top {
+      flex-direction: column;
+      gap: 5vw;
+      .tRight {
+        flex-direction: column;
+      }
+      .tLeft {
+        width: 100%;
+        .tLeftLogo {
+          img {
+            width: 14vw;
+          }
+        }
+
+        .tLeftDesc {
+          width: 100%;
+          font-size: 3.5vw;
+        }
+      }
+
+      .tRight {
+        width: 100%;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 5vw;
+        .tRightList {
+          .listHeading {
+            font-size: 4.444vw;
+          }
+
+          .listing,
+          .listLogos {
+            height: auto;
+            flex-wrap: nowrap;
+            gap: 3vw;
+            a,
+            .li {
+              font-size: 3.13vw;
+            }
+            img {
+              width: 6vw;
+            }
+          }
+        }
+      }
+    }
+    .bottom {
+      font-size: 3.1vw;
+    }
+
+    .hr {
+      margin: 5vw 0;
+    }
+  }
+}
