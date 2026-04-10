@@ -18,56 +18,62 @@
       font-weight: 400;
       color: #000;
     }
+  }
+  .button,
+  .buttonMob {
+    position: relative;
+    gap: 1vw;
+    padding: 0.7vw 2vw;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    background-color: #111;
+    color: #fff;
+    font-family: Aileron;
+    font-size: 0.729166vw;
+    font-weight: 400;
+    overflow: hidden;
+    cursor: pointer;
+    transition: color 0.4s ease;
 
-    .button {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: #ececec;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s ease;
+      z-index: 0;
+    }
+
+    & > * {
       position: relative;
-      gap: 1vw;
-      padding: 0.7vw 2vw;
-      display: flex;
-      align-items: center;
-      width: max-content;
-      background-color: #111;
-      color: #fff;
-      font-family: Aileron;
-      font-size: 0.729166vw;
-      font-weight: 400;
-      overflow: hidden;
-      cursor: pointer;
-      transition: color 0.4s ease;
+      z-index: 1;
+    }
+
+    img {
+      transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+    }
+
+    &:hover {
+      color: #111;
 
       &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: #ececec;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.45s ease;
-        z-index: 0;
-      }
-
-      & > * {
-        position: relative;
-        z-index: 1;
+        transform: scaleX(1);
       }
 
       img {
-        transition: transform 0.4s ease, filter 0.4s ease;
-      }
-
-      &:hover {
-        color: #111;
-
-        &::before {
-          transform: scaleX(1);
-        }
-
-        img {
-          transform: rotate(45deg);
-          filter: invert(1);
-        }
+        transform: rotate(45deg);
+        filter: invert(1);
       }
     }
+  }
+
+  .buttonMob {
+    display: none;
   }
 
   h3 {
@@ -102,7 +108,9 @@
       cursor: pointer;
 
       /* 🔥 Hover base */
-      transition: transform 0.45s ease, box-shadow 0.45s ease;
+      transition:
+        transform 0.45s ease,
+        box-shadow 0.45s ease;
       perspective: 1200px;
 
       &:hover {
@@ -120,7 +128,9 @@
 
         /* 🔥 Depth illusion */
         transform-style: preserve-3d;
-        transition: transform 0.6s ease, box-shadow 0.6s ease;
+        transition:
+          transform 0.6s ease,
+          box-shadow 0.6s ease;
 
         img {
           scale: 0.8;
@@ -187,6 +197,60 @@
 
       &:hover .price {
         transform: scale(1.05);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeMerch {
+    padding: 11.1111vw 4.4444vw;
+    gap: 5vw;
+    .top {
+      h4 {
+        font-size: 3.888vw;
+      }
+      .button {
+        display: none;
+      }
+    }
+
+    h3 {
+      margin-top: 5vw;
+      font-size: 7.7777vw;
+      width: 100%;
+    }
+
+    .desc {
+      font-size: 4.4444vw;
+      width: 100%;
+    }
+    .buttonMob {
+      margin-top: 5vw;
+      display: flex;
+      font-size: 3.333vw;
+      padding: 3vw 4vw;
+      gap: 2vw;
+      letter-spacing: normal;
+    }
+
+    .products {
+      flex-direction: column;
+
+      .product {
+        width: 100%;
+
+        .pDetails {
+          .pLeft {
+            .title,
+            .desc {
+              font-size: 4.9944vw;
+            }
+          }
+          .price {
+            font-size: 7.2222vw;
+          }
+        }
       }
     }
   }

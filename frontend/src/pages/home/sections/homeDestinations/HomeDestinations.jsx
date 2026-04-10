@@ -84,7 +84,7 @@ const HomeDestinations = () => {
         <h4>Destination Packages</h4>
 
         <div className='button' onClick={() => navigate('/dest')}>
-          <span>View More Packages</span>
+          <span>View All Destinations</span>
           <img src={arrow} alt='' />
         </div>
       </div>
@@ -92,7 +92,13 @@ const HomeDestinations = () => {
       <div className='title'>Explore handpicked destinations across India</div>
 
       <div className='titleDesc'>
-        Discover places that inspire every kind of traveler.
+        From breathtaking natural landscapes and iconic landmarks to vibrant
+        cities and hidden local treasures, NPGO helps you discover places that
+        inspire every kind of traveler.
+      </div>
+      <div className='buttonMob' onClick={() => navigate('/dest')}>
+        <span>View All Destinations</span>
+        <img src={arrow} alt='' />
       </div>
 
       <div className='destinationCards'>

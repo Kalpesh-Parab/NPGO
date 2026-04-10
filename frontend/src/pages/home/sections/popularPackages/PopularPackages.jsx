@@ -121,6 +121,11 @@ const PopularPackages = ({ mode = 'random', destinationId }) => {
         corporate journey.
       </div>
 
+      <div className='buttonMob' onClick={() => navigate('/dest')}>
+          <span>View More Packages</span>
+          <img src={arrow} alt='' />
+        </div>
+
       <div className='packageCards'>
         {mappedPackages.map((pkg, index) => (
           <div className='card' key={index}>

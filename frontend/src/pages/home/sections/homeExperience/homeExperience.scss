@@ -192,3 +192,59 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .HomeExperience {
+    flex-direction: column;
+    padding: 11.11vw 4.444vw;
+    justify-content: space-between;
+    height: max-content;
+    gap: 10vw;
+
+    .left {
+      width: 100%;
+
+      .photo-stack {
+        width: 90%;
+        height: 50vh;
+
+        .photo-card {
+          width: 100%;
+          height: 50vh;
+          img {
+            height: 40vh;
+            width: 100%;
+          }
+        }
+      }
+    }
+    .right {
+      width: 100%;
+      gap: 6vw;
+
+      h4 {
+        font-size: 3.888vw;
+      }
+
+      .title {
+        font-size: 11.3888vw;
+        width: 100%;
+
+        span {
+          font-size: 15.188889vw;
+        }
+      }
+
+      .desc {
+        font-size: 4.4vw;
+        width: 95%;
+      }
+
+      .button {
+        font-size: 3.333vw;
+        padding: 3vw 4vw;
+        gap: 2vw;
+      }
+    }
+  }
+}

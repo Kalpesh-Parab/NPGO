@@ -18,56 +18,56 @@
       font-weight: 400;
       color: #fff;
     }
+  }
+  .button,
+  .buttonMob {
+    position: relative;
+    gap: 1vw;
+    padding: 0.7vw 2vw;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    background-color: #fff;
+    color: #111;
+    font-family: Aileron;
+    font-size: 0.8vw;
+    font-weight: 400;
+    overflow: hidden;
+    cursor: pointer;
+    transition: color 0.4s ease;
 
-    .button {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: #222;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s ease;
+      z-index: 0;
+    }
+
+    & > * {
       position: relative;
-      gap: 1vw;
-      padding: 0.7vw 2vw;
-      display: flex;
-      align-items: center;
-      width: max-content;
-      background-color: #fff;
-      color: #111;
-      font-family: Aileron;
-      font-size: 0.8vw;
-      font-weight: 400;
-      overflow: hidden;
-      cursor: pointer;
-      transition: color 0.4s ease;
+      z-index: 1;
+    }
+
+    img {
+      transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+    }
+
+    &:hover {
+      color: #fff;
 
       &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: #222;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.45s ease;
-        z-index: 0;
-      }
-
-      & > * {
-        position: relative;
-        z-index: 1;
+        transform: scaleX(1);
       }
 
       img {
-        transition:
-          transform 0.4s ease,
-          filter 0.4s ease;
-      }
-
-      &:hover {
-        color: #fff;
-
-        &::before {
-          transform: scaleX(1);
-        }
-
-        img {
-          transform: rotate(45deg);
-          filter: invert(1);
-        }
+        transform: rotate(45deg);
+        filter: invert(1);
       }
     }
   }
@@ -217,6 +217,67 @@
         /* 🔥 SHOW MEDIA */
         .media {
           opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeDestinations {
+    padding: 11.1111vw 4.4444vw;
+
+    .top {
+      h4 {
+        font-size: 3.8888vw;
+      }
+
+      .button {
+        display: none;
+      }
+    }
+
+    .title {
+      margin-top: 6vw;
+      font-size: 7.7777vw;
+      width: 90%;
+
+    }
+
+    .titleDesc {
+      margin-top: 5.5vw;
+      width: 100%;
+      font-weight: 400;
+      font-size: 4.4444vw;
+    }
+
+    .buttonMob{
+      margin: 4vw 0;
+      gap: 2vw;
+      display: flex;
+      font-size: 3.3333vw;
+      padding: 2vw 3vw;
+    }
+
+    .destinationCards{
+      flex-direction: column;
+
+      .destinationCard{
+        width: 100%;
+        height: max-content;
+        padding: 3vw;
+
+        .info{
+          display: flex;
+          width: 100%;
+          padding: 2vw 5vw;
+          .destTitle{
+            font-size: 5.2706vw;
+          }
+
+          .destDesc{
+            font-size: 3.3333vw;
+          }
         }
       }
     }

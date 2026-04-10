@@ -3,7 +3,7 @@ import mem from '../../../../assets/destination/destmem.gif';
 
 const DestMemories = () => {
   return (
-    <section className='HomeMemories'>
+    <section className='DestHomeMemories'>
       <div className='left'>
         <img src={mem} alt='' />
       </div>

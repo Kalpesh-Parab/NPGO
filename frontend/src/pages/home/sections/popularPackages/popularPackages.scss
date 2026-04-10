@@ -19,58 +19,62 @@
       font-weight: 400;
       color: #000;
     }
+  }
+  .button,
+  .buttonMob {
+    position: relative;
+    gap: 1vw;
+    padding: 0.7vw 2vw;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    background-color: #111;
+    color: #fff;
+    font-family: Aileron;
+    font-size: 0.729166vw;
+    font-weight: 400;
+    overflow: hidden;
+    cursor: pointer;
+    transition: color 0.4s ease;
 
-    .button {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: #ececec;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s ease;
+      z-index: 0;
+    }
+
+    & > * {
       position: relative;
-      gap: 1vw;
-      padding: 0.7vw 2vw;
-      display: flex;
-      align-items: center;
-      width: max-content;
-      background-color: #111;
-      color: #fff;
-      font-family: Aileron;
-      font-size: 0.729166vw;
-      font-weight: 400;
-      overflow: hidden;
-      cursor: pointer;
-      transition: color 0.4s ease;
+      z-index: 1;
+    }
+
+    img {
+      transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+    }
+
+    &:hover {
+      color: #111;
 
       &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: #ececec;
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.45s ease;
-        z-index: 0;
-      }
-
-      & > * {
-        position: relative;
-        z-index: 1;
+        transform: scaleX(1);
       }
 
       img {
-        transition:
-          transform 0.4s ease,
-          filter 0.4s ease;
-      }
-
-      &:hover {
-        color: #111;
-
-        &::before {
-          transform: scaleX(1);
-        }
-
-        img {
-          transform: rotate(45deg);
-          filter: invert(1);
-        }
+        transform: rotate(45deg);
+        filter: invert(1);
       }
     }
+  }
+
+  .buttonMob {
+    display: none;
   }
 
   .title {
@@ -81,7 +85,7 @@
     color: #000;
     text-align: left;
   }
-  
+
   .titleDesc {
     text-align: left;
     display: flex;
@@ -209,6 +213,87 @@
           align-items: center;
           justify-content: center;
           border-radius: 0.1vw;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .PopularPackages {
+    padding: 11.1111vw 4.4444vw;
+
+    .top {
+      h4 {
+        font-size: 3.888vw;
+      }
+      .button {
+        display: none;
+      }
+    }
+    .title {
+      margin-top: 5vw;
+      font-size: 7.7777vw;
+      width: 100%;
+    }
+
+    .titleDesc {
+      margin-top: 3vw;
+      width: 100%;
+      font-weight: 400;
+      font-size: 4.4444vw;
+    }
+
+    .buttonMob {
+      margin-top: 5vw;
+      display: flex;
+      gap: 2vw;
+      font-size: 3.333vw;
+      padding: 2vw 3vw;
+    }
+
+    .packageCards {
+      margin-top: 5vw;
+      flex-direction: column;
+      gap: 7vw;
+
+      .card {
+        width: 100%;
+        padding: 3vw 2.3vw;
+
+        .info {
+          margin-top: 2vw;
+          .cardTitle {
+            font-size: 5.5555vw;
+          }
+          .cardDesc{
+            margin-top: 2vw;
+            font-size: 3.6111vw;
+          }
+        }
+
+        .ratings{
+          .ratingText{
+            font-size: 2.5278vw;
+          }
+          .stars{
+            margin: 2vw 0;
+            .star{
+              font-size: 4vw;
+            }
+          }
+        }
+
+        .details{
+          gap: 1vw;
+          .viewButton{
+            font-size: 3.5125vw;
+            padding: 3vw 2vw;
+          }
+          .price{
+            padding: 3vw 2vw;
+            font-size: 4.6833vw;
+          }
         }
       }
     }

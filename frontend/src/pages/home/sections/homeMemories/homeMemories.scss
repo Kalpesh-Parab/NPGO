@@ -4,7 +4,9 @@
   height: 69.87vh;
 
   .left {
-    width: 49.1145833%;
+    // width: 49.1145833%;
+    flex: 1;
+
     img {
       width: 100%;
       height: 100%;
@@ -14,7 +16,9 @@
   .right {
     padding: 6.5% 2.5%;
     background-color: #013347;
-    width: 51.041666%;
+    // width: 51.041666%;
+    flex: 1;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -22,7 +26,7 @@
 
     h2 {
       margin: 0;
-        width: 100%;
+      width: 100%;
       color: #a1daf2;
       font-family: Inter, sans-serif;
       font-size: 5.00385vw;
@@ -33,13 +37,47 @@
     }
 
     .desc {
-        width: 80%;
+      width: 80%;
       color: #6dbddf;
       font-family: Inter, sans-serif;
       font-size: 1.1467vw;
       font-style: normal;
       font-weight: 400;
       line-height: 140%; /* 30.824px */
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .HomeMemories {
+    flex-direction: column;
+    height: max-content;
+    width: 100%;
+    gap: 0;
+
+    .left {
+      width: 100%;
+      height: max-content;
+      img {
+        width: 100%;
+        height: 60vh;
+      }
+    }
+
+    .right {
+      width: 100%;
+      height: 100%;
+
+      h2{
+        letter-spacing: -.5vw;
+        font-size: 13.88889vw;
+      }
+
+      .desc{
+        width: 100%;
+        margin-top: 5vw;
+        font-size: 4.4444vw;
+      }
     }
   }
 }

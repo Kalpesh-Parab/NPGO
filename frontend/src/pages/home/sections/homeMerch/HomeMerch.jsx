@@ -53,6 +53,10 @@ const HomeMerch = () => {
         handle every detail to ensure a smooth, professional, and memorable
         corporate journey.
       </div>
+      <div className='buttonMob' onClick={() => navigate('/merchandise')}>
+        <span>View All Merchandise</span>
+        <img src={arrow} alt='' />
+      </div>
       <div className='products'>
         {merchs.map((merch, index) => {
           return (
