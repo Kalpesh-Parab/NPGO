@@ -93,7 +93,7 @@
           width: 60%;
           gap: 0.5vw;
 
-          .name {
+          span {
             color: #111;
             text-align: center;
             font-family: Aileron;
@@ -172,6 +172,66 @@
         border-radius: 6px;
         white-space: nowrap;
         z-index: 1000;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .DestSelector {
+    padding: 11.11vw 4.44vw;
+    .top {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 7vw;
+       h4 {
+        font-size: 4.72vw;
+      }
+
+      .buttons {
+        gap: 1vw;
+        .button {
+          width: 44.8vw;
+          padding: 3vw 4vw;
+          font-size: 3.333vw;
+        }
+      }
+    }
+
+    .bottom{
+      gap: 8vw;
+      margin-top: 7vw;
+      flex-direction: column-reverse;
+    
+      .right{
+        width: 100%;
+      }
+
+      .left{
+        width: 100%;
+
+        h2{
+          font-size: 6.6667vw;
+        }
+
+        h4{
+          font-size: 3.8889vw;
+        }
+
+        .tabs{
+          gap: 7vw;
+          .tab{
+            width: 100%;
+            padding: 4.3333vw 9.4444vw;
+
+            img{
+              scale: .8;
+            }
+            span{
+              font-size: 3.8889vw;
+            }
+          }
+        }
       }
     }
   }

@@ -242,8 +242,10 @@
   .DestHero {
     height: 100vh;
     .top {
+      gap: 3vw;
       .heading {
-        font-size: 9.4444vw;
+        text-align: center;
+        font-size: 9.2444vw;
       }
 
       .subHeading {
