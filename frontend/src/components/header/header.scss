@@ -143,9 +143,10 @@
     .hamburger {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 3vw;
       width: 8vw;
-      height: 18px;
+      height: 7.5vw;
       cursor: pointer;
       z-index: 1100;
 
