@@ -237,3 +237,95 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .DestHero {
+    height: 100vh;
+    .top {
+      .heading {
+        font-size: 9.4444vw;
+      }
+
+      .subHeading {
+        font-size: 3.8889vw;
+        width: 90%;
+      }
+
+      .buttons {
+        gap: 2vw;
+        .button,
+        .buttonWhite {
+          display: flex;
+          width: 42vw;
+          gap: 2vw;
+          font-size: 2.433vw;
+          padding: 3vw 3vw;
+
+          img {
+            scale: 0.7;
+          }
+        }
+      }
+    }
+
+    .bottom {
+      top: 25vw;
+      .first,
+      .second,
+      .third {
+        gap: 4vw;
+        justify-content: center;
+        .imgWrapper {
+          width: 28%;
+          img {
+            width: 100%;
+            border-radius: 15px 15px 0 0;
+          }
+        }
+        img {
+          // width: 100%;
+          border-radius: 15px 15px 0 0;
+        }
+      }
+      .second {
+        gap: 4vw;
+        margin-top: 40vh;
+        .three,
+        .four {
+          gap: 4vw;
+
+          img {
+            width: 28vw;
+            border-radius: 15px 15px 0 0;
+          }
+        }
+
+        .three {
+          .h4 {
+            border-radius: 15px 15px 0 0;
+          }
+        }
+
+        .four {
+          .h5 {
+            border-radius: 15px 15px 0 0;
+          }
+        }
+
+        justify-content: center;
+      }
+
+      .third {
+        margin-top: 3vw;
+        .h7,
+        .h8,
+        .h9 {
+          img {
+            width: 28vw;
+            border-radius: 15px 15px 0 0;
+          }
+        }
+      }
+    }
+  }
+}
