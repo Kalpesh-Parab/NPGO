@@ -25,6 +25,20 @@ const Package = () => {
 
   // 🔥 detect type
   const isEvent = location.pathname.includes('/event');
+  const [homepageData, setHomepageData] = useState(null);
+
+  useEffect(() => {
+    const fetchHomepage = async () => {
+      try {
+        const res = await getHomepage();
+        setHomepageData(res.data);
+      } catch (err) {
+        console.error('Failed to fetch homepage', err);
+      }
+    };
+
+    fetchHomepage();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +64,7 @@ const Package = () => {
 
     fetchData();
   }, [slug, isEvent]);
-console.log(data)
+  console.log(data);
   if (!data) return null;
 
   return (
@@ -64,11 +78,12 @@ console.log(data)
         <button onClick={scrollToContact}>Book Now</button>
       </div>
 
-      <HomeTesti />
+      <HomeTesti data={homepageData?.testimonials} />
+
       <HomeContact />
       <HomeExperience />
 
-<PopularPackages mode="similar" destinationId={data.destination._id} />
+      <PopularPackages mode='similar' destinationId={data.destination._id} />
     </>
   );
 };

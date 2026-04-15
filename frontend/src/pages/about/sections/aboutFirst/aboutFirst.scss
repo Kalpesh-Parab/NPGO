@@ -26,3 +26,19 @@
     text-align: left;
   }
 }
+
+@media (max-width: 480px) {
+  .AboutFirst {
+    padding: 11.11vw 4.4vw;
+    width: 100%;
+    gap: 5.5556vw;
+
+    .heading{
+      font-size: 6.6667vw;
+    }
+
+    .subHeading{
+      font-size: 3.8889vw;
+    }
+  }
+}

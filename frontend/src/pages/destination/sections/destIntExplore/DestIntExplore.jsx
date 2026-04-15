@@ -20,12 +20,16 @@ const DestIntExplore = () => {
         </div>
       </div>
       <div className='right'>
-          <div className='card'>
-            <img src={int} alt='' />
-          </div>
-          <div className='card'>
-            <img src={int} alt='' />
-          </div>
+        <div className='card'>
+          <img src={int} alt='' />
+        </div>
+        <div className='card'>
+          <img src={int} alt='' />
+        </div>
+      </div>
+      <div className='buttonMob' onClick={scrollToContact}>
+        <span>Contact Us</span>
+        <img src={arrow} alt='' />
       </div>
     </section>
   );

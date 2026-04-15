@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CommonHero from '../../components/commonHero/CommonHero';
 import comm from '../../assets/corporateHero.png';
 import CorpFirst from './sections/corpFirst/CorpFirst';
@@ -10,6 +10,20 @@ import HomeTesti from '../home/sections/homeTesti/HomeTesti';
 import HomeContact from '../home/sections/homeContact/HomeContact';
 
 const Corporate = () => {
+  const [homepageData, setHomepageData] = useState(null);
+
+  useEffect(() => {
+    const fetchHomepage = async () => {
+      try {
+        const res = await getHomepage();
+        setHomepageData(res.data);
+      } catch (err) {
+        console.error('Failed to fetch homepage', err);
+      }
+    };
+
+    fetchHomepage();
+  }, []);
   return (
     <>
       <CommonHero
@@ -23,7 +37,8 @@ const Corporate = () => {
       <CorpGallery />
       <PopularPackages mode='random' />
 
-      <HomeTesti />
+      <HomeTesti data={homepageData?.testimonials} />
+
       <HomeContact />
     </>
   );

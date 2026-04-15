@@ -57,8 +57,8 @@
         }
       }
 
-
-      video,img {
+      video,
+      img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -182,6 +182,86 @@
 
     .page.active {
       background-color: #111;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .DestExplore {
+    padding: 11.111vw 4.44vw;
+    gap: 6vw;
+
+    .top {
+      h4 {
+        width: 75%;
+        font-size: 5vw;
+        letter-spacing: -1px;
+      }
+
+      .buttons {
+        width: 20%;
+        gap: 2vw;
+
+        .left,
+        .right {
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .cards {
+      display: flex;
+      gap: 4vw;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .card {
+        width: 85vw; 
+        height: 100vw;
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        overflow: hidden;
+
+        .info {
+          padding: 6vw 4vw;
+
+          .desc {
+            gap: 2vw;
+
+            h4 {
+              width: 70%;
+              font-size: 3.4vw;
+            }
+
+            p {
+              font-size: 2.8vw;
+            }
+          }
+
+          .button {
+            width: max-content;
+            font-size: 2.4vw;
+            padding: 2vw 2.5vw;
+            height: auto;
+
+            img {
+              width: 2.2vw;
+              height: 2.2vw;
+            }
+          }
+        }
+      }
+    }
+
+    .pagination {
+      display: none;
     }
   }
 }

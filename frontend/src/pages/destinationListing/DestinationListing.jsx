@@ -24,6 +24,21 @@ const DestinationListing = () => {
 
   const navigate = useNavigate();
 
+  const [homepageData, setHomepageData] = useState(null);
+
+  useEffect(() => {
+    const fetchHomepage = async () => {
+      try {
+        const res = await getHomepage();
+        setHomepageData(res.data);
+      } catch (err) {
+        console.error('Failed to fetch homepage', err);
+      }
+    };
+
+    fetchHomepage();
+  }, []);
+
   // 🔥 MEDIA FALLBACK
   const getDisplayMedia = (pkg) => {
     if (pkg.heroMedia?.type === 'image' && pkg.heroMedia?.url) {
@@ -176,7 +191,8 @@ const DestinationListing = () => {
 
       <DestTravelExp />
       <DestIntExplore />
-      <HomeTesti />
+      <HomeTesti data={homepageData?.testimonials} />
+
       <HomeContact />
       <HomeExperience />
       <PopularPackages mode='random' />

@@ -61,3 +61,18 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .CommonHero {
+    height: 80vw;
+    margin-top: 20vw;
+    .text {
+      h1 {
+        font-size: 9.4444vw;
+      }
+      p {
+        font-size: 6.66667vw;
+      }
+    }
+  }
+}

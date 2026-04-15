@@ -5,16 +5,16 @@ import right from '../../../../assets/destination/right.svg';
 import fallback from '../../../../assets/logo.png';
 
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import API from '../../../../admin/services/api';
 
 const DestExplore = () => {
   const navigate = useNavigate();
   const cardsPerPage = 3;
-
   const [cards, setCards] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const scrollRef = useRef();
 
   // 🔥 FETCH + PREPARE DATA
   const fetchDestinations = async () => {
@@ -73,28 +73,48 @@ const DestExplore = () => {
 
   const totalPages = Math.ceil(cards.length / cardsPerPage);
 
-  useEffect(() => {
-    if (isPaused || totalPages === 0) return;
+useEffect(() => {
+  // ❌ disable autoplay on mobile
+  if (window.innerWidth <= 480) return;
 
-    const interval = setInterval(() => {
-      setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
-    }, 5000);
+  if (isPaused || totalPages === 0) return;
 
-    return () => clearInterval(interval);
-  }, [isPaused, totalPages]);
+  const interval = setInterval(() => {
+    setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
+  }, 5000);
+
+  return () => clearInterval(interval);
+}, [isPaused, totalPages]);
 
   const handleNext = () => {
+  if (window.innerWidth <= 480) {
+    scrollRef.current.scrollBy({
+      left: window.innerWidth * 0.85,
+      behavior: 'smooth',
+    });
+  } else {
     setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
-  };
+  }
+};
 
-  const handlePrev = () => {
+const handlePrev = () => {
+  if (window.innerWidth <= 480) {
+    scrollRef.current.scrollBy({
+      left: -window.innerWidth * 0.85,
+      behavior: 'smooth',
+    });
+  } else {
     setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
-  };
+  }
+};
 
-  const visibleCards = cards.slice(
-    currentPage * cardsPerPage,
-    currentPage * cardsPerPage + cardsPerPage,
-  );
+  const visibleCards =
+    window.innerWidth <= 480
+      ? cards
+      : cards.slice(
+          currentPage * cardsPerPage,
+          currentPage * cardsPerPage + cardsPerPage,
+        );
 
   return (
     <section className='DestExplore'>
@@ -116,6 +136,7 @@ const DestExplore = () => {
         className='cards'
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
+       ref={scrollRef}
         key={currentPage}
       >
         {visibleCards.map((card, index) => (

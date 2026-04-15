@@ -14,6 +14,20 @@ import { toast } from 'sonner';
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [homepageData, setHomepageData] = useState(null);
+
+  useEffect(() => {
+    const fetchHomepage = async () => {
+      try {
+        const res = await getHomepage();
+        setHomepageData(res.data);
+      } catch (err) {
+        console.error('Failed to fetch homepage', err);
+      }
+    };
+
+    fetchHomepage();
+  }, []);
 
   const getDisplayMedia = (ev) => {
     if (ev.heroMedia?.type === 'image' && ev.heroMedia?.url) {
@@ -39,36 +53,36 @@ const Events = () => {
     return '/fallback.jpg';
   };
 
-useEffect(() => {
-  const fetchEvents = async () => {
-    const toastId = toast.loading('Loading events...');
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const toastId = toast.loading('Loading events...');
 
-    try {
-      const res = await getAllEvents();
+      try {
+        const res = await getAllEvents();
 
-      const rawEvents = res.data;
+        const rawEvents = res.data;
 
-      // 🔥 MAP BACKEND → UI FORMAT
-      const formatted = rawEvents.map((ev) => ({
-        image: getDisplayMedia(ev),
-        title: ev.title,
-        desc: ev.description || '',
-        ratings: 4.5, // temp (you don’t have rating in DB yet)
-        price: ev.price,
-        link: `/event/${ev.slug}`,
-      }));
+        // 🔥 MAP BACKEND → UI FORMAT
+        const formatted = rawEvents.map((ev) => ({
+          image: getDisplayMedia(ev),
+          title: ev.title,
+          desc: ev.description || '',
+          ratings: 4.5, // temp (you don’t have rating in DB yet)
+          price: ev.price,
+          link: `/event/${ev.slug}`,
+        }));
 
-      setEvents(formatted);
+        setEvents(formatted);
 
-      toast.dismiss(toastId);
-    } catch (err) {
-      toast.error('Failed to load events', { id: toastId });
-    }
-  };
+        toast.dismiss(toastId);
+      } catch (err) {
+        toast.error('Failed to load events', { id: toastId });
+      }
+    };
 
-  fetchEvents();
-}, []);
-  
+    fetchEvents();
+  }, []);
+
   return (
     <>
       <CommonHero
@@ -90,7 +104,8 @@ useEffect(() => {
       <EventsGallery />
       <EventsExplorer events={events} />
       <DestTravelExp />
-      <HomeTesti />
+      <HomeTesti data={homepageData?.testimonials} />
+
       <HomeContact />
       <HomeExperience />
       <PopularPackages mode='random' />

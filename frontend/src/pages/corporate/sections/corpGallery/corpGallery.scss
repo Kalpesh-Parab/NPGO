@@ -63,3 +63,21 @@
     width: 90%;
   }
 }
+
+@media (max-width: 480px) {
+  .CorpGallery {
+    padding: 0;
+    .overlay {
+      padding: 8vw;
+      p {
+        font-size: 3.88889vw;
+      }
+    }
+
+    .corpGallery {
+      .photo {
+        width: 80vw;
+      }
+    }
+  }
+}
