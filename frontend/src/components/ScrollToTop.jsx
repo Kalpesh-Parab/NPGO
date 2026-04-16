@@ -5,18 +5,16 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    let targetScroll = 0;
+    const isMobile = window.innerWidth <= 480;
 
     if (pathname.startsWith('/destination')) {
-      // Calculate 20% of the total document height
       const docHeight = document.documentElement.scrollHeight;
-      targetScroll = docHeight * .1;
-    }
 
-    window.scrollTo({
-      top: targetScroll,
-      behavior: 'smooth',
-    });
+      window.scrollTo({
+        top: isMobile ? 500 : docHeight * 0.1, // 🔥 minimal mobile scroll
+        behavior: 'smooth',
+      });
+    }
   }, [pathname]);
 
   return null;

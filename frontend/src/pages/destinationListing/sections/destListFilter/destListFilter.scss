@@ -97,3 +97,117 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .DestListFilter {
+    padding: 4.4444vw 4.4444vw;
+    gap: 2.2222vw;
+    flex-direction: column;
+
+    .buttons {
+      width: 100%;
+      display: flex;
+      gap: 3vw;
+      justify-content: center;
+
+      .button {
+        font-size: 3.5vw;
+        width: 50%;
+        padding: 3vw 4vw;
+      }
+    }
+
+    .bottom {
+      padding: 6vw 4vw;
+
+      display: flex;
+      flex-direction: column;
+      gap: 5vw;
+      h4 {
+        margin: 0;
+        font-size: 4.5vw;
+      }
+      .filters {
+        gap: 5vw;
+        flex-direction: column;
+
+        .search,
+        .location,
+        .packageType {
+          padding: 3vw;
+          input,
+          select {
+            font-size: 3.5vw;
+          }
+        }
+
+        .location {
+          padding: 0 0 0 2vw;
+          justify-content: space-between;
+          .pickerLabel {
+            font-size: 2.5vw;
+            margin-bottom: 2vw;
+            text-align: center;
+            color: #666;
+          }
+          .picker {
+            width: 70%;
+            position: relative;
+            height: 24vw;
+            overflow: visible;
+          }
+
+          .pickerWrapper {
+            height: 100%;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+
+            &::-webkit-scrollbar {
+              display: none;
+            }
+          }
+
+          .dropdown {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background: #fff;
+            z-index: 20;
+            max-height: 40vw;
+            overflow-y: auto;
+
+            div {
+              padding: 3vw;
+              font-size: 3.5vw;
+              border-bottom: 1px solid #eee;
+            }
+          }
+          .pickerItem {
+            text-align: center;
+            padding: 3vw 0;
+            font-size: 3vw;
+            opacity: 0.4;
+            transform: scale(0.8);
+            transition: all 0.2s ease;
+            scroll-snap-align: center;
+          }
+
+          .pickerItem.active {
+            opacity: 1;
+            transform: scale(1.2);
+            font-weight: 600;
+          }
+
+          .arrow {
+            position: absolute;
+            right: 3vw;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 4vw;
+            opacity: .4;
+          }
+        }
+      }
+    }
+  }
+}

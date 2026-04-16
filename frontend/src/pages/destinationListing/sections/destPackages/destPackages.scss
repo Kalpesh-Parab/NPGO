@@ -154,3 +154,84 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .DestPackages {
+    padding: 11.1111vw 4.4444vw;
+
+    .top {
+      h4 {
+        font-size: 3.888vw;
+      }
+      .button {
+        display: none;
+      }
+    }
+    .title {
+      margin-top: 5vw;
+      font-size: 7.7777vw;
+      width: 100%;
+    }
+
+    .titleDesc {
+      margin-top: 3vw;
+      width: 100%;
+      font-weight: 400;
+      font-size: 4.4444vw;
+    }
+
+    .buttonMob {
+      margin-top: 5vw;
+      display: flex;
+      gap: 2vw;
+      font-size: 3.333vw;
+      padding: 2vw 3vw;
+    }
+
+    .packageCards {
+      margin-top: 5vw;
+      flex-direction: column;
+      gap: 7vw;
+
+      .card {
+        width: 100%;
+        padding: 3vw 2.3vw;
+
+        .info {
+          margin-top: 2vw;
+          .cardTitle {
+            font-size: 5.5555vw;
+          }
+          .cardDesc {
+            margin-top: 2vw;
+            font-size: 3.6111vw;
+          }
+        }
+
+        .ratings {
+          .ratingText {
+            font-size: 2.5278vw;
+          }
+          .stars {
+            margin: 2vw 0;
+            .star {
+              font-size: 4vw;
+            }
+          }
+        }
+
+        .details {
+          gap: 1vw;
+          .viewButton {
+            font-size: 3.5125vw;
+            padding: 3vw 2vw;
+          }
+          .price {
+            padding: 3vw 2vw;
+            font-size: 4.6833vw;
+          }
+        }
+      }
+    }
+  }
+}

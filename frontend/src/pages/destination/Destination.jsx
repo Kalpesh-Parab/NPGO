@@ -32,7 +32,6 @@ const Destination = () => {
       <DestExplore />
       <DestIntExplore />
       <HomeTesti data={homepageData?.testimonials} />
-
       <HomeContact />
       <HomeExperience />
       <PopularPackages mode='random' />

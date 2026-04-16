@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import './destListFilter.scss';
 import API from '../../../../admin/services/api';
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
+import { useWebHaptics } from 'web-haptics/react';
 
 const DestListFilter = ({
   packageTypes = [],
@@ -18,6 +19,21 @@ const DestListFilter = ({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [states, setStates] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const pickerRef = useRef();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const { trigger } = useWebHaptics();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,21 +74,110 @@ const DestListFilter = ({
   };
 
   useEffect(() => {
-  const handleClickOutside = (e) => {
-    if (searchRef.current && !searchRef.current.contains(e.target)) {
-      setShowSuggestions(false);
-    }
-  };
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    };
 
-  document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
-  return () => {
-    document.removeEventListener('mousedown', handleClickOutside);
-  };
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, []);
-  
+
   const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
+  const handleScroll = () => {
+    if (!pickerRef.current) return;
+
+    const container = pickerRef.current;
+    const children = container.children;
+
+    const center = container.scrollTop + container.clientHeight / 2;
+
+    let closest = 0;
+    let minDist = Infinity;
+
+    Array.from(children).forEach((child, index) => {
+      const offset = child.offsetTop + child.clientHeight / 2;
+      const dist = Math.abs(center - offset);
+
+      if (dist < minDist) {
+        minDist = dist;
+        closest = index;
+      }
+    });
+
+    setSelectedIndex(closest);
+  };
+
+  useEffect(() => {
+    if (isMobile) {
+      trigger('selection');
+    }
+  }, [selectedIndex]);
+const dataList = useMemo(() => {
+  const rawList = activeType === 'domestic' ? states : countries;
+
+  return [...rawList].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+}, [activeType, states, countries]);
+  const loopedList = [
+    ...dataList,
+    ...dataList,
+    ...dataList,
+    ...dataList,
+    ...dataList,
+  ];
+
+  useEffect(() => {
+    if (!dataList.length) return;
+
+    const timeout = setTimeout(() => {
+      const realIndex = selectedIndex % dataList.length;
+      const selectedItem = dataList[realIndex];
+
+      if (selectedItem) {
+        handleLocationChange(slugify(selectedItem.name));
+      }
+    }, 3000); // 🔥 3 sec delay
+
+    return () => clearTimeout(timeout);
+  }, [selectedIndex]);
+
+  useEffect(() => {
+    if (!pickerRef.current || !dataList.length) return;
+
+    const itemHeight = pickerRef.current.children[0]?.clientHeight || 1;
+
+    pickerRef.current.scrollTop = dataList.length * itemHeight; // 🔥 center in middle copy
+  }, [dataList]);
+
+  const scrollToIndex = (index) => {
+    if (!pickerRef.current) return;
+
+    const container = pickerRef.current;
+    const itemHeight = container.children[0]?.clientHeight || 1;
+
+    const middleOffset = dataList.length;
+    const targetIndex = middleOffset + index;
+
+    const containerHeight = container.clientHeight;
+
+    // 🔥 THIS IS THE REAL FIX
+    const scrollTop =
+      targetIndex * itemHeight - containerHeight / 2 + itemHeight / 2;
+
+    container.scrollTo({
+      top: scrollTop,
+      behavior: 'smooth',
+    });
+
+    setSelectedIndex(targetIndex);
+  };
   return (
     <section className='DestListFilter'>
       <div className='buttons'>
@@ -129,18 +234,78 @@ const DestListFilter = ({
           </div>
           {/* Location */}
           <div className='location'>
-            <select onChange={(e) => handleLocationChange(e.target.value)}>
-              <option value=''>
+            {isMobile && (
+              <p className='pickerLabel'>
                 {activeType === 'domestic' ? 'Select State' : 'Select Country'}
-              </option>
+              </p>
+            )}
+            {isMobile ? (
+              <div className='picker'>
+                <div
+                  className='pickerWrapper'
+                  ref={pickerRef}
+                  onScroll={handleScroll}
+                >
+                  {loopedList.map((item, index) => {
+                    const realIndex = index % dataList.length;
 
-              {Array.isArray(activeType === 'domestic' ? states : countries) &&
-                (activeType === 'domestic' ? states : countries).map((item) => (
-                  <option key={item._id} value={slugify(item.name)}>
-                    {item.name}
-                  </option>
-                ))}
-            </select>
+                    return (
+                      <div
+                        key={index}
+                        className={`pickerItem ${
+                          selectedIndex === index ? 'active' : ''
+                        }`}
+                      >
+                        {dataList[realIndex].name}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div
+                  className='arrow'
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  ▼
+                </div>
+                {showDropdown && (
+                  <div className='dropdown'>
+                    {dataList.map((item) => (
+                      <div
+                        key={item._id}
+                        onClick={() => {
+                          const index = dataList.findIndex(
+                            (d) => d._id === item._id,
+                          );
+
+                          scrollToIndex(index); // 🔥 sync picker
+                          handleLocationChange(slugify(item.name));
+
+                          setShowDropdown(false);
+                        }}
+                      >
+                        {item.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <select onChange={(e) => handleLocationChange(e.target.value)}>
+                <option value=''>
+                  {activeType === 'domestic'
+                    ? 'Select State'
+                    : 'Select Country'}
+                </option>
+
+                {(activeType === 'domestic' ? states : countries).map(
+                  (item) => (
+                    <option key={item._id} value={slugify(item.name)}>
+                      {item.name}
+                    </option>
+                  ),
+                )}
+              </select>
+            )}
           </div>
 
           {/* Package Type */}
