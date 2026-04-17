@@ -26,6 +26,10 @@
     align-items: center;
     gap: 2vw;
 
+    .mobile-contact {
+      display: none;
+    }
+
     .link {
       position: relative;
       cursor: pointer;
@@ -152,10 +156,10 @@
 
       span {
         display: block;
-        height: .8vw;
+        height: 0.8vw;
         width: 100%;
         background: #111;
-        transition: all .7s ease;
+        transition: all 0.7s ease;
       }
 
       &.active {
@@ -184,6 +188,10 @@
       gap: 20px;
       transition: right 0.4s ease;
 
+      .mobile-contact {
+        display: flex;
+        font-size: 4.4vw;
+      }
       .link {
         font-size: 4.4vw;
       }

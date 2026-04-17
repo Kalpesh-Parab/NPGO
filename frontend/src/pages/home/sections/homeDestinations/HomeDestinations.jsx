@@ -30,6 +30,27 @@ const HomeDestinations = () => {
   };
 
   const [destinations, setDestinations] = useState([]);
+  const [visibleDestinations, setVisibleDestinations] = useState([]);
+
+  useEffect(() => {
+    if (!destinations.length) return;
+
+    const handleResize = () => {
+      if (window.innerWidth <= 480) {
+        // Shuffle and pick 3 random
+        const shuffled = [...destinations].sort(() => 0.5 - Math.random());
+        setVisibleDestinations(shuffled.slice(0, 3));
+      } else {
+        // Show all on desktop
+        setVisibleDestinations(destinations);
+      }
+    };
+
+    handleResize(); // run on load
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [destinations]);
 
   const fetchData = async () => {
     try {
@@ -102,7 +123,7 @@ const HomeDestinations = () => {
       </div>
 
       <div className='destinationCards'>
-        {destinations.map((dest, index) => {
+        {visibleDestinations.map((dest, index) => {
           const pathD = INDIA_PATHS[dest.code];
           const clipId = `clip-${index}-${dest.code}`;
 
