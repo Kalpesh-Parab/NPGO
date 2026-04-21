@@ -3,4 +3,5 @@ export const scrollToContact = () => {
   if (el) {
     el.scrollIntoView({ behavior: 'smooth' });
   }
+  
 };
