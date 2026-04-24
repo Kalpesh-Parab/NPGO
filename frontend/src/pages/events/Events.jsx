@@ -11,6 +11,7 @@ import EventsExplorer from './sections/eventsExplorer/EventsExplorer';
 import { useEffect, useState } from 'react';
 import { getAllEvents } from '../../admin/services/eventService';
 import { toast } from 'sonner';
+import { getHomepage } from '../../admin/services/homepageService';
 
 const Events = () => {
   const [events, setEvents] = useState([]);

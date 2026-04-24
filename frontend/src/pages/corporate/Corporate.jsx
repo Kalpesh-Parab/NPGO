@@ -8,6 +8,7 @@ import CorpGallery from './sections/corpGallery/CorpGallery';
 import PopularPackages from '../home/sections/popularPackages/PopularPackages';
 import HomeTesti from '../home/sections/homeTesti/HomeTesti';
 import HomeContact from '../home/sections/homeContact/HomeContact';
+import { getHomepage } from '../../admin/services/homepageService';
 
 const Corporate = () => {
   const [homepageData, setHomepageData] = useState(null);

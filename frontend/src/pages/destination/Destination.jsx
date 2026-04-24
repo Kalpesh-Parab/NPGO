@@ -8,6 +8,7 @@ import PopularPackages from '../home/sections/popularPackages/PopularPackages';
 import HomeExperience from '../home/sections/homeExperience/HomeExperience';
 import HomeTesti from '../home/sections/homeTesti/HomeTesti';
 import HomeContact from '../home/sections/homeContact/HomeContact';
+import { getHomepage } from '../../admin/services/homepageService';
 
 const Destination = () => {
   const [homepageData, setHomepageData] = useState(null);

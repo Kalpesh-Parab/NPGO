@@ -135,3 +135,30 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 480px) {
+  .EventsGallery {
+    padding: 4vw 4.4444vw;
+
+    .galleryWrapper {
+      height: 60vh;
+
+      .slider {
+        height: 100%;
+
+        .navButtons {
+          transform: translateX(-57%);
+          button {
+            width: 8vw;
+            height: 8vw;
+            img {
+              width: 8vw;
+              height: 8vw;
+              object-fit: contain;
+            }
+          }
+        }
+      }
+    }
+  }
+}

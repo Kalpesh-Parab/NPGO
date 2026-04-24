@@ -55,20 +55,32 @@ const Custom = () => {
       const percent = newX / rect.width;
       const value = Math.round((MIN + percent * (MAX - MIN)) / 500) * 500;
 
-      setFormData({ ...formData, budget: value });
+      setFormData((prev) => ({
+        ...prev,
+        budget: value,
+      }));
     };
 
-    const onMouseMove = (e) => move(e.clientX);
+    // 👇 Detect touch or mouse
+    const getClientX = (event) =>
+      event.touches ? event.touches[0].clientX : event.clientX;
 
-    const onMouseUp = () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
+    const onMove = (event) => move(getClientX(event));
+
+    const stop = () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', stop);
+      window.removeEventListener('touchmove', onMove);
+      window.removeEventListener('touchend', stop);
     };
 
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', stop);
 
-    move(e.clientX);
+    window.addEventListener('touchmove', onMove);
+    window.addEventListener('touchend', stop);
+
+    move(getClientX(e));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -118,7 +130,12 @@ const Custom = () => {
       <div className='bottom'>
         <div className='title'>Your journey starts here</div>
         <div className='desc'>
-          Diverge from the typical tourist destinations...
+          Diverge from the typical tourist destinations, in favour of unique,
+          authentic experiences. Experiences designed in the most inspiring
+          surroundings, that will be yours, and yours only. Journeys that create
+          memorable moments and NPGO bespoke itineraries will make this happen.
+          The wonders of the world are within your reach; just tell us what
+          you’re dreaming of today
         </div>
 
         <form className='customForm' onSubmit={handleSubmit}>
@@ -269,7 +286,11 @@ const Custom = () => {
           <div className='budgetSlider'>
             <span className='min'>₹1,000</span>
 
-            <div className='sliderTrack' onMouseDown={(e) => startDrag(e)}>
+            <div
+              className='sliderTrack'
+              onMouseDown={startDrag}
+              onTouchStart={startDrag}
+            >
               <div
                 className='sliderProgress'
                 style={{ width: `${percentage}%` }}

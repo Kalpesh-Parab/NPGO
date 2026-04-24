@@ -25,3 +25,19 @@
     line-height: 150%; /* 36px */
   }
 }
+
+@media (max-width: 480px) {
+  .first {
+    padding: 11.11vw 4.44vw;
+    flex-direction: column;
+    gap:6vw;
+    .left {
+      font-size: 6.6667vw;
+      width: 100%;
+    }
+    .right {
+      font-size: 3.88889vw;
+      width: 100%;
+    }
+  }
+}

@@ -77,3 +77,36 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .DestTravelExp {
+    padding: 11.11vw 4.4444vw;
+    width: 100%;
+    gap: 8vw;
+
+    .top {
+     padding: 0;
+      font-size: 3.8889vw;
+    }
+    .cards {
+      gap: 2.5vw;
+      overflow: scroll;
+      justify-content: start;
+      .card {
+        flex: 0 0 auto;
+        width: 50vw;
+        height: 120vw;
+
+        .overlay{
+          padding: 80vw 3vw 3vw;
+          .title{
+            font-size: 3.8889vw;
+          }
+          .desc{
+            font-size: 3.333vw;
+          }
+        }
+      }
+    }
+  }
+}

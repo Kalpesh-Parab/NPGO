@@ -12,6 +12,7 @@ import HomeContact from '../home/sections/homeContact/HomeContact';
 import HomeExperience from '../home/sections/homeExperience/HomeExperience';
 import { useNavigate, useParams } from 'react-router-dom';
 import API from '../../admin/services/api';
+import { getHomepage } from '../../admin/services/homepageService';
 
 const DestinationListing = () => {
   const { country, destination } = useParams();

@@ -16,6 +16,7 @@ import HomeExperience from '../home/sections/homeExperience/HomeExperience';
 import PopularPackages from '../home/sections/popularPackages/PopularPackages';
 
 import { scrollToContact } from '../../utils/scrollToContact';
+import { getHomepage } from '../../admin/services/homepageService';
 
 const Package = () => {
   const { slug } = useParams();

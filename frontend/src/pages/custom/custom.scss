@@ -270,3 +270,118 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .Custom {
+    .bottom {
+      padding: 11.11vw 4.444vw;
+      gap: 7vw;
+
+      .title {
+        font-size: 6.6667vw;
+      }
+
+      .desc {
+        width: 100%;
+        font-size: 3.8889vw;
+      }
+
+      .customForm {
+        padding: 6vw 5vw;
+        gap: 5vw;
+        label {
+          font-size: 3.333vw;
+        }
+
+        .grid2 {
+          display: flex;
+          flex-direction: column;
+          gap: 5vw;
+        }
+
+        input,
+        textarea,
+        select {
+          font-size: 2.73333vw;
+          padding: 3vw;
+        }
+
+        textarea {
+          height: 35vw;
+        }
+
+        button {
+          font-size: 3.3333vw;
+          padding: 3vw;
+        }
+
+        .grid4 {
+          gap: 2vw;
+          select {
+            font-size: 2.6vw;
+          }
+        }
+        .toggleRow {
+          gap: 5vw;
+          button {
+            font-size: 2.93333vw;
+            padding: 3vw;
+          }
+        }
+
+        .budgetSlider {
+          margin-top: 3vw;
+          .min,
+          .max {
+            font-size: 2vw;
+          }
+
+          .sliderBubble {
+            padding: 1vw;
+            top: -6vw;
+            font-size: 2.3vw;
+          }
+
+          .sliderThumb {
+            width: 4vw;
+            height: 4vw;
+          }
+
+          .sliderTrack {
+            height: 1vw;
+          }
+
+          .sliderRange {
+            height: 0.4vw;
+          }
+
+          .sliderRange::-webkit-slider-thumb {
+            width: 4vw;
+            height: 4vw;
+          }
+        }
+
+        .terms {
+          margin-top: 5vw;
+          font-size: 2.4vw;
+
+          input {
+            margin: 0 1vw;
+            width: 3vw;
+            height: 3vw;
+          }
+        }
+
+        .submitBtn {
+          margin-top: 3vw;
+          font-size: 2.9vw;
+          padding: 2vw 3vw;
+          gap: 2vw;
+          img {
+            scale: 0.9;
+          }
+        }
+      }
+    }
+  }
+}

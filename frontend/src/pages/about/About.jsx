@@ -6,6 +6,7 @@ import HomeContact from '../home/sections/homeContact/HomeContact';
 import AboutInfo from './sections/aboutInfo/AboutInfo';
 import CorpGallery from '../corporate/sections/corpGallery/CorpGallery';
 import HomeTesti from '../home/sections/homeTesti/HomeTesti';
+import { getHomepage } from '../../admin/services/homepageService';
 
 const About = () => {
   const [homepageData, setHomepageData] = useState(null);
