@@ -1,8 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import './destListFilter.scss';
 import API from '../../../../admin/services/api';
 import { useNavigate } from 'react-router-dom';
-import { useRef } from 'react';
 import { useWebHaptics } from 'web-haptics/react';
 
 const DestListFilter = ({
@@ -12,9 +11,16 @@ const DestListFilter = ({
   searchQuery,
   setSearchQuery,
   allPackages = [],
+  currentCountry,
+  currentDest,
 }) => {
   const searchRef = useRef();
-  const [activeType, setActiveType] = useState('domestic');
+
+  // 🔥 Automatically select Domestic/International based on the route
+  const [activeType, setActiveType] = useState(
+    currentCountry && currentCountry !== 'india' ? 'international' : 'domestic',
+  );
+
   const navigate = useNavigate();
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [states, setStates] = useState([]);
@@ -26,7 +32,6 @@ const DestListFilter = ({
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -41,7 +46,6 @@ const DestListFilter = ({
         const countryRes = await API.get('/countries');
         const destRes = await API.get('/destinations/country/IN');
 
-        // 🔥 FIX: normalize response
         const countriesData = Array.isArray(countryRes.data)
           ? countryRes.data
           : countryRes.data?.data || [];
@@ -52,20 +56,15 @@ const DestListFilter = ({
 
         setCountries(countriesData);
         setStates(statesData);
-
-        console.log('COUNTRIES:', countriesData);
-        console.log('STATES:', statesData);
       } catch (err) {
         console.error(err);
       }
     };
-
     fetchData();
   }, []);
 
   const handleLocationChange = (value) => {
     if (!value) return;
-
     if (activeType === 'domestic') {
       navigate(`/destination/india/${value}`);
     } else {
@@ -79,22 +78,16 @@ const DestListFilter = ({
         setShowSuggestions(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const slugify = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const slugify = (text) => text?.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
   const handleScroll = () => {
     if (!pickerRef.current) return;
-
     const container = pickerRef.current;
     const children = container.children;
-
     const center = container.scrollTop + container.clientHeight / 2;
 
     let closest = 0;
@@ -103,13 +96,11 @@ const DestListFilter = ({
     Array.from(children).forEach((child, index) => {
       const offset = child.offsetTop + child.clientHeight / 2;
       const dist = Math.abs(center - offset);
-
       if (dist < minDist) {
         minDist = dist;
         closest = index;
       }
     });
-
     setSelectedIndex(closest);
   };
 
@@ -117,67 +108,83 @@ const DestListFilter = ({
     if (isMobile) {
       trigger('selection');
     }
-  }, [selectedIndex]);
-const dataList = useMemo(() => {
-  const rawList = activeType === 'domestic' ? states : countries;
+  }, [selectedIndex, isMobile, trigger]);
 
-  return [...rawList].sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
-}, [activeType, states, countries]);
-  const loopedList = [
-    ...dataList,
-    ...dataList,
-    ...dataList,
-    ...dataList,
-    ...dataList,
-  ];
+  const dataList = useMemo(() => {
+    const rawList = activeType === 'domestic' ? states : countries;
+    return [...rawList].sort((a, b) => a.name.localeCompare(b.name));
+  }, [activeType, states, countries]);
 
+  const loopedList = useMemo(() => {
+    if (!dataList.length) return [];
+    return [...dataList, ...dataList, ...dataList, ...dataList, ...dataList];
+  }, [dataList]);
+
+  const currentActiveSlug =
+    activeType === 'domestic' ? currentDest : currentCountry;
+
+  // 🔥 FIX 1: Smart Auto-Navigation (NOW RESTRICTED TO MOBILE ONLY)
   useEffect(() => {
-    if (!dataList.length) return;
+    // If not mobile, or data isn't loaded, kill the timer immediately
+    if (!isMobile || !dataList.length) return;
 
     const timeout = setTimeout(() => {
       const realIndex = selectedIndex % dataList.length;
       const selectedItem = dataList[realIndex];
 
       if (selectedItem) {
-        handleLocationChange(slugify(selectedItem.name));
+        const selectedSlug = slugify(selectedItem.name);
+
+        if (selectedSlug !== currentActiveSlug) {
+          handleLocationChange(selectedSlug);
+        }
       }
-    }, 3000); // 🔥 3 sec delay
+    }, 2000);
 
     return () => clearTimeout(timeout);
-  }, [selectedIndex]);
+  }, [selectedIndex, dataList, currentActiveSlug, activeType, isMobile]);
 
+  // 🔥 FIX 2: Synchronize picker position with URL on component mount
   useEffect(() => {
-    if (!pickerRef.current || !dataList.length) return;
+    if (!dataList.length || !pickerRef.current) return;
 
-    const itemHeight = pickerRef.current.children[0]?.clientHeight || 1;
+    let targetIndex = 0;
+    if (currentActiveSlug) {
+      const found = dataList.findIndex(
+        (item) => slugify(item.name) === currentActiveSlug,
+      );
+      if (found !== -1) targetIndex = found;
+    }
 
-    pickerRef.current.scrollTop = dataList.length * itemHeight; // 🔥 center in middle copy
-  }, [dataList]);
+    const currentRealIndex = selectedIndex % dataList.length;
+    if (currentRealIndex === targetIndex && selectedIndex !== 0) return;
 
-  const scrollToIndex = (index) => {
-    if (!pickerRef.current) return;
+    setSelectedIndex(targetIndex);
 
     const container = pickerRef.current;
     const itemHeight = container.children[0]?.clientHeight || 1;
+    const middleOffset = dataList.length;
+    const visualIndex = middleOffset + targetIndex;
 
+    const scrollTop =
+      visualIndex * itemHeight - container.clientHeight / 2 + itemHeight / 2;
+    container.scrollTo({ top: scrollTop, behavior: 'auto' });
+  }, [dataList, currentActiveSlug]);
+
+  const scrollToIndex = (index) => {
+    if (!pickerRef.current) return;
+    const container = pickerRef.current;
+    const itemHeight = container.children[0]?.clientHeight || 1;
     const middleOffset = dataList.length;
     const targetIndex = middleOffset + index;
-
     const containerHeight = container.clientHeight;
-
-    // 🔥 THIS IS THE REAL FIX
     const scrollTop =
       targetIndex * itemHeight - containerHeight / 2 + itemHeight / 2;
 
-    container.scrollTo({
-      top: scrollTop,
-      behavior: 'smooth',
-    });
-
+    container.scrollTo({ top: scrollTop, behavior: 'smooth' });
     setSelectedIndex(targetIndex);
   };
+
   return (
     <section className='DestListFilter'>
       <div className='buttons'>
@@ -207,9 +214,9 @@ const dataList = useMemo(() => {
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
-                setShowSuggestions(true); // 👈 open dropdown
+                setShowSuggestions(true);
               }}
-              onFocus={() => setShowSuggestions(true)} // 👈 when user clicks input
+              onFocus={() => setShowSuggestions(true)}
             />
             {showSuggestions && searchQuery && (
               <div className='searchSuggestions'>
@@ -223,7 +230,7 @@ const dataList = useMemo(() => {
                       key={i}
                       onClick={() => {
                         setSearchQuery(pkg.title);
-                        setShowSuggestions(false); // 🔥 CLOSE DROPDOWN
+                        setShowSuggestions(false);
                       }}
                     >
                       {pkg.title}
@@ -232,6 +239,7 @@ const dataList = useMemo(() => {
               </div>
             )}
           </div>
+
           {/* Location */}
           <div className='location'>
             {isMobile && (
@@ -248,7 +256,6 @@ const dataList = useMemo(() => {
                 >
                   {loopedList.map((item, index) => {
                     const realIndex = index % dataList.length;
-
                     return (
                       <div
                         key={index}
@@ -256,7 +263,7 @@ const dataList = useMemo(() => {
                           selectedIndex === index ? 'active' : ''
                         }`}
                       >
-                        {dataList[realIndex].name}
+                        {dataList[realIndex]?.name}
                       </div>
                     );
                   })}
@@ -276,10 +283,8 @@ const dataList = useMemo(() => {
                           const index = dataList.findIndex(
                             (d) => d._id === item._id,
                           );
-
-                          scrollToIndex(index); // 🔥 sync picker
+                          scrollToIndex(index);
                           handleLocationChange(slugify(item.name));
-
                           setShowDropdown(false);
                         }}
                       >
@@ -290,20 +295,20 @@ const dataList = useMemo(() => {
                 )}
               </div>
             ) : (
-              <select onChange={(e) => handleLocationChange(e.target.value)}>
+              <select
+                value={currentActiveSlug || ''}
+                onChange={(e) => handleLocationChange(e.target.value)}
+              >
                 <option value=''>
                   {activeType === 'domestic'
                     ? 'Select State'
                     : 'Select Country'}
                 </option>
-
-                {(activeType === 'domestic' ? states : countries).map(
-                  (item) => (
-                    <option key={item._id} value={slugify(item.name)}>
-                      {item.name}
-                    </option>
-                  ),
-                )}
+                {dataList.map((item) => (
+                  <option key={item._id} value={slugify(item.name)}>
+                    {item.name}
+                  </option>
+                ))}
               </select>
             )}
           </div>
@@ -315,7 +320,6 @@ const dataList = useMemo(() => {
               onChange={(e) => setSelectedType(e.target.value)}
             >
               <option value=''>Select Package Type</option>
-
               {Array.isArray(packageTypes) &&
                 packageTypes.map((type, index) => (
                   <option key={index} value={type}>

@@ -71,3 +71,21 @@
     width: 90%;
   }
 }
+
+@media (max-width: 480px) {
+  .PackGallery {
+    padding: 11.111vw 0;
+    gap: 7vw;
+    .packDesc{
+      font-size: 3.8889vw;
+    }
+
+    .packGallery{
+      gap: 2vw;
+
+      .photo{
+        width: 75vw;
+      }
+    }
+  }
+}

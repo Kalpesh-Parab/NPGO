@@ -95,16 +95,16 @@
       color: #fff;
       font-family: Inter, sans-serif;
       font-size: 1.041666vw;
-      
+
       .start {
         font-style: normal;
         font-weight: 500;
         line-height: normal;
-    }
-    
-    .cost{
-        span{
-            font-size: 2.5vw;
+      }
+
+      .cost {
+        span {
+          font-size: 2.5vw;
         }
       }
     }
@@ -158,6 +158,51 @@
           transform: rotate(45deg);
           filter: invert(1);
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .PackHero {
+    margin-top: 20vw;
+    height: 130vw;
+
+    .details {
+      justify-content: space-evenly;
+      gap: 5vw;
+      h4 {
+        font-size: 3.88889vw;
+      }
+
+      h2{
+        font-size: 7.7778vw;
+        width: 100%;
+      }
+
+      .tags {
+        flex-wrap: wrap;
+        .tag {
+          padding: 1vw 4vw;
+          border-radius: 4vw;
+          font-size: 4.44vw;
+        }
+      }
+
+      .price{
+        padding: 0vw 4vw;
+        font-size: 3.88889vw;
+        .cost{
+          font-size: 3.8889vw;
+          span{
+            font-size: 7.7778vw;
+          }
+        }
+      }
+
+      .button{
+        padding: 3vw 4vw;
+        font-size: 3.6vw;
       }
     }
   }

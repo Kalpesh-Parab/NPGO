@@ -165,12 +165,14 @@ const DestinationListing = () => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         allPackages={allPackages}
+        currentCountry={country} // 🔥 New: Passing URL country parameter
+        currentDest={destination} // 🔥 New: Passing URL destination parameter
       />
 
       {filteredPackages.length === 0 ? (
         <div className='noResults'>
           <h3>Didn’t find what you were looking for?</h3>
-          <p>We’ve got your back — create your own custom trip ✨</p>
+          <p>We’ve got your back — create your own custom trip </p>
           <button
             onClick={() =>
               navigate('/customise', {
@@ -178,7 +180,7 @@ const DestinationListing = () => {
               })
             }
           >
-            Create Custom Trip ✨
+            Create Custom Trip
           </button>
           <h4>Packages you may like</h4>
           <PopularPackages mode='random' />

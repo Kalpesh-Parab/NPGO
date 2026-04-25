@@ -80,3 +80,29 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .CorpFirst {
+    width: 100%;
+    padding: 11.11vw 4.4444vw;
+    gap: 7vw;
+
+    .heading{
+      font-size: 6.6667vw;
+    }
+
+    .subHeading{
+      font-size: 3.8889vw;
+    }
+
+    .button{
+      gap: 2vw;
+      font-size: 3vw;
+      padding: 3vw 4vw;
+
+      img{
+        scale: .9;
+      }
+    }
+  }
+}

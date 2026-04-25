@@ -54,3 +54,35 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .CorpWhyNPGO {
+    flex-direction: column;
+    padding: 11.11vw 4.4444vw;
+    gap: 8vw;
+
+    .left {
+      width: 100%;
+      gap: 3vw;
+
+      .heading {
+        font-size: 6.17vw;
+      }
+
+      .desc {
+        width: 100%;
+        font-size: 3.8889vw;
+      }
+    }
+
+    .right {
+      width: 100%;
+
+      ul {
+        font-size: 3.8889vw;
+        margin-left: 4vw;
+        color: #111;
+      }
+    }
+  }
+}

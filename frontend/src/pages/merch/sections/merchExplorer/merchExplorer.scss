@@ -172,3 +172,44 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .MerchExplorer {
+    padding: 11.1111vw 4.444vw;
+
+    .top {
+      h4 {
+        width: 100%;
+        font-size: 6.66667vw;
+      }
+    }
+    .products {
+      gap: 7vw;
+      .product {
+        width: 100%;
+
+        .pDetails {
+          .pLeft {
+            .title{
+              font-size: 4.4444vw;
+            }
+            .desc {
+              font-size: 3.44vw;
+            }
+          }
+          .price {
+            font-size: 7.2222vw;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      margin-top: 5vw;
+      button {
+        font-size: 4.4444vw;
+        padding: 3.3333vw 4.4444vw;
+      }
+    }
+  }
+}
