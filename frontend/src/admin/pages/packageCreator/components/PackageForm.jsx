@@ -88,12 +88,16 @@ const PackageForm = ({ selected, onSuccess, initialData, type = "package" }) => 
       }
 
       if (type === 'itinerary-media') {
-        setForm((prev) => {
-          const updated = [...prev.itinerary];
-          updated[index].media.push(media);
-
-          return { ...prev, itinerary: updated };
-        });
+        setForm((prev) => ({
+          ...prev,
+          itinerary: prev.itinerary.map((day, idx) => {
+            if (idx !== index) return day;
+            return {
+              ...day,
+              media: [...day.media, media],
+            };
+          }),
+        }));
       }
     } catch (err) {
       toast.error('Upload failed', { id: toastId });
@@ -148,11 +152,25 @@ const PackageForm = ({ selected, onSuccess, initialData, type = "package" }) => 
     setForm({ ...form, itinerary: updated });
   };
 
+  // Helper handler to cleanly remove a specific media item from a single day
+  const removeDayMedia = (dayIndex, mediaIndex) => {
+    setForm((prev) => ({
+      ...prev,
+      itinerary: prev.itinerary.map((day, idx) => {
+        if (idx !== dayIndex) return day;
+        return {
+          ...day,
+          media: day.media.filter((_, mIdx) => mIdx !== mediaIndex),
+        };
+      }),
+    }));
+    toast.info('Day media removed');
+  };
+
   // -----------------------------
   // SUBMIT
   // -----------------------------
   const handleSubmit = async () => {
-    // 🔥 basic validation (small but powerful)
     if (!form.title || !form.price) {
       toast.error('Title and Price are required');
       return;
@@ -234,6 +252,7 @@ const PackageForm = ({ selected, onSuccess, initialData, type = "package" }) => 
       });
     }
   }, [initialData]);
+
   // -----------------------------
   // UI
   // -----------------------------
@@ -429,6 +448,14 @@ const PackageForm = ({ selected, onSuccess, initialData, type = "package" }) => 
                     setForm({ ...form, itinerary: updated });
                   }}
                 />
+
+                {/* Added Delete button for itinerary day media item */}
+                <button
+                  className='danger'
+                  onClick={() => removeDayMedia(i, k)}
+                >
+                  ✕
+                </button>
               </div>
             ))}
 

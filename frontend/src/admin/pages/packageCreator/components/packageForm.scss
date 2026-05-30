@@ -47,7 +47,8 @@
     width: 100%;
     padding: 0.7vw;
     border-radius: 0.5vw;
-    border: 0.05vw solid rgba(255, 255, 255, 0.1);
+    // border: 0.05vw solid rgba(255, 255, 255, 0.1);
+    border: .1vw solid var(--text-secondary);
 
     background: transparent;
     color: var(--text-primary);

@@ -135,7 +135,10 @@ const Header = () => {
             <FiCompass />
           </button>
 
-          <CompassMenu isOpen={openCompass} />
+          <CompassMenu
+            isOpen={openCompass}
+            onClose={() => setOpenCompass(false)}
+          />
         </div>
       </div>
     </header>
