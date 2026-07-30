@@ -103,28 +103,25 @@ const PopularPackages = ({ mode = 'random', destinationId }) => {
   return (
     <section className='PopularPackages'>
       <div className='top'>
-        <h4>Popular Packages</h4>
+        <h4>Now Exploring</h4>
         <div className='button' onClick={() => navigate('/dest')}>
-          <span>View More Packages</span>
+          <span>Explore More</span>
           <img src={arrow} alt='' />
         </div>
       </div>
 
-      <div className='title'>
-        NPGO offers end-to-end corporate travel solutions for businesses and
-        organizations. We specialize in planning
-      </div>
+      <div className='title'>Choose Your Next Adventure</div>
 
       <div className='titleDesc'>
-        From logistics and stays to activities and on-ground coordination, we
-        handle every detail to ensure a smooth, professional, and memorable
-        corporate journey.
+        The world changes with every season and so do our adventures. Explore
+        the journeys we’re currently hosting and choose the one that’s calling
+        you.
       </div>
 
       <div className='buttonMob' onClick={() => navigate('/dest')}>
-          <span>View More Packages</span>
-          <img src={arrow} alt='' />
-        </div>
+        <span>View More Packages</span>
+        <img src={arrow} alt='' />
+      </div>
 
       <div className='packageCards'>
         {mappedPackages.map((pkg, index) => (
@@ -132,7 +129,11 @@ const PopularPackages = ({ mode = 'random', destinationId }) => {
             <img src={pkg.image} alt='' />
 
             <div className='info'>
-              <div className='cardTitle'>{pkg.title.length > 20 ? `${pkg.title.slice(0, 20)}...` : `${pkg.title}`}</div>
+              <div className='cardTitle'>
+                {pkg.title.length > 20
+                  ? `${pkg.title.slice(0, 20)}...`
+                  : `${pkg.title}`}
+              </div>
               <div className='cardDesc'>{pkg.desc}</div>
             </div>
 
