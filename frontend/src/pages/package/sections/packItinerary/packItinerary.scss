@@ -178,3 +178,82 @@
     }
   }
 }
+
+@media(max-width: 480px) {
+  .PackItinerary {
+    padding: 20px;
+
+    .title {
+      font-size: 3.5vw;
+    }
+
+    .bottom {
+      flex-direction: column;
+      gap: 2vw;
+
+      .days {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 10px;
+        position: relative;
+        top: unset;
+
+        .day {
+          flex: 0 0 auto;
+          padding: 10px;
+          font-size: 14px;
+        
+          .dayNum {
+            width: max-content;
+            font-size: 14px;
+          }
+        }
+      }
+
+      .daysDesc {
+        width: 100%;
+
+        .singleDay {
+          padding: 15px;
+
+          .dayDesc {
+            font-size: 14px;
+
+            .descBlock {
+              h4 {
+                font-size: 16px;
+              }
+
+              p {
+                font-size: 14px;
+              }
+            }
+          }
+
+          .images {
+            gap: 10px;
+            width: 100%;
+
+            .image {
+              width: 100%;
+              flex: 0 0 75%;
+
+              img,
+              video {
+                height: auto;
+                width: 100%;
+              }
+
+              .caption {
+                font-size: 2.5vw;
+                left: 2vw;
+                bottom: 2vw;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

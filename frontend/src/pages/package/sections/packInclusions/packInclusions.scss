@@ -47,3 +47,32 @@
     }
   }
 }
+
+@media(max-width:480px){
+  .PackInclusions {
+    padding: 20px;
+
+    .title {
+      font-size: 18px;
+    }
+
+    .bottom {
+      flex-direction: column;
+      gap: 10px;
+
+      .included,
+      .nincluded {
+        width: 100%;
+        padding: 15px;
+
+        h3 {
+          font-size: 16px;
+        }
+
+        ul {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
